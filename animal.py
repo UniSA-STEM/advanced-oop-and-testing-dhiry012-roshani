@@ -68,11 +68,20 @@ class Animal(ABC):
         return temp
 
     def __add_object_to_notes(self):
+        '''A private method that adds a blank entry to the global notes attribute.'''
         value = {"injuries": [], "illnesses": [], "behavioural_concerns": []}
         key = f"{self.__species}-{self.__id}"
         Animal.__notes.update({key: value})
 
     def add_note(self):
+        '''
+        This method prompts the user to add a new note to the animal object's file.
+        It takes no parameters and gathers information through input statements.
+        The user needs to choose the note category (injury, illness, or behavioural concern).
+        Then, the user must enter a description, the date it was reported, the severity, and any additional notes.
+        This note is then added to the animal's record in the global notes variable.
+        If added successfully, a message will be displayed.
+        '''
         # Get category of note to add.
         print(f"---Add note for: {self.__name}---\n"
               f"Categories:\n1. Injuries\n2. Illnesses\n3. Behavioural concerns\n")
@@ -83,18 +92,20 @@ class Animal(ABC):
 
         # Translate category into key.
         if category == "1":
-            type = "injury"
+            type = "injuries"
         elif category == "2":
-            type = "illness"
+            type = "illnesses"
         else:
-            type = "behavioural_concern"
+            type = "behavioural_concerns"
 
         # Get specific records.
         animal_record = Animal.__notes.get(f"{self.__species}-{self.__id}")
         category_record = animal_record.get(type)
 
         # Get description.
-        desc = input(f"Enter description of {type.replace("_", " ")}: ")
+        desc = input(f"Enter description: ")
+        while desc == "":
+            desc = input(f"Enter description: ")
 
         # Get and validate reported date.
         reported = input("Enter the date it was reported (dd/mm/yyyy): ")
@@ -124,6 +135,43 @@ class Animal(ABC):
         category_record.append([desc, reported, severity, notes])
         animal_record.update({type: category_record})
         Animal.__notes.update({f"{self.__species}-{self.__id}": animal_record})
+
+        # Print confirmation message
+        print("Note successfully added.\n")
+
+    def report(self):
+        '''
+        This method prints the individual animal's current record.
+        It takes no parameters and returns nothing.
+        '''
+        # Get whole record.
+        animal_record = Animal.__notes.get(f"{self.__species}-{self.__id}")
+
+        # Get string of each record category.
+        injuries = ""
+        if animal_record.get("injuries") == []:
+            injuries += "None\n\n"
+        else:
+            for note in animal_record.get("injuries"):
+                injuries += f"Description: {note[0]}\nDate reported: {note[1]}\nSeverity: {note[2]}\nNotes: {note[3]}\n\n"
+
+        illnesses = ""
+        if animal_record.get("illnesses") == []:
+            illnesses += "None\n\n"
+        else:
+            for note in animal_record.get("illnesses"):
+                illnesses += f"Description: {note[0]}\nDate reported: {note[1]}\nSeverity: {note[2]}\nNotes: {note[3]}\n\n"
+
+        behavioural_concerns = ""
+        if animal_record.get("behavioural_concerns") == []:
+            behavioural_concerns += "None\n\n"
+        else:
+            for note in animal_record.get("behavioural_concerns"):
+                behavioural_concerns += f"Description: {note[0]}\nDate reported: {note[1]}\nSeverity: {note[2]}\nNotes: {note[3]}\n\n"
+
+        # Print results.
+        print(f"---Report for: {self.__name} (ID-{self.__id})---\n\n"
+              f"INJURIES\n{injuries}ILLNESSES\n{illnesses}BEHAVIOURAL CONCERNS\n{behavioural_concerns}\n----------")
 
     @abstractmethod
     def cry(self):
