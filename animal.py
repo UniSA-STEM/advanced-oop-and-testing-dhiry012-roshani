@@ -11,13 +11,19 @@ from abc import ABC, abstractmethod
 
 
 class Animal(ABC):
+    __notes = {}
+    __next_id = 1
+
     def __init__(self, name, age):
-        self.__name = self.__class__.__name__
+        self.__id = self.__create_id()
+        self.__species = self.__class__.__name__
+        self.__name = self.__species
         self.__age = None
         self.__dietary_needs = []
 
         self.set_name(name)
         self.set_age(age)
+        self.__add_object_to_notes()
 
     def set_name(self, name):
         '''
@@ -25,7 +31,7 @@ class Animal(ABC):
         If the name is valid (letters only), sets the name attribute to the given string.
         If the name is invalid, prints an error message.
         '''
-        if name.isalpha():
+        if type(name) == str and name.isalpha():
             self.__name = name
         else:
             print("Invalid name.")
@@ -51,18 +57,90 @@ class Animal(ABC):
         '''Returns the animal's age, or "Age not specified" if age is None.'''
         return self.__age if self.__age is not None else "Age not specified"
 
+    def get_species(self):
+        '''Returns the animal's species (eg. Lion) as a string.'''
+        return self.__species
+
+    def __create_id(self):
+        '''Returns an integer for the object's id number.'''
+        temp = Animal.__next_id
+        Animal.__next_id += 1
+        return temp
+
+    def __add_object_to_notes(self):
+        value = {"injuries": [], "illnesses": [], "behavioural_concerns": []}
+        key = f"{self.__species}-{self.__id}"
+        Animal.__notes.update({key: value})
+
+    def add_note(self):
+        # Get category of note to add.
+        print(f"---Add note for: {self.__name}---\n"
+              f"Categories:\n1. Injuries\n2. Illnesses\n3. Behavioural concerns\n")
+        category = input("Select category: ")
+        while category not in ["1", "2", "3"]:
+            print("Invalid category.")
+            category = input("Select category: ")
+
+        # Translate category into key.
+        if category == "1":
+            type = "injury"
+        elif category == "2":
+            type = "illness"
+        else:
+            type = "behavioural_concern"
+
+        # Get specific records.
+        animal_record = Animal.__notes.get(f"{self.__species}-{self.__id}")
+        category_record = animal_record.get(type)
+
+        # Get description.
+        desc = input(f"Enter description of {type.replace("_", " ")}: ")
+
+        # Get and validate reported date.
+        reported = input("Enter the date it was reported (dd/mm/yyyy): ")
+        while (len(reported) != 10 or not (reported[:2]+reported[3:5]+reported[6:]).isdigit() or
+               (reported[2]+reported[5]) != "//" or reported[:2].lstrip("0") == "" or
+               reported[3:5].lstrip("0") == "" or reported[6:].lstrip("0") == "" or
+               int(reported[:2].lstrip("0")) < 1 or int(reported[3:5].lstrip("0")) < 1
+               or int(reported[6:].lstrip("0")) < 1 or int(reported[3:5].lstrip("0")) > 12 or
+               (int(reported[3:5].lstrip("0")) in [4, 6, 9, 11] and int(reported[:2].lstrip("0")) > 30) or
+               (int(reported[3:5].lstrip("0")) in [1, 3, 5, 7, 8, 10, 12] and int(reported[:2].lstrip("0")) > 31) or
+               (int(reported[3:5].lstrip("0")) == 2 and int(reported[:2].lstrip("0")) not in [28, 29])):
+            print("Invalid date.")
+            reported = input("Enter the date it was reported (dd/mm/yyyy): ")
+
+        # Get and validate severity.
+        severity = input("Enter severity (high, med, low): ")
+        while severity not in ["high", "med", "low"]:
+            print("Invalid input.")
+            severity = input("Enter severity (high, med, low): ")
+
+        # Get additional notes.
+        notes = input("Enter any additional notes: ")
+        if notes == "":
+            notes = "none"
+
+        # Add note to record and global variable.
+        category_record.append([desc, reported, severity, notes])
+        animal_record.update({type: category_record})
+        Animal.__notes.update({f"{self.__species}-{self.__id}": animal_record})
+
     @abstractmethod
     def cry(self):
+        '''Displays the animal's sound.'''
         pass
 
     @abstractmethod
     def sleep(self):
+        '''Displays how the animal sleeps.'''
         pass
 
     @abstractmethod
     def eat(self):
+        '''Displays how/what the animal eats.'''
         pass
 
     # Properties
     name = property(get_name, set_name)
     age = property(get_age, set_age)
+    species = property(get_species)

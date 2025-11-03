@@ -14,4 +14,5 @@ from animal import Animal
 class Mammal(Animal):
     @abstractmethod
     def move(self):
+        '''Displays how the animal moves.'''
         pass
