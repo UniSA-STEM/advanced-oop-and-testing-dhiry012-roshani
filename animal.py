@@ -65,6 +65,42 @@ class Animal(ABC):
         '''Returns the animal's species (eg. Lion) as a string.'''
         return self.__species
 
+    def get_dietary_needs(self):
+        if self.__dietary_needs == []:
+            result = f"{self.__name} has no specific dietary needs."
+        else:
+            result = f"---Dietary Needs for {self.__name}---\n"
+            count = 1
+            for item in self.__dietary_needs:
+                result += f"{count}. {item}\n"
+                count += 1
+        return result
+
+    def add_dietary_need(self):
+        value = input("Enter new dietary need: ")
+        while value == "":
+            print("Entry cannot be blank.")
+            value = input("Enter new dietary need: ")
+        self.__dietary_needs.append(value)
+
+    def remove_dietary_need(self):
+        print(self.get_dietary_needs())
+        if self.__dietary_needs == []:
+            print("Nothing to remove.")
+        else:
+            index = input("Enter number to remove: ")
+            while not index.isdigit() or int(index) == 0 or int(index) > len(self.__dietary_needs):
+                if not index.isdigit():
+                    print("Please enter a whole number from the list.")
+                elif int(index) == 0:
+                    print("Number cannot be 0.")
+                else:
+                    print("Number is out of range. Please enter a number from the list.")
+                index = input("Enter number to remove: ")
+
+            del self.__dietary_needs[int(index) - 1]
+            print("Removed successfully.")
+
     def __create_id(self):
         '''Returns an integer for the object's id number.'''
         temp = Animal.__next_id
@@ -328,3 +364,4 @@ class Animal(ABC):
     name = property(get_name, set_name)
     age = property(get_age, set_age)
     species = property(get_species)
+    dietary_needs = property(get_dietary_needs)
