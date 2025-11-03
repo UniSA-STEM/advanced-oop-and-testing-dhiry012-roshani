@@ -12,7 +12,7 @@ from abc import ABC, abstractmethod
 
 class Animal(ABC):
     def __init__(self, name, age):
-        self.__name = ""
+        self.__name = self.__class__.__name__
         self.__age = None
         self.__dietary_needs = []
 
@@ -24,14 +24,9 @@ class Animal(ABC):
         Takes a string as a parameter.
         If the name is valid (letters only), sets the name attribute to the given string.
         If the name is invalid, prints an error message.
-        If the name attribute is an empty string (eg when the object is instantiated), specifies in message that
-        the name is now an empty string.
         '''
         if name.isalpha():
             self.__name = name
-        elif self.__name == "":
-            print("Invalid name. Name set to empty string.")
-            self.__name = ""
         else:
             print("Invalid name.")
 
@@ -43,18 +38,30 @@ class Animal(ABC):
         '''
         if type(age) == int and age > 0:
             self.__age = age
-        elif type(age) == int and age < 0:
-            print("Age cannot be a negative number.")
+        elif type(age) == int and age <= 0:
+            print("Age must be greater than 0.")
         else:
             print("Invalid age. Must be a whole number.")
 
     def get_name(self):
-        '''Returns the animal's name, or "Name not specified" if name is empty string.'''
-        return self.__name if self.__name != "" else "Name not specified"
+        '''Returns a string of the animal's name.'''
+        return self.__name
 
     def get_age(self):
         '''Returns the animal's age, or "Age not specified" if age is None.'''
-        return self.__name if self.__name is not None else "Age not specified"
+        return self.__age if self.__age is not None else "Age not specified"
+
+    @abstractmethod
+    def cry(self):
+        pass
+
+    @abstractmethod
+    def sleep(self):
+        pass
+
+    @abstractmethod
+    def eat(self):
+        pass
 
     # Properties
     name = property(get_name, set_name)
