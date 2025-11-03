@@ -1,8 +1,39 @@
 '''
-File: filename.py
-Description: A brief description of this Python module.
-Author: Billy Bizilis
-ID: 110100110
-Username: bizvy001
+File: staff.py
+Description: A module defining an abstract class that represents a general zoo staff member.
+Author: Roshani Dhillon
+ID: 110459484
+Username: dhiry012
 This is my own work as defined by the University's Academic Integrity Policy.
-''
+'''
+
+from abc import ABC
+
+
+class Staff(ABC):
+    __next_id = 1
+
+    def __init__(self, name):
+        self.__id = self.__create_id()
+        self.__name = ""
+        self.__enclosures = []
+
+        self.set_name(name)
+
+    def __create_id(self):
+        temp = Staff.__next_id
+        Staff.__next_id += 1
+        return temp
+
+    def set_name(self, name):
+        if name.isalpha():
+            self.__name = name
+        elif self.__name == "":
+            print("Invalid name. Name set to empty string.")
+            self.__name = ""
+        else:
+            print("Invalid name.")
+
+    def __str__(self):
+        return (f"---STAFF: {self.__class__.__name__}---\nName: {self.__name}"
+                f"\nID: {self.__id}\nEnclosures:")  # Complete once Enclosure class created.
