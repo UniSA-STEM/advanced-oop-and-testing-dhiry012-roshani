@@ -13,6 +13,7 @@ from abc import ABC, abstractmethod
 class Animal(ABC):
     __notes = {}
     __next_id = 1
+    __species = set()
 
     def __init__(self, name, age):
         self.__id = self.__create_id()
@@ -21,9 +22,10 @@ class Animal(ABC):
         self.__age = None
         self.__dietary_needs = []
 
+        self.__add_object_to_notes()
         self.set_name(name)
         self.set_age(age)
-        self.__add_object_to_notes()
+        Animal.__species.add(self.__species)
 
     def set_name(self, name):
         '''
@@ -33,6 +35,8 @@ class Animal(ABC):
         '''
         if type(name) == str and name.isalpha():
             self.__name = name
+            animal_record = Animal.__notes.get(f"{self.__species}-{self.__id}")
+            animal_record.update({"name": name})
         else:
             print("Invalid name.")
 
@@ -69,7 +73,7 @@ class Animal(ABC):
 
     def __add_object_to_notes(self):
         '''A private method that adds a blank entry to the global notes attribute.'''
-        value = {"injuries": [], "illnesses": [], "behavioural_concerns": []}
+        value = {"name": self.__name, "injuries": [], "illnesses": [], "behavioural_concerns": []}
         key = f"{self.__species}-{self.__id}"
         Animal.__notes.update({key: value})
 
@@ -171,7 +175,75 @@ class Animal(ABC):
 
         # Print results.
         print(f"---Report for: {self.__name} (ID-{self.__id})---\n\n"
-              f"INJURIES\n{injuries}ILLNESSES\n{illnesses}BEHAVIOURAL CONCERNS\n{behavioural_concerns}\n----------")
+              f"INJURIES\n{injuries}ILLNESSES\n{illnesses}BEHAVIOURAL CONCERNS\n{behavioural_concerns}")
+
+    def species_report(self):
+        print(f"------Species Report: {self.__species}------\n")
+        for key in Animal.__notes:
+            if self.__species in key:
+                # Get animal's record.
+                animal_record = Animal.__notes.get(key)
+
+                # Get string of each record category.
+                injuries = ""
+                if animal_record.get("injuries") == []:
+                    injuries += "None\n\n"
+                else:
+                    for note in animal_record.get("injuries"):
+                        injuries += f"Description: {note[0]}\nDate reported: {note[1]}\nSeverity: {note[2]}\nNotes: {note[3]}\n\n"
+
+                illnesses = ""
+                if animal_record.get("illnesses") == []:
+                    illnesses += "None\n\n"
+                else:
+                    for note in animal_record.get("illnesses"):
+                        illnesses += f"Description: {note[0]}\nDate reported: {note[1]}\nSeverity: {note[2]}\nNotes: {note[3]}\n\n"
+
+                behavioural_concerns = ""
+                if animal_record.get("behavioural_concerns") == []:
+                    behavioural_concerns += "None\n\n"
+                else:
+                    for note in animal_record.get("behavioural_concerns"):
+                        behavioural_concerns += f"Description: {note[0]}\nDate reported: {note[1]}\nSeverity: {note[2]}\nNotes: {note[3]}\n\n"
+
+                # Print results.
+                print(f"---{animal_record.get("name")} (ID-{key.split("-")[1]})---\n\n"
+                      f"INJURIES\n{injuries}ILLNESSES\n{illnesses}BEHAVIOURAL CONCERNS\n{behavioural_concerns}")
+
+    def animals_report(self):
+        print(f"------Report for all Animals------\n")
+        for species in Animal.__species:
+            print(f"-----SPECIES: {species}-----\n")
+            for key in Animal.__notes:
+                if species in key:
+                    # Get animal's record.
+                    animal_record = Animal.__notes.get(key)
+
+                    # Get string of each record category.
+                    injuries = ""
+                    if animal_record.get("injuries") == []:
+                        injuries += "None\n\n"
+                    else:
+                        for note in animal_record.get("injuries"):
+                            injuries += f"Description: {note[0]}\nDate reported: {note[1]}\nSeverity: {note[2]}\nNotes: {note[3]}\n\n"
+
+                    illnesses = ""
+                    if animal_record.get("illnesses") == []:
+                        illnesses += "None\n\n"
+                    else:
+                        for note in animal_record.get("illnesses"):
+                            illnesses += f"Description: {note[0]}\nDate reported: {note[1]}\nSeverity: {note[2]}\nNotes: {note[3]}\n\n"
+
+                    behavioural_concerns = ""
+                    if animal_record.get("behavioural_concerns") == []:
+                        behavioural_concerns += "None\n\n"
+                    else:
+                        for note in animal_record.get("behavioural_concerns"):
+                            behavioural_concerns += f"Description: {note[0]}\nDate reported: {note[1]}\nSeverity: {note[2]}\nNotes: {note[3]}\n\n"
+
+                    # Print results.
+                    print(f"---{animal_record.get("name")} (ID-{key.split("-")[1]})---\n\n"
+                          f"INJURIES\n{injuries}ILLNESSES\n{illnesses}BEHAVIOURAL CONCERNS\n{behavioural_concerns}")
 
     @abstractmethod
     def cry(self):
