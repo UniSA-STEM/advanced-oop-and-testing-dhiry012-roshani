@@ -137,6 +137,10 @@ class Animal(ABC):
             del self.__dietary_needs[int(index) - 1]
             print("Removed successfully.")
 
+    def get_id(self):
+        '''Returns an integer of the animal's ID number.'''
+        return self.__id
+
     def __create_id(self):
         '''Returns an integer for the object's id number.'''
         temp = Animal.__next_id
@@ -183,6 +187,7 @@ class Animal(ABC):
         # Get description.
         desc = input(f"Enter description: ")
         while desc == "":
+            print("Description cannot be blank.")
             desc = input(f"Enter description: ")
 
         # Get and validate reported date.
@@ -258,6 +263,9 @@ class Animal(ABC):
                 and delete_note_split[1].isdigit() and len(animal_record.get(delete_note_split[0])) == 0):
                 print("There are no notes for that category. Please choose another category or enter e to exit.")
             elif (len(delete_note_split) == 2 and delete_note_split[0] in ["injuries", "illnesses", "behavioural_concerns"]
+                and delete_note_split[1].isdigit() and int(delete_note_split[1]) == 0):
+                print("Index cannot be 0.")
+            elif (len(delete_note_split) == 2 and delete_note_split[0] in ["injuries", "illnesses", "behavioural_concerns"]
                 and delete_note_split[1].isdigit() and int(delete_note_split[1]) > len(animal_record.get(delete_note_split[0]))):
                 print(f"That category only has {len(animal_record.get(delete_note_split[0]))} note(s). Please enter a valid index.")
             else:
@@ -268,19 +276,18 @@ class Animal(ABC):
             if len(delete_note_split) == 2 and delete_note_split[0] == "behavioural concerns":
                 delete_note_split[0] = "behavioural_concerns"
 
-        # Determine if animal is undergoing treatment for anything else.
-        treatment = input(f"Is {self.name} still receiving treatment for other issues (y|n)? ")
-        while treatment != "y" and treatment != "n":
-            print("Please enter y or n.")
-            treatment = input(f"Is {self.name} still receiving treatment for other issues (y|n)? ")
-
-        if treatment == "y":
-            self.under_treatment = True
-        else:
-            self.under_treatment = False
-
-        # If valid note selected (ie if user didn't exit), delete note.
+        # If valid note selected (ie if user didn't exit), check if animal still receiving treatment and delete note.
         if delete_note != "e":
+            treatment = input(f"Is {self.name} still receiving treatment for other issues (y|n)? ")
+            while treatment != "y" and treatment != "n":
+                print("Please enter y or n.")
+                treatment = input(f"Is {self.name} still receiving treatment for other issues (y|n)? ")
+
+            if treatment == "y":
+                self.under_treatment = True
+            else:
+                self.under_treatment = False
+
             key = delete_note_split[0]
             value = animal_record.get(key)
             del value[int(delete_note_split[1]) - 1]
@@ -345,22 +352,28 @@ class Animal(ABC):
                 if animal_record.get("injuries") == []:
                     injuries += "None\n\n"
                 else:
+                    count = 1
                     for note in animal_record.get("injuries"):
-                        injuries += f"Description: {note[0]}\nDate reported: {note[1]}\nSeverity: {note[2]}\nNotes: {note[3]}\n\n"
+                        injuries += f"{count}.\nDescription: {note[0]}\nDate reported: {note[1]}\nSeverity: {note[2]}\nNotes: {note[3]}\n\n"
+                        count += 1
 
                 illnesses = ""
                 if animal_record.get("illnesses") == []:
                     illnesses += "None\n\n"
                 else:
+                    count = 1
                     for note in animal_record.get("illnesses"):
-                        illnesses += f"Description: {note[0]}\nDate reported: {note[1]}\nSeverity: {note[2]}\nNotes: {note[3]}\n\n"
+                        illnesses += f"{count}.\nDescription: {note[0]}\nDate reported: {note[1]}\nSeverity: {note[2]}\nNotes: {note[3]}\n\n"
+                        count += 1
 
                 behavioural_concerns = ""
                 if animal_record.get("behavioural_concerns") == []:
                     behavioural_concerns += "None\n\n"
                 else:
+                    count = 1
                     for note in animal_record.get("behavioural_concerns"):
-                        behavioural_concerns += f"Description: {note[0]}\nDate reported: {note[1]}\nSeverity: {note[2]}\nNotes: {note[3]}\n\n"
+                        behavioural_concerns += f"{count}.\nDescription: {note[0]}\nDate reported: {note[1]}\nSeverity: {note[2]}\nNotes: {note[3]}\n\n"
+                        count += 1
 
                 # Print results.
                 print(f"---{animal_record.get("name")} (ID-{key.split("-")[1]})---\n\n"
@@ -384,22 +397,28 @@ class Animal(ABC):
                     if animal_record.get("injuries") == []:
                         injuries += "None\n\n"
                     else:
+                        count = 1
                         for note in animal_record.get("injuries"):
-                            injuries += f"Description: {note[0]}\nDate reported: {note[1]}\nSeverity: {note[2]}\nNotes: {note[3]}\n\n"
+                            injuries += f"{count}.\nDescription: {note[0]}\nDate reported: {note[1]}\nSeverity: {note[2]}\nNotes: {note[3]}\n\n"
+                            count += 1
 
                     illnesses = ""
                     if animal_record.get("illnesses") == []:
                         illnesses += "None\n\n"
                     else:
+                        count = 1
                         for note in animal_record.get("illnesses"):
-                            illnesses += f"Description: {note[0]}\nDate reported: {note[1]}\nSeverity: {note[2]}\nNotes: {note[3]}\n\n"
+                            illnesses += f"{count}.\nDescription: {note[0]}\nDate reported: {note[1]}\nSeverity: {note[2]}\nNotes: {note[3]}\n\n"
+                            count += 1
 
                     behavioural_concerns = ""
                     if animal_record.get("behavioural_concerns") == []:
                         behavioural_concerns += "None\n\n"
                     else:
+                        count = 1
                         for note in animal_record.get("behavioural_concerns"):
-                            behavioural_concerns += f"Description: {note[0]}\nDate reported: {note[1]}\nSeverity: {note[2]}\nNotes: {note[3]}\n\n"
+                            behavioural_concerns += f"{count}.\nDescription: {note[0]}\nDate reported: {note[1]}\nSeverity: {note[2]}\nNotes: {note[3]}\n\n"
+                            count += 1
 
                     # Print results.
                     print(f"---{animal_record.get("name")} (ID-{key.split("-")[1]})---\n\n"
@@ -421,6 +440,7 @@ class Animal(ABC):
         pass
 
     # Properties
+    id = property(get_id)
     name = property(get_name, set_name)
     age = property(get_age, set_age)
     species = property(get_species)
