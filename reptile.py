@@ -1,6 +1,6 @@
 '''
-File: mammal.py
-Description: A module defining an abstract class that represents a mammal.
+File: reptile.py
+Description: A module defining an abstract class that represents a reptile.
 Author: Roshani Dhillon
 ID: 110459484
 Username: dhiry012
@@ -11,7 +11,7 @@ from abc import abstractmethod
 from animal import Animal
 
 
-class Mammal(Animal):
+class Reptile(Animal):
     @abstractmethod
     def move(self):
         '''Displays a statement about how the animal moves.'''
