@@ -21,6 +21,7 @@ class Animal(ABC):
         self.__name = self.__species
         self.__age = None
         self.__dietary_needs = []
+        self.__under_treatment = False
 
         self.__add_object_to_notes()
         self.set_name(name)
@@ -65,11 +66,35 @@ class Animal(ABC):
         '''Returns the animal's species (eg. Lion) as a string.'''
         return self.__species
 
+    def get_under_treatment(self):
+        '''Returns boolean value indicating if the animal is currently undergoing treatment.'''
+        return self.__under_treatment
+
+    def set_under_treatment(self, under_treatment:bool):
+        '''
+        Takes a boolean parameter indicating if the animal is currently undergoing treatment.
+        If the given argument is a valid boolean value, it is set as the under_treatment attribute.
+        This method returns nothing.
+        '''
+        if type(under_treatment) == bool:
+            self.__under_treatment = under_treatment
+
     def get_dietary_needs(self):
+        '''
+        Returns a string of the animal's dietary needs in the following format:
+
+        ---Dietary Needs for <name>---
+
+        1. first
+
+        2. second
+
+        If the animal has no dietary needs listed, will return "<name> has no specific dietary needs."
+        '''
         if self.__dietary_needs == []:
             result = f"{self.__name} has no specific dietary needs."
         else:
-            result = f"---Dietary Needs for {self.__name}---\n"
+            result = f"\nDietary Needs for {self.__name}:\n"
             count = 1
             for item in self.__dietary_needs:
                 result += f"{count}. {item}\n"
@@ -77,6 +102,10 @@ class Animal(ABC):
         return result
 
     def add_dietary_need(self):
+        '''
+        This method adds a dietary need for the animal. Users are prompted to enter the note via input.
+        This method takes no parameters and returns nothing.
+        '''
         value = input("Enter new dietary need: ")
         while value == "":
             print("Entry cannot be blank.")
@@ -84,6 +113,13 @@ class Animal(ABC):
         self.__dietary_needs.append(value)
 
     def remove_dietary_need(self):
+        '''
+        This method removes a specified dietary need from the list.
+        It displays the current dietary needs of the animal and prompts the user to enter the number (index) of the
+        note to delete.
+        If there are no dietary needs listed, the method will not work (it will just display a message).
+        This method takes no parameters and returns nothing.
+        '''
         print(self.get_dietary_needs())
         if self.__dietary_needs == []:
             print("Nothing to remove.")
@@ -119,6 +155,8 @@ class Animal(ABC):
         It takes no parameters and gathers information through input statements.
         The user needs to choose the note category (injury, illness, or behavioural concern).
         Then, the user must enter a description, the date it was reported, the severity, and any additional notes.
+        The user is also asked if the animal is undergoing treatment for this issue. If yes, the animal's under
+        treatment attribute is set to True.
         This note is then added to the animal's record in the global notes variable.
         If added successfully, a message will be displayed.
         '''
@@ -171,6 +209,15 @@ class Animal(ABC):
         if notes == "":
             notes = "none"
 
+        # Determine if the animal is undergoing treatment.
+        treatment = input(f"Is {self.name} receiving treatment for this (y|n)? ")
+        while treatment != "y" and treatment != "n":
+            print("Please enter y or n.")
+            treatment = input(f"Is {self.name} receiving treatment for this (y|n)? ")
+
+        if treatment == "y":
+            self.under_treatment = True
+
         # Add note to record and global variable.
         category_record.append([desc, reported, severity, notes])
         animal_record.update({type: category_record})
@@ -186,6 +233,8 @@ class Animal(ABC):
         the format "category-index". For example, "injuries-2" or "behavioural concerns-4".
         The user can enter "e" to exit the method and no changes will be made to the animal's record.
         If a valid note is selected, the note is permanently removed from the animal's record.
+        The user is also asked if the animal is still undergoing treatment for another issue. If yes, the animal's under
+        treatment attribute is set to True. If no, the animal's under treatment attribute is set to False.
         This method takes no parameters and returns nothing.
         '''
         # Show report for animal.
@@ -218,6 +267,17 @@ class Animal(ABC):
             delete_note_split = delete_note.split("-")
             if len(delete_note_split) == 2 and delete_note_split[0] == "behavioural concerns":
                 delete_note_split[0] = "behavioural_concerns"
+
+        # Determine if animal is undergoing treatment for anything else.
+        treatment = input(f"Is {self.name} still receiving treatment for other issues (y|n)? ")
+        while treatment != "y" and treatment != "n":
+            print("Please enter y or n.")
+            treatment = input(f"Is {self.name} still receiving treatment for other issues (y|n)? ")
+
+        if treatment == "y":
+            self.under_treatment = True
+        else:
+            self.under_treatment = False
 
         # If valid note selected (ie if user didn't exit), delete note.
         if delete_note != "e":
@@ -365,3 +425,9 @@ class Animal(ABC):
     age = property(get_age, set_age)
     species = property(get_species)
     dietary_needs = property(get_dietary_needs)
+    under_treatment = property(get_under_treatment, set_under_treatment)
+
+    def __str__(self):
+        treatment_statement = f"{self.name} is undergoing treatment.\n" if self.under_treatment else ""
+        return (f"\n---ANIMAL DETAILS---\nName: {self.name}\nAge: {self.age}\nSpecies: {self.species}\n"
+                f"{self.dietary_needs}\n{treatment_statement}---------")
