@@ -121,7 +121,7 @@ class TestLion:
                                        "Number cannot be 0.\nPlease enter a whole number from the list.\n"
                                        "Number is out of range. Please enter a number from the list.\nRemoved successfully.")
 
-    def test_record(self, lion, capsys):
+    def test_report(self, lion, capsys):
         lion.report()
         message = capsys.readouterr()
         assert message.out.strip() == (f"---Report for: {lion.name} (ID-{lion.id})---\n\nINJURIES\nNone\n\nILLNESSES\n"

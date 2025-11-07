@@ -447,6 +447,10 @@ class Animal(ABC):
     dietary_needs = property(get_dietary_needs)
     under_treatment = property(get_under_treatment, set_under_treatment)
 
+    def __eq__(self, other):
+        '''Checks if two objects of Animal class are equal (checks id number).'''
+        return isinstance(other, Animal) and self.id == other.id
+
     def __str__(self):
         treatment_statement = f"{self.name} is undergoing treatment.\n" if self.under_treatment else ""
         return (f"\n---ANIMAL DETAILS---\nName: {self.name}\nAge: {self.age}\nSpecies: {self.species}\n"
