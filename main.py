@@ -27,10 +27,10 @@ wylan = Biologist("Wylan")
 Matthias = Zookeeper("Matthias")
 
 # Create animals.
-geralt = Shark("Geralt", 61)
-dandelion = Shark("Dandelion", 43)
-yennefer = Shark("Yennefer", 99)
-roach = Shark("Roach", 12)
+geralt = Shark("Geralt", 61, saltwater=True)
+dandelion = Shark("Dandelion", 43, saltwater=True)
+yennefer = Shark("Yennefer", 99, saltwater=True)
+roach = Shark("Roach", 12, freshwater=True)
 
 frodo = Elephant("Frodo", 50)
 sam = Elephant("Sam", 38)

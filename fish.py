@@ -144,10 +144,21 @@ class Fish(Animal):
             None
 
         If the provided value is valid (boolean), updates the fish's freshwater attribute.
+        If freshwater is set to True and freshwater aquatic is not in the environment types list, adds it to list.
+        If freshwater is set to False and freshwater aquatic is in the environment types list, removes it from list.
         If it is invalid, prints an error message.
         '''
         if type(freshwater) == bool:
+            # Update attribute.
             self.__freshwater = freshwater
+
+            # Add environment type, if True and not in list.
+            if self.freshwater == True and "freshwater aquatic" not in self.environment_types:
+                self._Animal__environment_types.append("freshwater aquatic")
+
+            # Remove environment type, if False and in list.
+            if self.freshwater == False and "freshwater aquatic" in self.environment_types:
+                self._Animal__environment_types.remove("freshwater aquatic")
         else:
             print("Invalid value. Must be True or False")
 
@@ -169,10 +180,21 @@ class Fish(Animal):
             None
 
         If the provided value is valid (boolean), updates the fish's saltwater attribute.
+        If saltwater is set to True and saltwater aquatic is not in the environment types list, adds it to list.
+        If saltwater is set to False and saltwater aquatic is in the environment types list, removes it from list.
         If it is invalid, prints an error message.
         '''
         if type(saltwater) == bool:
+            # Update attribute.
             self.__saltwater = saltwater
+
+            # Add environment type, if True and not in list.
+            if self.saltwater == True and "saltwater aquatic" not in self.environment_types:
+                self._Animal__environment_types.append("saltwater aquatic")
+
+            # Remove environment type, if False and in list.
+            if self.saltwater == False and "saltwater aquatic" in self.environment_types:
+                self._Animal__environment_types.remove("saltwater aquatic")
         else:
             print("Invalid value. Must be True or False")
 
