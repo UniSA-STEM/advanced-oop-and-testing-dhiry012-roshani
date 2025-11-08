@@ -17,14 +17,21 @@ class Staff(ABC):
         self.__id = self.__create_id()
         self.__name = ""
         self.__enclosures = []
+        self.__role = self.__class__.__name__
 
         self.set_name(name)
+
+    def get_id(self):
+        return self.__id
 
     def __create_id(self):
         '''Returns an integer for the object's id number.'''
         temp = Staff.__next_id
         Staff.__next_id += 1
         return temp
+
+    def get_name(self):
+        return self.__name
 
     def set_name(self, name):
         '''
@@ -38,9 +45,19 @@ class Staff(ABC):
             self.__name = name
         elif self.__name == "":
             print("Invalid name. Name set to empty string.")
-            self.__name = ""
         else:
             print("Invalid name.")
+
+    def get_enclosures(self):
+        return self.__enclosures
+
+    def get_role(self):
+        return self.__role
+
+    id = property(get_id)
+    name = property(get_name, set_name)
+    enclosures = property(get_enclosures)
+    role = property(get_role)
 
     def __str__(self):
         return (f"---STAFF: {self.__class__.__name__}---\nName: {self.__name}"

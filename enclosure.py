@@ -26,6 +26,9 @@ class Enclosure:
         self.set_size(area)
         self.set_environmental_type(environmental_type)
 
+    def get_valid_environmental_types(self):
+        return self.__valid_environmental_types
+
     def get_id(self):
         '''Returns an integer of the enclosure's id number.'''
         return self.__id
@@ -123,3 +126,22 @@ class Enclosure:
     staff = property(get_staff)
     animals = property(get_animals)
     species = property(get_species)
+    valid_environmental_types = property(get_valid_environmental_types)
+
+    def __str__(self):
+        animal_statement = ""
+        if self.animals == []:
+            animal_statement += "None"
+        else:
+            for animal in self.animals:
+                animal_statement += f"\n{animal.name} (ID-{animal.id}, species {animal.species})"
+
+        staff_statement = ""
+        if self.staff == []:
+            staff_statement += "None"
+        else:
+            for staff in self.staff:
+                staff_statement += f"\n{staff.name} (ID-{staff.id}, {staff.role}"
+
+        return (f"---ENCLOSURE REPORT---\nID: {self.id}\nType: {self.environmental_type}\nSize: {self.size}m\u00b2\n"
+                f"Cleanliness level: {self.cleanliness_level}/10\nAnimals: {animal_statement}\nStaff:")
