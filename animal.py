@@ -33,10 +33,10 @@ class Animal(ABC):
     def set_name(self, name):
         '''
         Takes a string as a parameter.
-        If the name is valid (letters only), sets the name attribute to the given string.
+        If the name is valid, sets the name attribute to the given string.
         If the name is invalid, prints an error message.
         '''
-        if type(name) == str and name.isalpha():
+        if type(name) == str and name != "":
             self.__name = name
             animal_record = Animal.__notes.get(f"{self.__species}-{self.__id}")
             animal_record.update({"name": name})

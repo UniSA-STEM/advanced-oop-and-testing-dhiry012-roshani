@@ -36,15 +36,15 @@ class Staff(ABC):
     def set_name(self, name):
         '''
         Takes a string as a parameter.
-        If the name is valid (letters only), sets the name attribute to the given string.
+        If the name is valid, sets the name attribute to the given string.
         If the name is invalid, prints an error message.
         If the name attribute is an empty string (eg when the object is instantiated), specifies in message that
         the name is now an empty string.
         '''
-        if name.isalpha():
-            self.__name = name
-        elif self.__name == "":
+        if self.__name == "" and type(name) != str:
             print("Invalid name. Name set to empty string.")
+        elif type(name) == str:
+            self.__name = name
         else:
             print("Invalid name.")
 
