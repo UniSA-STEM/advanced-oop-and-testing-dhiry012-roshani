@@ -127,12 +127,11 @@ class Animal(ABC):
         try:
             if self.__dietary_needs == []:
                 print("Nothing to remove.")
-            elif 0 <= index < len(self.__dietary_needs):
-                self.__dietary_needs.remove(index)
-                print("Removed successfully.")
+            elif index >= 0 and index < len(self.__dietary_needs):
+                del self.__dietary_needs[index]
             else:
                 print("Invalid index.")
-        except TypeError:
+        except ValueError:
             print("Invalid index.")
 
     def get_id(self):
