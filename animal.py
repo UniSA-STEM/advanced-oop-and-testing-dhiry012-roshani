@@ -149,6 +149,7 @@ class Animal(ABC):
         return temp
 
     def get_environment_types(self):
+        '''Returns a list of what environments the animal can live in.'''
         return self.__environment_types
 
     def __add_object_to_notes(self):
