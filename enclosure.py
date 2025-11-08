@@ -7,8 +7,6 @@ Username: dhiry012
 This is my own work as defined by the University's Academic Integrity Policy.
 '''
 
-from animal import Animal
-
 
 class Enclosure:
     __next_id = 1
@@ -85,23 +83,38 @@ class Enclosure:
 
     def add_animal(self, animal):
         '''Adds an animal to the enclosure.'''
-        if self.environmental_type is None:
-            print("Environment type not set. Cannot add animal.")
-        elif not isinstance(animal, Animal):
+        try:
+            if self.environmental_type is None:
+                print("Environment type not set. Cannot add animal.")
+            elif self.species is not None and self.species != animal.species:
+                print(f"Animal is not {self.species}. Cannot add to enclosure.")
+            elif self.environmental_type not in animal.environment_types:
+                print(f"Enclosure type ({self.environmental_type}) incompatible with animal's requirements.")
+            elif animal in self.animals:
+                print("Animal already in this enclosure.")
+            elif animal.enclosure is not None:
+                print("Animal is already in another enclosure.")
+            else:
+                if self.species is None:
+                    self.__species = animal.species
+                self.__animals.append(animal)
+                animal.add_to_enclosure(self)
+                print(f"{animal.name} added to enclosure.")
+        except AttributeError:
             print("Invalid animal.")
-        elif self.species is not None and self.species != animal.species:
-            print(f"Animal is not {self.species}. Cannot add to enclosure.")
-        elif self.environmental_type not in animal.environment_types:
-            print(f"Enclosure type ({self.environmental_type}) incompatible with animal's requirements.")
-        elif animal in self.animals:
-            print("Animal already in enclosure.")
-        else:
-            if self.species is None:
-                self.__species = animal.species
-            self.__animals.append(animal)
-            print(f"{animal.name} added to enclosure.")
 
-
+    def remove_animal(self, animal):
+        try:
+            if animal.name == "":
+                pass  # Ensure exception is thrown if not type Animal.
+            if animal not in self.animals:
+                print("Animal is not in this enclosure.")
+            else:
+                self.__animals.remove(animal)
+                animal.remove_from_enclosure(self)
+                print(f"{animal.name} removed from enclosure.")
+        except AttributeError:
+            print("Invalid animal.")
 
     id = property(get_id)
     size = property(get_size, set_size)

@@ -8,6 +8,7 @@ This is my own work as defined by the University's Academic Integrity Policy.
 '''
 
 from abc import ABC, abstractmethod
+from enclosure import Enclosure
 
 
 class Animal(ABC):
@@ -23,6 +24,7 @@ class Animal(ABC):
         self.__dietary_needs = []
         self.__under_treatment = False
         self.__environment_types = []
+        self.__enclosure = None
 
         self.__add_object_to_notes()
         self.set_name(name)
@@ -429,6 +431,35 @@ class Animal(ABC):
                     print(f"---{animal_record.get("name")} (ID-{key.split("-")[1]})---\n\n"
                           f"INJURIES\n{injuries}ILLNESSES\n{illnesses}BEHAVIOURAL CONCERNS\n{behavioural_concerns}")
 
+    def get_enclosure(self):
+        '''
+        Returns either None, meaning the animal is current not in an enclosure, or an integer, indicating the id
+        number of the enclosure the animal is in.
+        '''
+        return self.__enclosure
+
+    def add_to_enclosure(self, enclosure):
+        if not isinstance(enclosure, Enclosure):
+            print("Invalid enclosure.")
+        elif self.__enclosure == enclosure.id:
+            print("Animal is already in this enclosure.")
+        elif self.__enclosure is not None:
+            print("Animal is already an another enclosure.")
+        elif self not in enclosure.animals:
+            print("Animal is not in this enclosure. Must first add animal using enclosure object.")
+        else:
+            self.__enclosure = enclosure.id
+
+    def remove_from_enclosure(self, enclosure):
+        if not isinstance(enclosure, Enclosure):
+            print("Invalid enclosure.")
+        elif self.enclosure is None:
+            print("Animal is not in any enclosure.")
+        elif self.enclosure != enclosure.id:
+            print("Animal is in another enclosure.")
+        else:
+            self.__enclosure = None
+
     @abstractmethod
     def cry(self):
         '''Displays the animal's sound.'''
@@ -452,6 +483,7 @@ class Animal(ABC):
     dietary_needs = property(get_dietary_needs)
     under_treatment = property(get_under_treatment, set_under_treatment)
     environment_types = property(get_environment_types)
+    enclosure = property(get_enclosure)
 
     def __eq__(self, other):
         '''Checks if two objects of Animal class are equal (checks id number).'''
