@@ -11,9 +11,46 @@ from abc import ABC, abstractmethod
 
 
 class Animal(ABC):
-    __notes = {}
-    __next_id = 1
-    __species = set()
+    '''
+    An abstract class which represents a zoo animal.
+
+    Parameters:
+        name : A string representing the name of the animal.
+        age : An integer representing the age of the animal in years.
+
+    Attributes:
+        id : An integer unique to this animal object (not shared by other objects which inherit this class).
+        species : The species of the animal (the class name).
+        name : Name of the animal.
+        age : Age of the animal in years (integer only).
+        dietary needs : A list of the animal's dietary needs (a list of strings).
+        under_treatment : A boolean value indicating whether the animal is currently undergoing treatment.
+        environmental_types : A list of strings indicating which environments the animal can live in.
+        enclosure : Shows what zoo enclosure, if any, the animal is currently in (either None or an object of Enclosure class).
+
+    Class Methods:
+        ...
+
+    Abstract Methods:
+        cry() : Must display a message showing what sound the animal makes.
+        sleep() : Must display a message about how the animal sleeps.
+        eat() : Must display a message about how/what the animal eats.
+
+    Properties:
+        id : get_id()
+        name : get_name(), set_name()
+        age : get_age(), set_age()
+        species : get_species()
+        dietary_needs : get_dietary_needs()
+        under_treatment : get_under_treatment(), set_under_treatment()
+        environmental_types : get_environmental_types()
+        enclosure : get_enclosure()
+    '''
+
+    # Global attributes.
+    __notes = {}         # Registry/notes for all animals.
+    __next_id = 1        # Holds the next id number (to ensure all unique).
+    __species = set()    # A unique set (list) of all instantiated species.
 
     def __init__(self, name, age):
         self.__id = self.__create_id()
@@ -25,137 +62,219 @@ class Animal(ABC):
         self.__environment_types = []
         self.__enclosure = None
 
-        self.__add_object_to_notes()
-        self.set_name(name)
-        self.set_age(age)
-        Animal.__species.add(self.__species)
+        self.__add_object_to_notes()            # Add object to global registry.
+        self.set_name(name)                     # Check name is valid before accepting.
+        self.set_age(age)                       # Check age is valid before accepting.
+        Animal.__species.add(self.__species)    # Add species to global set.
 
-    def set_name(self, name):
+    def set_name(self, name:str) -> None:
         '''
-        Takes a string as a parameter.
-        If the name is valid, sets the name attribute to the given string.
-        If the name is invalid, prints an error message.
+        Parameters:
+            name : The new name of the animal (must be a string to be accepted).
+
+        Returns:
+            None
+
+        If the provided name is valid (a string that isn't blank), changes the animal's name to the given string.
+        If the name is invalid, prints an error message and the animal's name doesn't change.
         '''
         if type(name) == str and name != "":
+            # Update name variable.
             self.__name = name
+
+            # Update global registry.
             animal_record = Animal.__notes.get(f"{self.__species}-{self.__id}")
             animal_record.update({"name": name})
         else:
             print("Invalid name.")
 
-    def set_age(self, age):
+    def set_age(self, age:int) -> None:
         '''
-        Takes one parameter.
-        If the argument is a positive integer, sets the argument as the animal's age.
-        If the argument is invalid, prints an error message.
+        Parameters:
+            age : The new age (in years) of the animal (must be an integer to be accepted).
+
+        Returns:
+            None
+
+        If the given value is a valid integer (at least 0), changes the animal's age to the given value.
+        If the value is invalid, prints an error message and the animal's age doesn't change.
         '''
-        if type(age) == int and age > 0:
+        if type(age) == int and age >= 0:
             self.__age = age
-        elif type(age) == int and age <= 0:
-            print("Age must be greater than 0.")
+        elif type(age) == int and age < 0:
+            print("Age must be greater than or equal to 0.")
         else:
             print("Invalid age. Must be a whole number.")
 
-    def get_name(self):
-        '''Returns a string of the animal's name.'''
+    def get_name(self) -> str:
+        '''
+        Returns:
+            string
+
+        Returns the animal's current name.
+        '''
         return self.__name
 
-    def get_age(self):
-        '''Returns the animal's age, or "Age not specified" if age is None.'''
+    def get_age(self) -> int|str:
+        '''
+        Returns:
+            integer or string
+
+        Returns the age of the animal. If the animal's age is not recorded, returns "Age not specified".
+        '''
         return self.__age if self.__age is not None else "Age not specified"
 
-    def get_species(self):
-        '''Returns the animal's species (eg. Lion) as a string.'''
+    def get_species(self) -> str:
+        '''
+        Returns:
+             string
+
+        Returns the animal's species (eg. Lion or Penguin).
+        '''
         return self.__species
 
-    def get_under_treatment(self):
-        '''Returns boolean value indicating if the animal is currently undergoing treatment.'''
+    def get_under_treatment(self) -> bool:
+        '''
+        Returns:
+             boolean
+
+        Returns a boolean value indicating if the animal is currently undergoing any treatment.
+        '''
         return self.__under_treatment
 
-    def set_under_treatment(self, under_treatment:bool):
+    def set_under_treatment(self, under_treatment:bool) -> None:
         '''
-        Takes a boolean parameter indicating if the animal is currently undergoing treatment.
-        If the given argument is a valid boolean value, it is set as the under_treatment attribute.
-        This method returns nothing.
+        Parameters:
+            under_treatment : A boolean value indicating if the animal is under treatment.
+
+        Returns:
+            None
+
+        If the given value is a boolean (True or False), changes the animal's under_treatment attribute to the given value.
+        If the new value is True and the animal is currently in an enclosure, the animal is removed from the enclosure
+        to undergo the treatment.
         '''
+        # Validate given argument.
         if type(under_treatment) == bool:
             self.__under_treatment = under_treatment
 
+        # Remove the animal from any enclosure if undergoing treatment.
         if self.under_treatment and self.enclosure is not None:
             self.__enclosure.remove_animal(self)
 
-    def get_dietary_needs(self):
+    def get_dietary_needs(self) -> str:
         '''
-        Returns a string of the animal's dietary needs in the following format:
+        Returns:
+            string
 
-        ---Dietary Needs for <name>---
-
-        1. first
-
-        2. second
-
-        If the animal has no dietary needs listed, will return "<name> has no specific dietary needs."
+        Returns a formatted string showing the animal's dietary needs.
+        If the animal has no dietary needs, returns "<name> has no specific dietary needs."
         '''
         if self.__dietary_needs == []:
             result = f"{self.__name} has no specific dietary needs."
         else:
-            result = f"\nDietary Needs for {self.__name}:\n"
+            result = f"Dietary Needs for {self.__name}:\n"
             count = 1
             for item in self.__dietary_needs:
                 result += f"{count}. {item}\n"
                 count += 1
         return result
 
-    def add_dietary_need(self, dietary_need:str):
+    def add_dietary_need(self, dietary_need:str) -> None:
         '''
-        This method adds a dietary need for the animal. Users are prompted to enter the note via input.
-        This method takes no parameters and returns nothing.
+        Parameters:
+            dietary_need : A string of the dietary need to add to the animal's list.
+
+        Returns:
+            None
+
+        If the provided string is valid (not blank), it is added to the animal's list of dietary needs.
+        If the value is invalid, an error message is displayed.
         '''
         if type(dietary_need) == str and dietary_need != "":
             self.__dietary_needs.append(dietary_need)
         else:
             print("Invalid entry. Not added to list.")
 
-    def remove_dietary_need(self, index:int):
+    def remove_dietary_need(self, index:int) -> None:
         '''
-        This method removes a specified dietary need from the list.
-        It displays the current dietary needs of the animal and prompts the user to enter the number (index) of the
-        note to delete.
-        If there are no dietary needs listed, the method will not work (it will just display a message).
-        This method takes no parameters and returns nothing.
+        Parameters:
+            index : An integer indicating the index of the note to remove from the dietary needs list (starting at 0).
+
+        Returns:
+            None
+
+        If the index is valid (an integer in range of the current list), the specified note is deleted.
+        If there is nothing in the animal's dietary needs list, an error message is displayed.
+        If the index is invalid, displays an error message.
+
         '''
         try:
             if self.__dietary_needs == []:
                 print("Nothing to remove.")
-            elif index >= 0 and index < len(self.__dietary_needs):
+            else:
                 del self.__dietary_needs[index]
+        except (IndexError, TypeError) as e:
+            if e.__class__.__name__ == "IndexError":
+                print("Index out of range.")
             else:
                 print("Invalid index.")
-        except ValueError:
-            print("Invalid index.")
 
-    def get_id(self):
-        '''Returns an integer of the animal's ID number.'''
+    def get_id(self) -> int:
+        '''
+        Returns:
+             integer
+
+        Returns the animal's id number.
+        '''
         return self.__id
 
-    def __create_id(self):
-        '''Returns an integer for the object's id number.'''
+    def __create_id(self) -> int:
+        '''
+        Returns:
+             integer
+
+        A private method used when the class is instantiated to generate the animal's id number.
+        '''
         temp = Animal.__next_id
         Animal.__next_id += 1
         return temp
 
-    def get_environment_types(self):
-        '''Returns a list of what environments the animal can live in.'''
+    def get_environment_types(self) -> list:
+        '''
+        Returns:
+             list (of string)
+
+        Returns a list of the environments the animal can survive in.
+        '''
         return self.__environment_types
 
-    def __add_object_to_notes(self):
-        '''A private method that adds a blank entry to the global notes attribute.'''
+    def __add_object_to_notes(self) -> None:
+        '''
+        Returns:
+            None
+
+        A private method called when the class is instantiated to add the animal's details (and blank notes template)
+        to the global notes attribute.
+        '''
         value = {"name": self.__name, "injuries": [], "illnesses": [], "behavioural_concerns": []}
         key = f"{self.__species}-{self.__id}"
         Animal.__notes.update({key: value})
 
-    def __validate_date(self, date):
+    def __validate_date(self, date:str) -> bool:
+        '''
+        Parameters:
+             date : A string of a date in the format dd/mm/yyyy.
+
+        Returns:
+            boolean
+
+        A private method to determine if a given value is a valid date. Used in the add_note() method.
+        '''
+        # Initialise valid to True.
         valid = True
+
+        # If any of these conditions are False, set valid to False.
         if (type(date) != str or len(date) != 10 or not (date[:2]+date[3:5]+date[6:]).isdigit() or
                (date[2]+date[5]) != "//" or date[:2].lstrip("0") == "" or
                date[3:5].lstrip("0") == "" or date[6:].lstrip("0") == "" or
@@ -167,16 +286,25 @@ class Animal(ABC):
             valid = False
         return valid
 
-    def add_note(self, category, description, date_reported, severity, notes="none", treatment=False):
+    def add_note(self, category:str, description:str, date_reported:str, severity:str, notes="none", treatment=False) -> None:
         '''
-        This method prompts the user to add a new note to the animal object's file.
-        It takes no parameters and gathers information through input statements.
-        The user needs to choose the note category (injury, illness, or behavioural concern).
-        Then, the user must enter a description, the date it was reported, the severity, and any additional notes.
-        The user is also asked if the animal is undergoing treatment for this issue. If yes, the animal's under
-        treatment attribute is set to True.
-        This note is then added to the animal's record in the global notes variable.
-        If added successfully, a message will be displayed.
+        Parameters:
+            category: A string indicating which category the note is (must be one of "injuries", "illnesses", or
+            "behavioural_concerns".)
+            description : A string describing the illness/injury/concern.
+            date_reported : A string of a date in format dd/mm/yyyy, indicating the date the illness/injury/concern
+            was first reported.
+            severity : A string indicating how severe the illness/injury/concern is (must be one of "high", "med", or
+            "low".)
+            notes : A string of any additional notes to be included. If no notes are given, defaults to "none".
+            treatment : A boolean value indicating if the animal is receiving treatment for this illness/injury/concern.
+            If parameter not specified, defaults to False.
+
+        Returns:
+            None
+
+        Adds a note to the animal's record (global notes attribute). If any provided value is invalid, displays an error
+        message and the note is not added. If the note is added successfully, displays "Note successfully added."
         '''
         if category not in ["injuries", "illnesses", 'behavioural_concerns']:
             print("Invalid category. Must be 'injuries', 'illnesses', or 'behavioural_concerns'.")
@@ -203,42 +331,80 @@ class Animal(ABC):
             # Print confirmation message
             print("Note successfully added.\n")
 
-    def remove_note(self, category, index, treatment=False):
+    def remove_note(self, category:str, index:int, treatment=False) -> None:
         '''
-        This method deletes a specified note from the animal's individual record.
-        The animal's report is displayed and the user is prompted to enter which note they want to remove. It must be in
-        the format "category-index". For example, "injuries-2" or "behavioural concerns-4".
-        The user can enter "e" to exit the method and no changes will be made to the animal's record.
-        If a valid note is selected, the note is permanently removed from the animal's record.
-        The user is also asked if the animal is still undergoing treatment for another issue. If yes, the animal's under
-        treatment attribute is set to True. If no, the animal's under treatment attribute is set to False.
-        This method takes no parameters and returns nothing.
+        Parameters:
+            category: A string indicating which category the note is (must be one of "injuries", "illnesses", or
+            "behavioural_concerns".)
+            index : An integer value indicating the position of the note to remove (starting from 0).
+            treatment : A boolean value indicating if the animal is still receiving treatment for another
+            illness/injury/concern. If parameter not specified, defaults to False.
+
+        Returns:
+            None
+
+        Removes a specified note from the animal's record (from the global notes attribute). If the specified category
+        name or index number is invalid, displays an error message and nothing is removed.
+        If the specified category has no notes, displays a message and nothing is removed.
+        If the treatment or index parameters are invalid, displays a message and nothing is removed.
         '''
+        # Check if category is valid.
         if category not in ["injuries", "illnesses", 'behavioural_concerns']:
             print("Invalid category. Must be 'injuries', 'illnesses', or 'behavioural_concerns'.")
-        else:
+        else:  # If category valid...
             try:
+                # Get records.
                 animal_record = Animal.__notes.get(f"{self.__species}-{self.__id}")
                 category_record = animal_record.get(category)
+
                 if category_record == []:
                     print("There are no notes in that category.")
-                elif 0 > index >= len(category_record):
-                    print(f"Invalid index. Must be between 0 and {len(category_record) - 1}, inclusive.")
                 elif type(treatment) != bool:
                     print("Invalid treatment indication. Must be a boolean value.")
                 else:
+                    del category_record[index]  # This will throw Exception if index invalid.
                     self.under_treatment = treatment
-                    del category_record[index]
                     animal_record.update({category: category_record})
                     Animal.__notes.update({f"{self.__species}-{self.__id}": animal_record})
                     print("Note removed successfully.")
-            except TypeError:
-                print("Invalid index.")
+            except (TypeError, IndexError) as e:  # If index is invalid...
+                if e.__class__.__name__ == "IndexError":
+                    print("Index out of range.")
+                else:
+                    print("Invalid index.")
 
-    def report(self):
+    def report(self) -> None:
         '''
-        This method prints the individual animal's current record.
-        It takes no parameters and returns nothing.
+        Returns:
+            None
+
+        Displays the current notes for the animal from the global notes attribute.
+        Notes are separated by category (injuries, illnesses, behavioural concerns).
+        Within categories, notes are numbered (starting from 1).
+        If there are no notes in a category, "None" is displayed under the category heading.
+
+        Example:
+            ---Report for: <name> (ID-<id>)---
+
+            INJURIES
+
+            None
+
+            ILLNESSES
+
+            1.
+
+            Description: something
+
+            Date reported: 11/11/1111
+
+            Severity: med
+
+            Notes: additional notes
+
+            BEHAVIOURAL CONCERNS
+
+            None
         '''
         # Get whole record.
         animal_record = Animal.__notes.get(f"{self.__species}-{self.__id}")
@@ -275,10 +441,40 @@ class Animal(ABC):
         print(f"---Report for: {self.__name} (ID-{self.__id})---\n\n"
               f"INJURIES\n{injuries}ILLNESSES\n{illnesses}BEHAVIOURAL CONCERNS\n{behavioural_concerns}")
 
-    def species_report(self):
+    def species_report(self) -> None:
         '''
-        This method prints the records for all animal objects of the same species.
-        It takes no parameters and returns nothing.
+        Returns:
+            None
+
+        Displays the current notes for all animals which share this animal's species.
+        Notes are separated by animal, then category (injuries, illnesses, behavioural concerns).
+        Within categories, notes are numbered (starting from 1).
+        If there are no notes in a category, "None" is displayed under the category heading.
+
+        Example:
+            ------Species Report: Lion------
+
+            ---<name> (ID-<id>)---
+
+            INJURIES
+
+            None
+
+            ILLNESSES
+
+            1.
+
+            Description: something
+
+            Date reported: 11/11/1111
+
+            Severity: med
+
+            Notes: additional notes
+
+            BEHAVIOURAL CONCERNS
+
+            None
         '''
         print(f"------Species Report: {self.__species}------\n")
         for key in Animal.__notes:
@@ -318,10 +514,42 @@ class Animal(ABC):
                 print(f"---{animal_record.get("name")} (ID-{key.split("-")[1]})---\n\n"
                       f"INJURIES\n{injuries}ILLNESSES\n{illnesses}BEHAVIOURAL CONCERNS\n{behavioural_concerns}")
 
-    def animals_report(self):
+    def animals_report(self) -> None:
         '''
-        This method prints the records of all instantiated animal objects, grouping by species.
-        It takes no parameters and returns nothing.
+        Returns:
+            None
+
+        Displays the current notes for all instantiated animals, separated by species.
+        Notes are separated by animal, then category (injuries, illnesses, behavioural concerns).
+        Within categories, notes are numbered (starting from 1).
+        If there are no notes in a category, "None" is displayed under the category heading.
+
+        Example:
+            ------Report for all Animals------
+
+            ------SPECIES: Lion------
+
+            ---<name> (ID-<id>)---
+
+            INJURIES
+
+            None
+
+            ILLNESSES
+
+            1.
+
+            Description: something
+
+            Date reported: 11/11/1111
+
+            Severity: med
+
+            Notes: additional notes
+
+            BEHAVIOURAL CONCERNS
+
+            None
         '''
         print(f"------Report for all Animals------\n")
         for species in Animal.__species:
@@ -365,16 +593,34 @@ class Animal(ABC):
 
     def get_enclosure(self):
         '''
-        Returns either None, meaning the animal is current not in an enclosure, or an integer, indicating the id
-        number of the enclosure the animal is in.
+        Returns:
+            Enclosure object or None
+
+        Returns either None (meaning the animal is not in an enclosure) or an Enclosure object (indicating the
+        enclosure in which the animal is located).
         '''
         return self.__enclosure
 
-    def add_to_enclosure(self, enclosure):
+    def add_to_enclosure(self, enclosure) -> None:
+        '''
+        Parameters:
+             enclosure : An Enclosure object, to which the animal will be added.
+
+        Returns:
+            None
+
+        Adds the animal into a specified enclosure.
+        Note that this method cannot actually add an animal into an enclosure. That must be done using the Enclosure
+        object itself. This method is to set the animal's enclosure attribute to the enclosure it is currently in.
+
+        If the animal is already in an enclosure, displays an error message.
+        If the animal has not been added to the enclosure using the Enclosure object, displays an error message.
+        If the provided enclosure is invalid, displays an error message.
+        '''
         try:
-            if enclosure.id == "":
-                pass
-            elif self.__enclosure == enclosure:
+            check = enclosure.cleanliness_level  # Throw an exception if not Enclosure object.
+
+            if self.__enclosure == enclosure:
                 print("Animal is already in this enclosure.")
             elif self.__enclosure is not None:
                 print("Animal is already in an another enclosure.")
@@ -385,11 +631,26 @@ class Animal(ABC):
         except AttributeError:
             print("Invalid enclosure.")
 
-    def remove_from_enclosure(self, enclosure):
+    def remove_from_enclosure(self, enclosure) -> None:
+        '''
+        Parameters:
+             enclosure : An Enclosure object, from which the animal will be removed.
+
+        Returns:
+            None
+
+        Removed the animal from a specified enclosure.
+        Note that this method cannot actually remove an animal from an enclosure. That must be done using the Enclosure
+        object itself. This method is to set the animal's enclosure attribute to None if the animal is successfully removed.
+
+        If the animal is not in any enclosure, displays an error message.
+        If the animal is not in the specified enclosure, displays an error message.
+        If the provided enclosure is invalid, displays an error message.
+        '''
         try:
-            if enclosure.id == "":
-                pass
-            elif self.enclosure is None:
+            check = enclosure.cleanliness_level  # Throw an exception if not Enclosure object.
+
+            if self.enclosure is None:
                 print("Animal is not in any enclosure.")
             elif self.enclosure != enclosure:
                 print("Animal is in another enclosure.")
@@ -399,18 +660,33 @@ class Animal(ABC):
             print("Invalid enclosure.")
 
     @abstractmethod
-    def cry(self):
-        '''Displays the animal's sound.'''
+    def cry(self) -> None:
+        '''
+        Returns:
+            None
+
+        Displays the animal's sound.
+        '''
         pass
 
     @abstractmethod
-    def sleep(self):
-        '''Displays how the animal sleeps.'''
+    def sleep(self) -> None:
+        '''
+        Returns:
+            None
+
+        Displays how the animal sleeps.
+        '''
         pass
 
     @abstractmethod
-    def eat(self):
-        '''Displays how/what the animal eats.'''
+    def eat(self) -> None:
+        '''
+        Returns:
+            None
+
+        Displays how/what the animal eats.
+        '''
         pass
 
     # Properties
@@ -423,11 +699,50 @@ class Animal(ABC):
     environment_types = property(get_environment_types)
     enclosure = property(get_enclosure)
 
-    def __eq__(self, other):
-        '''Checks if two objects of Animal class are equal (checks id number).'''
+    def __eq__(self, other:Animal) -> bool:
+        '''
+        Parameters:
+            other : Another Animal object to which this object is compared.
+
+        Returns:
+            boolean
+
+        Compares two Animal objects and returns True of the objects are equal or False if not.
+        The objects are equal if they are both of the Animal class and have the same id number.
+        '''
         return isinstance(other, Animal) and self.id == other.id
 
-    def __str__(self):
+    def __str__(self) -> str:
+        '''
+        Returns:
+             string
+
+        Returns a string of the animal's details in the following format:
+
+        ---ANIMAL DETAILS---
+
+        ID: <id>
+
+        Name: <name>
+
+        Age: <age> or "Age not specified"
+
+        Species: <species>
+
+        Environment types: <eg. grassland, tropical>
+
+        Dietary needs for <name>:
+
+        1. something
+
+        2. another thing
+
+        <only if animal undergoing treatment>
+        <name> is undergoing treatment.
+
+        ---------
+        '''
+        age_statement = f"{self.age} years" if type(self.age) == int else self.age
         treatment_statement = f"{self.name} is undergoing treatment.\n" if self.under_treatment else ""
 
         environment_statement = f"Environment types: "
@@ -437,5 +752,5 @@ class Animal(ABC):
             for item in self.environment_types:
                 environment_statement += f"{item}, "
 
-        return (f"\n---ANIMAL DETAILS---\nID: {self.id}\nName: {self.name}\nAge: {self.age} years\n"
+        return (f"\n---ANIMAL DETAILS---\nID: {self.id}\nName: {self.name}\nAge: {age_statement}\n"
                 f"Species: {self.species}\n{environment_statement.strip(", ")}\n{self.dietary_needs}\n{treatment_statement}---------")
