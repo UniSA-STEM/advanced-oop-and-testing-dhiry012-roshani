@@ -54,17 +54,3 @@ class Fish(Animal):
     # Properties
     freshwater = property(get_freshwater, set_freshwater)
     saltwater = property(get_saltwater, set_saltwater)
-
-    # Override Animal string method.
-    def __str__(self):
-        treatment_statement = f"{self.name} is undergoing treatment.\n" if self.under_treatment else ""
-
-        if not self.saltwater and not self.freshwater:
-            water_statement = f"{self.name} can live in neither saltwater nor freshwater."
-        elif self.saltwater and self.freshwater:
-            water_statement = f"{self.name} can live in both saltwater and freshwater."
-        else:
-            water_statement = f"{self.name} is a {"saltwater" if self.saltwater else "freshwater"} fish."
-
-        return (f"\n---ANIMAL DETAILS---\nName: {self.name}\nAge: {self.age}\nSpecies: {self.species}\n"
-                f"{self.dietary_needs}\n{treatment_statement}{water_statement}\n---------")

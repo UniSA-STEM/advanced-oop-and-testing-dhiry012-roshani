@@ -11,6 +11,13 @@ from reptile import Reptile
 
 
 class Turtle(Reptile):
+    def __init__(self, name, age, freshwater=False, saltwater=False):
+        super().__init__(name, age)
+        if freshwater == True:
+            self._Animal__environment_types.append("freshwater aquatic")
+        if saltwater == True:
+            self._Animal__environment_types.append("saltwater aquatic")
+
     def cry(self):
         print("*chirp growl wheeze*")
 

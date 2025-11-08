@@ -11,6 +11,13 @@ from amphibian import Amphibian
 
 
 class Salamander(Amphibian):
+    def __init__(self, name, age):
+        super().__init__(name, age)
+        self._Animal__environment_types.append("tropical")
+        self._Animal__environment_types.append("forest")
+        self._Animal__environment_types.append("freshwater aquatic")
+        self._Animal__environment_types.append("wetland")
+
     def cry(self):
         print("*quiet clicking and squeaks*")
 

@@ -11,6 +11,10 @@ from bird import Bird
 
 
 class Owl(Bird):
+    def __init__(self, name, age):
+        super().__init__(name, age)
+        self._Animal__environment_types.append("forest")
+
     def cry(self):
         print("*hoot hoot*")
 

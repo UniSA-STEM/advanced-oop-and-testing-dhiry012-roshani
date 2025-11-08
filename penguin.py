@@ -11,6 +11,11 @@ from bird import Bird
 
 
 class Penguin(Bird):
+    def __init__(self, name, age):
+        super().__init__(name, age)
+        self._Animal__environment_types.append("saltwater aquatic")
+        self._Animal__environment_types.append("arctic")
+
     def cry(self):
         print("*braying honking squawking*")
 

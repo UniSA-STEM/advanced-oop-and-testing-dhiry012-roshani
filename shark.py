@@ -11,6 +11,13 @@ from fish import Fish
 
 
 class Shark(Fish):
+    def __init__(self, name, age, freshwater=False, saltwater=False):
+        super().__init__(name, age, freshwater, saltwater)
+        if freshwater == True:
+            self._Animal__environment_types.append("freshwater aquatic")
+        if saltwater == True:
+            self._Animal__environment_types.append("saltwater aquatic")
+
     def cry(self):
         print("*da da...da da...dadadadadada*")
 

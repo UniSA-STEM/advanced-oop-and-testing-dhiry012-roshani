@@ -22,6 +22,7 @@ class Animal(ABC):
         self.__age = None
         self.__dietary_needs = []
         self.__under_treatment = False
+        self.__environment_types = []
 
         self.__add_object_to_notes()
         self.set_name(name)
@@ -146,6 +147,9 @@ class Animal(ABC):
         temp = Animal.__next_id
         Animal.__next_id += 1
         return temp
+
+    def get_environment_types(self):
+        return self.__environment_types
 
     def __add_object_to_notes(self):
         '''A private method that adds a blank entry to the global notes attribute.'''
@@ -446,6 +450,7 @@ class Animal(ABC):
     species = property(get_species)
     dietary_needs = property(get_dietary_needs)
     under_treatment = property(get_under_treatment, set_under_treatment)
+    environment_types = property(get_environment_types)
 
     def __eq__(self, other):
         '''Checks if two objects of Animal class are equal (checks id number).'''
@@ -453,5 +458,13 @@ class Animal(ABC):
 
     def __str__(self):
         treatment_statement = f"{self.name} is undergoing treatment.\n" if self.under_treatment else ""
-        return (f"\n---ANIMAL DETAILS---\nName: {self.name}\nAge: {self.age}\nSpecies: {self.species}\n"
-                f"{self.dietary_needs}\n{treatment_statement}---------")
+
+        environment_statement = f"Environment types: "
+        if self.environment_types == []:
+            environment_statement += f"none specified"
+        else:
+            for item in self.environment_types:
+                environment_statement += f"{item}, "
+
+        return (f"\n---ANIMAL DETAILS---\nID: {self.id}\nName: {self.name}\nAge: {self.age} years\n"
+                f"Species: {self.species}\n{environment_statement.strip(", ")}\n{self.dietary_needs}\n{treatment_statement}---------")

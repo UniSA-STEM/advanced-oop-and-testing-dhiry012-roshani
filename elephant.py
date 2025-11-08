@@ -11,6 +11,12 @@ from mammal import Mammal
 
 
 class Elephant(Mammal):
+    def __init__(self, name, age):
+        super().__init__(name, age)
+        self._Animal__environment_types.append("grassland")
+        self._Animal__environment_types.append("tropical")
+        self._Animal__environment_types.append("forest")
+
     def cry(self):
         print("*trumpets!*")
 

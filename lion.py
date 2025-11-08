@@ -11,6 +11,10 @@ from mammal import Mammal
 
 
 class Lion(Mammal):
+    def __init__(self, name, age):
+        super().__init__(name, age)
+        self._Animal__environment_types.append("grassland")
+
     def cry(self):
         print("*Roaarrrr!!*")
 
@@ -22,3 +26,6 @@ class Lion(Mammal):
 
     def move(self):
         print(f"{self.name} prowls...")
+
+lion = Lion("Leo", 3)
+print(lion)
