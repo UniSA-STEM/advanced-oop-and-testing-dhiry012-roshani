@@ -103,6 +103,7 @@ class Enclosure:
                     self.__species = animal.species
                 self.__animals.append(animal)
                 animal.add_to_enclosure(self)
+                self.reduce_cleanliness(1)
                 print(f"{animal.name} added to enclosure.")
         except AttributeError:
             print("Invalid animal.")
@@ -151,6 +152,32 @@ class Enclosure:
                         target_key = key
                 self.__staff.update({target_key: None})
                 print(f"{staff.name} removed from enclosure.")
+        except AttributeError:
+            print("Invalid staff.")
+
+    def reduce_cleanliness(self, amount):
+        try:
+            self.__cleanliness_level -= amount
+            if self.__cleanliness_level < 0:
+                self.__cleanliness_level = 0
+        except TypeError:
+            print("Invalid amount.")
+
+    def clean(self, staff):
+        try:
+            if staff.role != "Zookeeper":
+                print(f"{self.name} is not a Zookeeper.")
+            else:
+                zookeepers = []
+                for key in self.staff.keys():
+                    if "Zookeeper" in key:
+                        zookeepers.append(self.staff.get(key))
+
+                if staff not in zookeepers:
+                    print(f"{staff.name} is not assigned to this enclosure.")
+                else:
+                    print(f"{staff.name} is cleaning the enclosure...")
+                    self.__cleanliness_level = self.__MAX_CLEANLINESS_LEVEL
         except AttributeError:
             print("Invalid staff.")
 

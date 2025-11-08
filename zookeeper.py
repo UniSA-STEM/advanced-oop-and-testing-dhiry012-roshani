@@ -25,5 +25,18 @@ class Zookeeper(Staff):
                 else:
                     for animal in enclosure.animals:
                         animal.eat()
+                        enclosure.reduce_cleanliness(0.5)
+        except AttributeError:
+            print("Invalid enclosure.")
+
+    def clean_enclosure(self, enclosure):
+        try:
+            if self.enclosures == []:
+                print(f"{self.name} is not assigned to any enclosures.")
+            elif enclosure in self.enclosures:
+                enclosure.clean(self)
+            else:
+                check = enclosure.id
+                print(f"{self.name} is not assigned to this enclosure.")
         except AttributeError:
             print("Invalid enclosure.")
