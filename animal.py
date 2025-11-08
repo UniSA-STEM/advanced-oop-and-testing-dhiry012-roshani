@@ -106,18 +106,17 @@ class Animal(ABC):
                 count += 1
         return result
 
-    def add_dietary_need(self):
+    def add_dietary_need(self, dietary_need:str):
         '''
         This method adds a dietary need for the animal. Users are prompted to enter the note via input.
         This method takes no parameters and returns nothing.
         '''
-        value = input("Enter new dietary need: ")
-        while value == "":
-            print("Entry cannot be blank.")
-            value = input("Enter new dietary need: ")
-        self.__dietary_needs.append(value)
+        if type(dietary_need) == str and dietary_need != "":
+            self.__dietary_needs.append(dietary_need)
+        else:
+            print("Invalid entry. Not added to list.")
 
-    def remove_dietary_need(self):
+    def remove_dietary_need(self, index:int):
         '''
         This method removes a specified dietary need from the list.
         It displays the current dietary needs of the animal and prompts the user to enter the number (index) of the
@@ -125,22 +124,16 @@ class Animal(ABC):
         If there are no dietary needs listed, the method will not work (it will just display a message).
         This method takes no parameters and returns nothing.
         '''
-        print(self.get_dietary_needs())
-        if self.__dietary_needs == []:
-            print("Nothing to remove.")
-        else:
-            index = input("Enter number to remove: ")
-            while not index.isdigit() or int(index) == 0 or int(index) > len(self.__dietary_needs):
-                if not index.isdigit():
-                    print("Please enter a whole number from the list.")
-                elif int(index) == 0:
-                    print("Number cannot be 0.")
-                else:
-                    print("Number is out of range. Please enter a number from the list.")
-                index = input("Enter number to remove: ")
-
-            del self.__dietary_needs[int(index) - 1]
-            print("Removed successfully.")
+        try:
+            if self.__dietary_needs == []:
+                print("Nothing to remove.")
+            elif 0 <= index < len(self.__dietary_needs):
+                self.__dietary_needs.remove(index)
+                print("Removed successfully.")
+            else:
+                print("Invalid index.")
+        except TypeError:
+            print("Invalid index.")
 
     def get_id(self):
         '''Returns an integer of the animal's ID number.'''
@@ -162,7 +155,20 @@ class Animal(ABC):
         key = f"{self.__species}-{self.__id}"
         Animal.__notes.update({key: value})
 
-    def add_note(self):
+    def __validate_date(self, date):
+        valid = True
+        if (type(date) != str or len(date) != 10 or not (date[:2]+date[3:5]+date[6:]).isdigit() or
+               (date[2]+date[5]) != "//" or date[:2].lstrip("0") == "" or
+               date[3:5].lstrip("0") == "" or date[6:].lstrip("0") == "" or
+               int(date[:2].lstrip("0")) < 1 or int(date[3:5].lstrip("0")) < 1
+               or int(date[6:].lstrip("0")) < 1 or int(date[3:5].lstrip("0")) > 12 or
+               (int(date[3:5].lstrip("0")) in [4, 6, 9, 11] and int(date[:2].lstrip("0")) > 30) or
+               (int(date[3:5].lstrip("0")) in [1, 3, 5, 7, 8, 10, 12] and int(date[:2].lstrip("0")) > 31) or
+               (int(date[3:5].lstrip("0")) == 2 and int(date[:2].lstrip("0")) not in [28, 29])):
+            valid = False
+        return valid
+
+    def add_note(self, category, description, date_reported, severity, notes="none", treatment=False):
         '''
         This method prompts the user to add a new note to the animal object's file.
         It takes no parameters and gathers information through input statements.
@@ -173,74 +179,32 @@ class Animal(ABC):
         This note is then added to the animal's record in the global notes variable.
         If added successfully, a message will be displayed.
         '''
-        # Get category of note to add.
-        print(f"---Add note for: {self.__name}---\n"
-              f"Categories:\n1. Injuries\n2. Illnesses\n3. Behavioural concerns\n")
-        category = input("Select category: ")
-        while category not in ["1", "2", "3"]:
-            print("Invalid category.")
-            category = input("Select category: ")
-
-        # Translate category into key.
-        if category == "1":
-            type = "injuries"
-        elif category == "2":
-            type = "illnesses"
-        else:
-            type = "behavioural_concerns"
-
-        # Get specific records.
-        animal_record = Animal.__notes.get(f"{self.__species}-{self.__id}")
-        category_record = animal_record.get(type)
-
-        # Get description.
-        desc = input(f"Enter description: ")
-        while desc == "":
-            print("Description cannot be blank.")
-            desc = input(f"Enter description: ")
-
-        # Get and validate reported date.
-        reported = input("Enter the date it was reported (dd/mm/yyyy): ")
-        while (len(reported) != 10 or not (reported[:2]+reported[3:5]+reported[6:]).isdigit() or
-               (reported[2]+reported[5]) != "//" or reported[:2].lstrip("0") == "" or
-               reported[3:5].lstrip("0") == "" or reported[6:].lstrip("0") == "" or
-               int(reported[:2].lstrip("0")) < 1 or int(reported[3:5].lstrip("0")) < 1
-               or int(reported[6:].lstrip("0")) < 1 or int(reported[3:5].lstrip("0")) > 12 or
-               (int(reported[3:5].lstrip("0")) in [4, 6, 9, 11] and int(reported[:2].lstrip("0")) > 30) or
-               (int(reported[3:5].lstrip("0")) in [1, 3, 5, 7, 8, 10, 12] and int(reported[:2].lstrip("0")) > 31) or
-               (int(reported[3:5].lstrip("0")) == 2 and int(reported[:2].lstrip("0")) not in [28, 29])):
+        if category not in ["injuries", "illnesses", 'behavioural_concerns']:
+            print("Invalid category. Must be 'injuries', 'illnesses', or 'behavioural_concerns'.")
+        elif type(description) != str or description == "":
+            print("Invalid description.")
+        elif not self.__validate_date(date_reported):
             print("Invalid date.")
-            reported = input("Enter the date it was reported (dd/mm/yyyy): ")
+        elif severity not in ["high", "med", "low"]:
+            print("Invalid severity. Must be either high, med, or low.")
+        elif type(notes) != str:
+            print("Invalid notes.")
+        elif type(treatment) != bool:
+            print("Invalid treatment indication. Must be a boolean value.")
+        else:
+            # Get records.
+            animal_record = Animal.__notes.get(f"{self.__species}-{self.__id}")
+            category_record = animal_record.get(category)
 
-        # Get and validate severity.
-        severity = input("Enter severity (high, med, low): ")
-        while severity not in ["high", "med", "low"]:
-            print("Invalid input.")
-            severity = input("Enter severity (high, med, low): ")
+            # Add new record.
+            category_record.append([description, date_reported, severity, notes])
+            animal_record.update({category: category_record})
+            Animal.__notes.update({f"{self.__species}-{self.__id}": animal_record})
 
-        # Get additional notes.
-        notes = input("Enter any additional notes: ")
-        if notes == "":
-            notes = "none"
+            # Print confirmation message
+            print("Note successfully added.\n")
 
-        # Determine if the animal is undergoing treatment.
-        treatment = input(f"Is {self.name} receiving treatment for this (y|n)? ")
-        while treatment != "y" and treatment != "n":
-            print("Please enter y or n.")
-            treatment = input(f"Is {self.name} receiving treatment for this (y|n)? ")
-
-        if treatment == "y":
-            self.under_treatment = True
-
-        # Add note to record and global variable.
-        category_record.append([desc, reported, severity, notes])
-        animal_record.update({type: category_record})
-        Animal.__notes.update({f"{self.__species}-{self.__id}": animal_record})
-
-        # Print confirmation message
-        print("Note successfully added.\n")
-
-    def remove_note(self):
+    def remove_note(self, category, index, treatment=False):
         '''
         This method deletes a specified note from the animal's individual record.
         The animal's report is displayed and the user is prompted to enter which note they want to remove. It must be in
@@ -251,59 +215,26 @@ class Animal(ABC):
         treatment attribute is set to True. If no, the animal's under treatment attribute is set to False.
         This method takes no parameters and returns nothing.
         '''
-        # Show report for animal.
-        self.report()
-
-        # Get animal's record.
-        animal_record = Animal.__notes.get(f"{self.__species}-{self.__id}")
-
-        # Get note to delete (category-index).
-        delete_note = input("Enter note to delete (eg injuries-1, e to exit): ")
-        delete_note_split = delete_note.split("-")
-        if len(delete_note_split) == 2 and delete_note_split[0] == "behavioural concerns":
-            delete_note_split[0] = "behavioural_concerns"
-
-        # Validate input.
-        while (delete_note != "e" and (len(delete_note_split) != 2 or delete_note_split[0] not in ["injuries", "illnesses", "behavioural_concerns"]
-                or not delete_note_split[1].isdigit() or int(delete_note_split[1]) == 0 or
-                int(delete_note_split[1]) > len(animal_record.get(delete_note_split[0])))):
-
-            if (len(delete_note_split) == 2 and delete_note_split[0] in ["injuries", "illnesses", "behavioural_concerns"]
-                and delete_note_split[1].isdigit() and len(animal_record.get(delete_note_split[0])) == 0):
-                print("There are no notes for that category. Please choose another category or enter e to exit.")
-            elif (len(delete_note_split) == 2 and delete_note_split[0] in ["injuries", "illnesses", "behavioural_concerns"]
-                and delete_note_split[1].isdigit() and int(delete_note_split[1]) == 0):
-                print("Index cannot be 0.")
-            elif (len(delete_note_split) == 2 and delete_note_split[0] in ["injuries", "illnesses", "behavioural_concerns"]
-                and delete_note_split[1].isdigit() and int(delete_note_split[1]) > len(animal_record.get(delete_note_split[0]))):
-                print(f"That category only has {len(animal_record.get(delete_note_split[0]))} note(s). Please enter a valid index.")
-            else:
-                print("Invalid entry. Please use the example format.")
-
-            delete_note = input("Enter note to delete (eg injuries-1, e to exit): ")
-            delete_note_split = delete_note.split("-")
-            if len(delete_note_split) == 2 and delete_note_split[0] == "behavioural concerns":
-                delete_note_split[0] = "behavioural_concerns"
-
-        # If valid note selected (ie if user didn't exit), check if animal still receiving treatment and delete note.
-        if delete_note != "e":
-            treatment = input(f"Is {self.name} still receiving treatment for other issues (y|n)? ")
-            while treatment != "y" and treatment != "n":
-                print("Please enter y or n.")
-                treatment = input(f"Is {self.name} still receiving treatment for other issues (y|n)? ")
-
-            if treatment == "y":
-                self.under_treatment = True
-            else:
-                self.under_treatment = False
-
-            key = delete_note_split[0]
-            value = animal_record.get(key)
-            del value[int(delete_note_split[1]) - 1]
-            animal_record.update({key: value})
-            Animal.__notes.update({f"{self.__species}-{self.__id}": animal_record})
-            print("Note removed successfully.")
-        print()
+        if category not in ["injuries", "illnesses", 'behavioural_concerns']:
+            print("Invalid category. Must be 'injuries', 'illnesses', or 'behavioural_concerns'.")
+        else:
+            try:
+                animal_record = Animal.__notes.get(f"{self.__species}-{self.__id}")
+                category_record = animal_record.get(category)
+                if category_record == []:
+                    print("There are no notes in that category.")
+                elif 0 > index >= len(category_record):
+                    print(f"Invalid index. Must be between 0 and {len(category_record) - 1}, inclusive.")
+                elif type(treatment) != bool:
+                    print("Invalid treatment indication. Must be a boolean value.")
+                else:
+                    self.under_treatment = treatment
+                    del category_record[index]
+                    animal_record.update({category: category_record})
+                    Animal.__notes.update({f"{self.__species}-{self.__id}": animal_record})
+                    print("Note removed successfully.")
+            except TypeError:
+                print("Invalid index.")
 
     def report(self):
         '''
