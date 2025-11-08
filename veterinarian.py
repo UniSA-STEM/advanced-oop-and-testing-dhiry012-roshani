@@ -11,5 +11,20 @@ from staff import Staff
 
 
 class Veterinarian(Staff):
-    def heal(self):
-        print(f"{self.name} is healing the animals...")
+    def health_check(self, enclosure):
+        try:
+            if self.enclosures == []:
+                print(f"{self.name} is not assigned to any enclosures")
+            elif enclosure.id == "":
+                pass  # Ensure error is thrown if enclosure not valid object.
+            elif enclosure not in self.enclosures:
+                print(f"{self.name} is not assigned that that enclosure.")
+            else:
+                print(f"-----ENCLOSURE {enclosure.id} HEALTH CHECK-----")
+                if enclosure.animals == []:
+                    print("Enclosure empty")
+                else:
+                    for animal in enclosure.animals:
+                        animal.report()
+        except AttributeError:
+            print("Invalid enclosure.")

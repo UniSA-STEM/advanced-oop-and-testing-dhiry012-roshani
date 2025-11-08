@@ -11,5 +11,20 @@ from staff import Staff
 
 
 class Biologist(Staff):
-    def research(self):
-        print(f"{self.name} is researching the animals...")
+    def research(self, enclosure):
+        try:
+            if self.enclosures == []:
+                print(f"{self.name} is not assigned to any enclosures")
+            elif enclosure.id == "":
+                pass  # Ensure error is thrown if enclosure not valid object.
+            elif enclosure not in self.enclosures:
+                print(f"{self.name} is not assigned that that enclosure.")
+            else:
+                print(f"-----ENCLOSURE {enclosure.id} RESEARCH-----")
+                if enclosure.animals == []:
+                    print("Enclosure is empty.")
+                else:
+                    for animal in enclosure.animals:
+                        print(animal)
+        except AttributeError:
+            print("Invalid enclosure.")
