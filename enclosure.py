@@ -19,7 +19,8 @@ class Enclosure:
         self.__environmental_type = None
         self.__cleanliness_level = 10
         self.__MAX_CLEANLINESS_LEVEL = 10
-        self.__staff = []
+        self.__staff = {"Zookeeper-1": None, "Zookeeper-2": None, "Veterinarian-1": None, "Veterinarian-2": None,
+                        "Biologist": None}
         self.__animals = []
         self.__species = None
 
@@ -118,6 +119,40 @@ class Enclosure:
                 print(f"{animal.name} removed from enclosure.")
         except AttributeError:
             print("Invalid animal.")
+
+    def add_staff(self, staff):
+        try:
+            if staff in self.__staff.values():
+                print("Staff is already assigned to this enclosure.")
+            else:
+                available_role = None
+                for role in self.__staff.keys():
+                    if staff.role in role and self.__staff.get(role) is None:
+                        available_role = role
+                        break
+
+                if available_role is None:
+                    print("Staff assignment is full for this enclosure.")
+                else:
+                    self.__staff.update({available_role: staff})
+                    print(f"{staff.name} assigned to enclosure.")
+        except AttributeError:
+            print("Invalid staff.")
+
+    def remove_staff(self, staff):
+        try:
+            staff.remove_from_enclosure()
+            if staff not in self.__staff.values():
+                print("Staff is not assigned to this enclosure.")
+            else:
+                target_key = None
+                for key in self.staff.keys():
+                    if self.staff.get(key) == staff:
+                        target_key = key
+                self.__staff.update({target_key: None})
+                print(f"{staff.name} removed from enclosure.")
+        except AttributeError:
+            print("Invalid staff.")
 
     id = property(get_id)
     size = property(get_size, set_size)

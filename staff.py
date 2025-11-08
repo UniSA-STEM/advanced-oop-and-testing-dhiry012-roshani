@@ -54,6 +54,26 @@ class Staff(ABC):
     def get_role(self):
         return self.__role
 
+    def add_to_enclosure(self, enclosure):
+        try:
+            if self not in enclosure.staff.values():
+                print("Staff is not assigned to enclosure. Must assign staff using enclosure object.")
+            else:
+                self.__enclosures.append(enclosure)
+        except AttributeError:
+            print("Invalid enclosure.")
+
+    def remove_from_enclosure(self, enclosure):
+        try:
+            if enclosure.id == "":
+                pass
+            elif enclosure not in self.enclosures:
+                print("Staff is not assigned to this enclosure.")
+            else:
+                self.__enclosures.remove(enclosure)
+        except AttributeError:
+            print("Invalid enclosure.")
+
     id = property(get_id)
     name = property(get_name, set_name)
     enclosures = property(get_enclosures)
