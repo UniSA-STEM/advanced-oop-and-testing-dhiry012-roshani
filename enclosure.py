@@ -92,6 +92,8 @@ class Enclosure:
                 print("Environment type not set. Cannot add animal.")
             elif self.species is not None and self.species != animal.species:
                 print(f"Animal is not {self.species}. Cannot add to enclosure.")
+            elif animal.under_treatment:
+                print("Cannot add animal to enclosure while under treatment.")
             elif self.environmental_type not in animal.environment_types:
                 print(f"Enclosure type ({self.environmental_type}) incompatible with animal's requirements.")
             elif animal in self.animals:

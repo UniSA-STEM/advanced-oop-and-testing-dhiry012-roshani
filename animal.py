@@ -8,7 +8,6 @@ This is my own work as defined by the University's Academic Integrity Policy.
 '''
 
 from abc import ABC, abstractmethod
-from enclosure import Enclosure
 
 
 class Animal(ABC):
@@ -81,6 +80,9 @@ class Animal(ABC):
         '''
         if type(under_treatment) == bool:
             self.__under_treatment = under_treatment
+
+        if self.under_treatment and self.enclosure is not None:
+            self.__enclosure.remove_animal(self)
 
     def get_dietary_needs(self):
         '''
@@ -439,26 +441,32 @@ class Animal(ABC):
         return self.__enclosure
 
     def add_to_enclosure(self, enclosure):
-        if not isinstance(enclosure, Enclosure):
+        try:
+            if enclosure.id == "":
+                pass
+            elif self.__enclosure == enclosure:
+                print("Animal is already in this enclosure.")
+            elif self.__enclosure is not None:
+                print("Animal is already in an another enclosure.")
+            elif self not in enclosure.animals:
+                print("Animal is not in this enclosure. Must first add animal using enclosure object.")
+            else:
+                self.__enclosure = enclosure
+        except AttributeError:
             print("Invalid enclosure.")
-        elif self.__enclosure == enclosure.id:
-            print("Animal is already in this enclosure.")
-        elif self.__enclosure is not None:
-            print("Animal is already an another enclosure.")
-        elif self not in enclosure.animals:
-            print("Animal is not in this enclosure. Must first add animal using enclosure object.")
-        else:
-            self.__enclosure = enclosure.id
 
     def remove_from_enclosure(self, enclosure):
-        if not isinstance(enclosure, Enclosure):
+        try:
+            if enclosure.id == "":
+                pass
+            elif self.enclosure is None:
+                print("Animal is not in any enclosure.")
+            elif self.enclosure != enclosure:
+                print("Animal is in another enclosure.")
+            else:
+                self.__enclosure = None
+        except AttributeError:
             print("Invalid enclosure.")
-        elif self.enclosure is None:
-            print("Animal is not in any enclosure.")
-        elif self.enclosure != enclosure.id:
-            print("Animal is in another enclosure.")
-        else:
-            self.__enclosure = None
 
     @abstractmethod
     def cry(self):
