@@ -117,37 +117,13 @@ class Angelfish(Fish):
     '''
 
     def cry(self) -> None:
-        '''
-        Returns:
-             None
-
-        Displays "*blop blop*".
-        '''
         print("*blop blop*")
 
     def sleep(self) -> None:
-        '''
-        Returns:
-             None
-
-        Displays "<name> hovers asleep in the water...".
-        '''
         print(f"{self.name} hovers asleep in the water...")
 
     def eat(self) -> None:
-        '''
-        Returns:
-             None
-
-        Displays "<name> slurps up food...".
-        '''
         print(f"{self.name} slurps up food...")
 
     def swim(self) -> None:
-        '''
-        Returns:
-             None
-
-        Displays "<name> floats around...".
-        '''
         print(f"{self.name} floats around...")

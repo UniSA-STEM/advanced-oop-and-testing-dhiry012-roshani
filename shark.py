@@ -117,37 +117,13 @@ class Shark(Fish):
     '''
 
     def cry(self) -> None:
-        '''
-        Returns:
-             None
-
-        Displays "*da da...da da...dadadadadada*".
-        '''
         print("*da da...da da...dadadadadada*")
 
     def sleep(self) -> None:
-        '''
-        Returns:
-             None
-
-        Displays "<name> keeps moving...or dies...".
-        '''
         print(f"{self.name} keeps moving...or dies...")
 
     def eat(self) -> None:
-        '''
-        Returns:
-             None
-
-        Displays "<name> attacks food mercilessly...".
-        '''
         print(f"{self.name} attacks food mercilessly...")
 
     def swim(self) -> None:
-        '''
-        Returns:
-             None
-
-        Displays "<name> cruises through the water..."
-        '''
         print(f"{self.name} cruises through the water...")
