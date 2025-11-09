@@ -99,7 +99,7 @@ class Hippopotamus(Mammal):
         enclosure : get_enclosure()
     '''
 
-    def __init__(self, name:str, age:str) -> None:
+    def __init__(self, name:str, age:int) -> None:
         super().__init__(name, age)
         self._Animal__environment_types.append("tropical")
         self._Animal__environment_types.append("grassland")
