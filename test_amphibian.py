@@ -13,7 +13,7 @@ from amphibian import Amphibian
 # Create a mock class with which to test the non-abstract Amphibian class methods.
 # Note: I didn't test any of the methods defined in the Animal class, as these get tested thoroughly in the many
 # species and Animal testing modules.
-class MockClass(Amphibian):
+class MockAmphibian(Amphibian):
     def cry(self):
         pass
 
@@ -33,7 +33,7 @@ class MockClass(Amphibian):
 class TestAmphibian:
     @pytest.fixture
     def amphibian(self):
-        return MockClass("Toad", 3)
+        return MockAmphibian("Toad", 3)
 
     def test_raises(self, amphibian):
         with pytest.raises(TypeError):

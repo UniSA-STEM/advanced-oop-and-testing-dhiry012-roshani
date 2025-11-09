@@ -365,7 +365,7 @@ class Animal(ABC):
             print("Invalid date.")
         elif severity not in ["high", "med", "low"]:
             print("Invalid severity. Must be either high, med, or low.")
-        elif type(notes) != str:
+        elif type(notes) != str and notes != "":
             print("Invalid notes.")
         elif type(treatment) != bool:
             print("Invalid treatment indication. Must be a boolean value.")
@@ -378,6 +378,10 @@ class Animal(ABC):
             category_record.append([description, date_reported, severity, notes])
             animal_record.update({category: category_record})
             Animal.__notes.update({f"{self.__species}-{self.__id}": animal_record})
+
+            # Update treatment attribute.
+            if treatment:
+                self.under_treatment = treatment
 
             # Print confirmation message
             print("Note successfully added.\n")
