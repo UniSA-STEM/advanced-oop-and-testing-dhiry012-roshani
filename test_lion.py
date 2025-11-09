@@ -16,27 +16,32 @@ class TestLion:
     def lion(self):
         return Lion("Leo", 3)
 
+    # Test that the cry method prints correctly.
     def test_cry(self, lion, capsys):
         lion.cry()
         cry = capsys.readouterr()
         assert cry.out.strip() == "*Roaarrrr!!*"
-        # Code inspired by:
+        # Code (use of capsys) inspired by:
         # Pytest. (2015). How to capture stdout/stderr output. https://docs.pytest.org/en/stable/how-to/capture-stdout-stderr.html
 
+    # Test that the sleep method prints correctly.
     def test_sleep(self, lion, capsys):
         lion.sleep()
         sleep = capsys.readouterr()
         assert sleep.out.strip() == "Leo lies down to sleep..."
 
+    # Test that the eat method prints correctly.
     def test_eat(self, lion, capsys):
         lion.eat()
         eat = capsys.readouterr()
         assert eat.out.strip() == "Leo munches on meat"
 
+    # Test that the move method prints correctly.
     def test_move(self, lion, capsys):
         lion.move()
         move = capsys.readouterr()
         assert move.out.strip() == "Leo prowls..."
 
+    # Test that the environment types list is correct.
     def test_environment_types(self, lion):
         assert lion.environment_types == ["grassland"]

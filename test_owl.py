@@ -16,30 +16,36 @@ class TestOwl:
     def owl(self):
         return Owl("Wol", 1)
 
+    # Test that the cry method prints correctly.
     def test_cry(self, owl, capsys):
         owl.cry()
         cry = capsys.readouterr()
         assert cry.out.strip() == "*hoot hoot*"
 
+    # Test that the sleep method prints correctly.
     def test_sleep(self, owl, capsys):
         owl.sleep()
         sleep = capsys.readouterr()
         assert sleep.out.strip() == "Wol sleeps in the daytime..."
 
+    # Test that the eat method prints correctly.
     def test_eat(self, owl, capsys):
         owl.eat()
         eat = capsys.readouterr()
         assert eat.out.strip() == "Wol tears into food..."
 
+    # Test that the move method prints correctly.
     def test_move(self, owl, capsys):
         owl.move()
         move = capsys.readouterr()
         assert move.out.strip() == "Wol hops and struts along..."
 
+    # Test that the fly method prints correctly.
     def test_fly(self, owl, capsys):
         owl.fly()
         fly = capsys.readouterr()
         assert fly.out.strip() == "Wol glides silently..."
 
+    # Test that the environment types list is correct.
     def test_environment_types(self, owl):
         assert owl.environment_types == ["forest"]

@@ -16,25 +16,30 @@ class TestAngelfish:
     def angelfish(self):
         return Angelfish("Willow", 2, saltwater=True)
 
+    # Test that the cry method prints correctly.
     def test_cry(self, angelfish, capsys):
         angelfish.cry()
         cry = capsys.readouterr()
         assert cry.out.strip() == "*blop blop*"
 
+    # Test that the sleep method prints correctly.
     def test_sleep(self, angelfish, capsys):
         angelfish.sleep()
         sleep = capsys.readouterr()
         assert sleep.out.strip() == "Willow hovers asleep in the water..."
 
+    # Test that the eat method prints correctly.
     def test_eat(self, angelfish, capsys):
         angelfish.eat()
         eat = capsys.readouterr()
         assert eat.out.strip() == "Willow slurps up food..."
 
+    # Test that the swim method prints correctly.
     def test_swim(self, angelfish, capsys):
         angelfish.swim()
         swim = capsys.readouterr()
         assert swim.out.strip() == "Willow floats around..."
 
+    # Test that the environment types list is correct.
     def test_environment_types(self, angelfish):
         assert angelfish.environment_types == ["saltwater aquatic"]
