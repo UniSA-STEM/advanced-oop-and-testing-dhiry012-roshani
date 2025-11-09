@@ -35,3 +35,6 @@ class TestElephant:
         elephant.move()
         move = capsys.readouterr()
         assert move.out.strip() == "Ellie stomps around..."
+
+    def test_environment_types(self, elephant):
+        assert elephant.environment_types == ["grassland", "tropical", "forest"]

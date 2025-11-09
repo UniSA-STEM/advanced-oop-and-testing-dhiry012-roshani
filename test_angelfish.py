@@ -14,7 +14,7 @@ from angelfish import Angelfish
 class TestAngelfish:
     @pytest.fixture
     def angelfish(self):
-        return Angelfish("Willow", 2)
+        return Angelfish("Willow", 2, saltwater=True)
 
     def test_cry(self, angelfish, capsys):
         angelfish.cry()
@@ -35,3 +35,6 @@ class TestAngelfish:
         angelfish.swim()
         swim = capsys.readouterr()
         assert swim.out.strip() == "Willow floats around..."
+
+    def test_environment_types(self, angelfish):
+        assert angelfish.environment_types == ["saltwater aquatic"]

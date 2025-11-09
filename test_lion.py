@@ -37,3 +37,6 @@ class TestLion:
         lion.move()
         move = capsys.readouterr()
         assert move.out.strip() == "Leo prowls..."
+
+    def test_environment_types(self, lion):
+        assert lion.environment_types == ["grassland"]
