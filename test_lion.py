@@ -26,14 +26,14 @@ class TestLion:
     def test_sleep(self, lion, capsys):
         lion.sleep()
         sleep = capsys.readouterr()
-        assert sleep.out.strip() == f"{lion.name} lies down to sleep..."
+        assert sleep.out.strip() == "Leo lies down to sleep..."
 
     def test_eat(self, lion, capsys):
         lion.eat()
         eat = capsys.readouterr()
-        assert eat.out.strip() == f"{lion.name} munches on meat"
+        assert eat.out.strip() == "Leo munches on meat"
 
     def test_move(self, lion, capsys):
         lion.move()
         move = capsys.readouterr()
-        assert move.out.strip() == f"{lion.name} prowls..."
+        assert move.out.strip() == "Leo prowls..."
