@@ -29,7 +29,41 @@ class Enclosure:
         species : A string indicating which species of animal is housed in this enclosure.
 
     Methods:
-        ...
+        get_valid_environmental_types() : Returns a list of the valid environmental types for an enclosure.
+
+        get_id() : Returns the enclosure's id number.
+
+        get_size() : Returns the enclosure's area (meters squared).
+
+        set_size(area) : Updates the enclosure's size.
+
+        get_environmental_type() : Returns the enclosure's environmental type.
+
+        set_environmental_type : Changes the enclosure's environmental type.
+
+        get_cleanliness_level() : Returns the cleanliness level of the enclosure (0-10).
+
+        get_staff() : Returns a dictionary of the staff assigned to the enclosure.
+
+        get_animals() : Returns a list of the animals currently in the enclosure.
+
+        get_species() : Returns the species of animal currently being housed in the enclosure.
+
+        add_animal(animal) : Adds an animal to the enclosure.
+
+        remove_animal(animal) : Removes an animal from the enclosure.
+
+        add_staff(staff) : Assigned a staff member to the enclosure.
+
+        remove_staff(staff) : Removes a staff member from the enclosure.
+
+        reduce_cleanliness(amount) : Reduces the enclosure's cleanliness level.
+
+        clean(staff) : A Zookeeper cleans the enclosure.
+
+        __eq__(other) : Determines if the enclosure is equal to another.
+
+        __str__() : Returns a string of the enclosure's details.
 
     Properties:
         id : get_id()
@@ -413,6 +447,8 @@ class Enclosure:
 
         <staff name> (ID-<staff id>, <role>)
         '''
+        size_statement = f"{self.size}m\u00b2" if self.size is not None else "None"
+
         animal_statement = ""
         if self.animals == []:
             animal_statement += "None"
@@ -427,5 +463,5 @@ class Enclosure:
             for staff in self.staff:
                 staff_statement += f"\n{staff.name} (ID-{staff.id}, {staff.role}"
 
-        return (f"---ENCLOSURE REPORT---\nID: {self.id}\nType: {self.environmental_type}\nSize: {self.size}m\u00b2\n"
+        return (f"---ENCLOSURE REPORT---\nID: {self.id}\nType: {self.environmental_type}\nSize: {size_statement}\n"
                 f"Cleanliness level: {self.cleanliness_level}/10\nAnimals: {animal_statement}\nStaff:{staff_statement}")
