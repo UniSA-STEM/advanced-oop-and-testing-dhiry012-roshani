@@ -12,7 +12,7 @@ from bird import Bird
 
 class Owl(Bird):
     '''
-    An abstract class which represents an owl and inherits from the Bird class.
+    A class which represents an owl and inherits from the Bird class.
 
     Parameters:
         name : A string representing the name of the animal.
@@ -28,7 +28,7 @@ class Owl(Bird):
         environment_types : A list of strings indicating which environments the animal can live in. Set to ["forest"].
         enclosure : Shows what zoo enclosure, if any, the animal is currently in (either None or an object of Enclosure class).
 
-    Class Methods:
+    Methods:
         set_name(name) : Changes the animal's name.
 
         set_age(age) : Changes the animal's age.
@@ -69,11 +69,6 @@ class Owl(Bird):
 
         remove_from_enclosure(enclosure) : Updates the animal's enclosure attribute.
 
-        __eq__(other) : Determines if the object and another specified object are equal.
-
-        __str__() : Displays the animal's details.
-
-    Abstract Methods:
         cry() : Must display a message showing what sound the animal makes.
 
         sleep() : Must display a message about how the animal sleeps.
@@ -83,6 +78,10 @@ class Owl(Bird):
         move() : Displays a statement about how the animal moves.
 
         fly() : Displays a statement about how the animal flies.
+
+        __eq__(other) : Determines if the object and another specified object are equal.
+
+        __str__() : Displays the animal's details.
 
     Properties:
         id : get_id()

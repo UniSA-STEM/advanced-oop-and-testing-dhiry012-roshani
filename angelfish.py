@@ -32,7 +32,7 @@ class Angelfish(Fish):
         freshwater : A boolean value indicating if the fish can live in freshwater.
         saltwater : A boolean value indicating if the fish can live in saltwater.
 
-    Class Methods:
+    Methods:
         set_name(name) : Changes the animal's name.
 
         set_age(age) : Changes the animal's age.
@@ -81,11 +81,6 @@ class Angelfish(Fish):
 
         remove_from_enclosure(enclosure) : Updates the animal's enclosure attribute.
 
-        __eq__(other) : Determines if the object and another specified object are equal.
-
-        __str__() : Displays the animal's details.
-
-    Abstract Methods:
         cry() : Must display a message showing what sound the animal makes.
 
         sleep() : Must display a message about how the animal sleeps.
@@ -93,6 +88,10 @@ class Angelfish(Fish):
         eat() : Must display a message about how/what the animal eats.
 
         swim() : Displays a statement about how the animal swims.
+
+        __eq__(other) : Determines if the object and another specified object are equal.
+
+        __str__() : Displays the animal's details.
 
     Properties:
         id : get_id()
