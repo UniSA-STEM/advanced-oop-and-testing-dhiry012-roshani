@@ -11,13 +11,63 @@ from staff import Staff
 
 
 class Biologist(Staff):
-    def research(self, enclosure):
+    '''
+    A class which represents a Biologist and inherits from the Staff class.
+
+    Parameters:
+        name : A string representing the staff member's name.
+
+    Attributes:
+        id : An integer unique to this staff object (no other staff objects will have the same number).
+        name : A string of the staff member's name.
+        enclosures : A list of the enclosures the staff members is assigned to.
+        role : The staff member's role/job (class name).
+
+    Methods:
+        get_id() : Returns the staff member's id number.
+
+        get_name() : Returns the staff member's name.
+
+        set_name(name) : Updates the staff's name.
+
+        get_enclosures() : Returns a list of the enclosures the staff member is assigned to.
+
+        get_role() : Returns the staff member's role.
+
+        add_to_enclosure(enclosure) : Adds enclosure to staff's enclosure list.
+
+        remove_from_enclosure(enclosure) : Removes enclosure from staff's enclosure list.
+
+        research(enclosure) : Conducts research on the animals in the enclosure.
+
+        __eq__(other) : Determines if the staff is equal to another.
+
+        __str__() : Returns a string of the staff's details.
+
+    Properties:
+        id : get_id()
+        name : get_name(), set_name()
+        enclosures : get_enclosures()
+        role : get_role()
+    '''
+
+    def research(self, enclosure) -> None:
+        '''
+        Parameters:
+             enclosure: An Enclosure object in which to research the animals.
+
+        Returns:
+            None
+
+        Conducts research on the animals in the enclosure. This displays each animal's details.
+        If there are no animals in the enclosure, displays "Enclosure is empty".
+        If the Biologist is not assigned the enclosure, displays error message.
+        If the enclosure is invalid, displays error message.
+        '''
         try:
-            if self.enclosures == []:
-                print(f"{self.name} is not assigned to any enclosures")
-            elif enclosure.id == "":
-                pass  # Ensure error is thrown if enclosure not valid object.
-            elif enclosure not in self.enclosures:
+            check = enclosure.cleanliness_level  # Throw an Exception if not Enclosure object.
+
+            if enclosure not in self.enclosures:
                 print(f"{self.name} is not assigned that that enclosure.")
             else:
                 print(f"-----ENCLOSURE {enclosure.id} RESEARCH-----")

@@ -11,13 +11,62 @@ from staff import Staff
 
 
 class Veterinarian(Staff):
-    def health_check(self, enclosure):
+    '''
+    A class which represents a Veterinarian and inherits from the Staff class.
+
+    Parameters:
+        name : A string representing the staff member's name.
+
+    Attributes:
+        id : An integer unique to this staff object (no other staff objects will have the same number).
+        name : A string of the staff member's name.
+        enclosures : A list of the enclosures the staff members is assigned to.
+        role : The staff member's role/job (class name).
+
+    Methods:
+        get_id() : Returns the staff member's id number.
+
+        get_name() : Returns the staff member's name.
+
+        set_name(name) : Updates the staff's name.
+
+        get_enclosures() : Returns a list of the enclosures the staff member is assigned to.
+
+        get_role() : Returns the staff member's role.
+
+        add_to_enclosure(enclosure) : Adds enclosure to staff's enclosure list.
+
+        remove_from_enclosure(enclosure) : Removes enclosure from staff's enclosure list.
+
+        health_check(enclosure) : Conducts a health check on the animals in an enclosure.
+
+        __eq__(other) : Determines if the staff is equal to another.
+
+        __str__() : Returns a string of the staff's details.
+
+    Properties:
+        id : get_id()
+        name : get_name(), set_name()
+        enclosures : get_enclosures()
+        role : get_role()
+    '''
+    def health_check(self, enclosure) -> None:
+        '''
+         Paremeters:
+            enclosure: An Enclosure class on which to conduct a health check.
+
+        Returns:
+            None
+
+        Conducts a health check on the animals in an enclosure. This displays a report for each animal.
+        If there are no animals in the enclosure, displays "Enclosure is empty".
+        If the Veterinarian is not assigned the enclosure, displays error message.
+        If the enclosure is invalid, displays error message.
+        '''
         try:
-            if self.enclosures == []:
-                print(f"{self.name} is not assigned to any enclosures")
-            elif enclosure.id == "":
-                pass  # Ensure error is thrown if enclosure not valid object.
-            elif enclosure not in self.enclosures:
+            check = enclosure.cleanliness_level  # Throw an Exception if not Enclosure object.
+
+            if enclosure not in self.enclosures:
                 print(f"{self.name} is not assigned that that enclosure.")
             else:
                 print(f"-----ENCLOSURE {enclosure.id} HEALTH CHECK-----")

@@ -11,32 +11,94 @@ from staff import Staff
 
 
 class Zookeeper(Staff):
-    def feed_animals(self, enclosure):
+    '''
+    A class which represents a Zookeeper and inherits from the Staff class.
+
+    Parameters:
+        name : A string representing the staff member's name.
+
+    Attributes:
+        id : An integer unique to this staff object (no other staff objects will have the same number).
+        name : A string of the staff member's name.
+        enclosures : A list of the enclosures the staff members is assigned to.
+        role : The staff member's role/job (class name).
+
+    Methods:
+        get_id() : Returns the staff member's id number.
+
+        get_name() : Returns the staff member's name.
+
+        set_name(name) : Updates the staff's name.
+
+        get_enclosures() : Returns a list of the enclosures the staff member is assigned to.
+
+        get_role() : Returns the staff member's role.
+
+        add_to_enclosure(enclosure) : Adds enclosure to staff's enclosure list.
+
+        remove_from_enclosure(enclosure) : Removes enclosure from staff's enclosure list.
+
+        feed_animals(enclosure) : Feed the animals in the specified enclosure.
+
+        clean_enclosure(enclosure) : Cleans an enclosure, increasing the cleanliness level.
+
+        __eq__(other) : Determines if the staff is equal to another.
+
+        __str__() : Returns a string of the staff's details.
+
+    Properties:
+        id : get_id()
+        name : get_name(), set_name()
+        enclosures : get_enclosures()
+        role : get_role()
+    '''
+
+    def feed_animals(self, enclosure) -> None:
+        '''
+        Parameters:
+             enclosure : An Enclosure object in which to feed the animals.
+
+        Returns:
+            None
+
+        Feed the animals in the specified enclosure. This displays each animal's eat method and reduces the enclosure's
+        cleanliness by 0.5 for each animal.
+        If the Zookeeper is not assigned to the enclosure or there are no animals in the enclosure, displays error
+        message.
+        If the enclosure is not valid, displays error message.
+        '''
         try:
-            if self.enclosures == []:
-                print(f"{self.name} is not assigned to any enclosures")
-            elif enclosure.id == "":
-                pass  # Ensure error is thrown if enclosure not valid object.
-            elif enclosure not in self.enclosures:
+            check = enclosure.cleanliness_level  # Throw an Exception if not Enclosure object.
+
+            if enclosure not in self.enclosures:
                 print(f"{self.name} is not assigned that that enclosure.")
+            elif enclosure.animals == []:
+                print("Enclosure is empty.")
             else:
-                if enclosure.animals == []:
-                    print("Enclosure is empty.")
-                else:
-                    for animal in enclosure.animals:
-                        animal.eat()
-                        enclosure.reduce_cleanliness(0.5)
+                for animal in enclosure.animals:
+                    animal.eat()
+                    enclosure.reduce_cleanliness(0.5)
         except AttributeError:
             print("Invalid enclosure.")
 
-    def clean_enclosure(self, enclosure):
+    def clean_enclosure(self, enclosure) -> None:
+        '''
+        Parameters:
+             enclosure : An Enclosure object to clean.
+
+        Returns:
+            None
+
+        Cleans an enclosure, increasing the cleanliness level.
+        If the Zookeeper is not assigned to the enclosure, displays error message.
+        If the enclosure is not valid, displays error message.
+        '''
         try:
-            if self.enclosures == []:
-                print(f"{self.name} is not assigned to any enclosures.")
-            elif enclosure in self.enclosures:
-                enclosure.clean(self)
+            check = enclosure.cleanliness_level  # Throw an Exception if not Enclosure object.
+
+            if enclosure not in self.enclosures:
+                print(f"{self.name} is not assigned that that enclosure.")
             else:
-                check = enclosure.id
-                print(f"{self.name} is not assigned to this enclosure.")
+                enclosure.clean(self)
         except AttributeError:
             print("Invalid enclosure.")
