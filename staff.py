@@ -34,6 +34,8 @@ class Staff(ABC):
 
         get_role() : Returns the staff member's role.
 
+        get_duties() : Returns a list of the staff's duties.
+
         add_to_enclosure(enclosure) : Adds enclosure to staff's enclosure list.
 
         remove_from_enclosure(enclosure) : Removes enclosure from staff's enclosure list.
@@ -47,9 +49,14 @@ class Staff(ABC):
 
     Properties:
         id : get_id()
+
         name : get_name(), set_name()
+
         enclosures : get_enclosures()
+
         role : get_role()
+
+        duties : get_duties()
     '''
 
     # Global attribute.
@@ -60,6 +67,7 @@ class Staff(ABC):
         self.__name = ""
         self.__enclosures = []
         self.__role = self.__class__.__name__
+        self._duties = ["general"]
 
         # Validate name.
         self.set_name(name)
@@ -129,6 +137,9 @@ class Staff(ABC):
         '''
         return self.__role
 
+    def get_duties(self) -> list:
+        return self._duties
+
     def add_to_enclosure(self, enclosure) -> None:
         '''
         Parameters:
@@ -145,10 +156,16 @@ class Staff(ABC):
         If the enclosure is invalid, displays error message.
         '''
         try:
-            if self not in enclosure.staff.values():
-                print("Staff is not assigned to enclosure. Must assign staff using enclosure object.")
-            else:
+            # Get list of all staff assigned to enclosure.
+            staff_list = []
+            for duty_list in enclosure.staff.values():
+                for staff in duty_list:
+                    staff_list.append(staff)
+
+            if self in staff_list:
                 self.__enclosures.append(enclosure)
+            else:
+                print("Staff is not assigned to enclosure. Must assign staff using enclosure object.")
         except AttributeError:
             print("Invalid enclosure.")
 
@@ -168,12 +185,12 @@ class Staff(ABC):
         If the enclosure is invalid, displays error message.
         '''
         try:
-            check = enclosure.cleanliness_level  # Throw an Exception if not Enclosure object.
+            check = enclosure.cleanliness_level  # Throw exception if not Enclosure object
 
-            if enclosure not in self.enclosures:
-                print("Staff is not assigned to this enclosure.")
-            else:
+            if enclosure in self.enclosures:
                 self.__enclosures.remove(enclosure)
+            else:
+                print("Staff is not assigned to enclosure. Must assign staff using enclosure object.")
         except AttributeError:
             print("Invalid enclosure.")
 
@@ -181,6 +198,7 @@ class Staff(ABC):
     name = property(get_name, set_name)
     enclosures = property(get_enclosures)
     role = property(get_role)
+    duties = property(get_duties)
 
     def __eq__(self, other:Staff) -> bool:
         '''

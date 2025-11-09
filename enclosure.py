@@ -23,8 +23,7 @@ class Enclosure:
         environmental_type : A string representing the environmental type of the enclosure.
         cleanliness_level : A number from 0 to 10 indicating how clean the enclosure is.
         MAX_CLEANLINESS_LEVEL : The max cleanliness level. Set to 10.
-        staff : A dictionary of which staff members are allocated to this enclosure. There is room for two Zookeepers,
-            two veterinarians, and one biologist.
+        staff : A dictionary of which staff members are allocated to this enclosure and what duties they are assigned.
         animals : A list of the animals in the enclosure.
         species : A string indicating which species of animal is housed in this enclosure.
 
@@ -53,9 +52,9 @@ class Enclosure:
 
         remove_animal(animal) : Removes an animal from the enclosure.
 
-        add_staff(staff) : Assigned a staff member to the enclosure.
+        add_staff(staff, duty) : Assigned a staff member to the enclosure.
 
-        remove_staff(staff) : Removes a staff member from the enclosure.
+        remove_staff(staff, duty) : Removes a staff member from the enclosure.
 
         reduce_cleanliness(amount) : Reduces the enclosure's cleanliness level.
 
@@ -87,8 +86,7 @@ class Enclosure:
         self.__environmental_type = None
         self.__cleanliness_level = 10
         self.__MAX_CLEANLINESS_LEVEL = 10
-        self.__staff = {"Zookeeper-1": None, "Zookeeper-2": None, "Veterinarian-1": None, "Veterinarian-2": None,
-                        "Biologist": None}
+        self.__staff = {"feeding": [], "cleaning": [], "health": [], "research": [], "general": []}
         self.__animals = []
         self.__species = None
 
@@ -121,8 +119,8 @@ class Enclosure:
 
         A private method used when the object is created, which returns the next id number.
         '''
-        temp = self.__next_id
-        self.__next_id += 1
+        temp = Enclosure.__next_id
+        Enclosure.__next_id += 1
         return temp
 
     def get_size(self) -> int|float|None:
@@ -194,8 +192,7 @@ class Enclosure:
         Returns:
             dictionary
 
-        Returns a dictionary of the staff assigned to the enclosure.
-        If the value if None, no staff has been assigned to that specific role.
+        Returns a dictionary of the staff assigned to the enclosure by duties.
         '''
         return self.__staff
 
@@ -279,66 +276,64 @@ class Enclosure:
         except AttributeError:
             print("Invalid animal.")
 
-    def add_staff(self, staff) -> None:
+    def add_staff(self, staff, duty="general") -> None:
         '''
         Parameters:
              staff : A Staff class object to assign to the enclosure.
+             duty : A string defining what duty to assign the staff. Defaults to 'general'.
 
         Returns:
             None
 
-        Adds a staff member to the enclosure based on their role.
-        If the staff member is already assigned to the enclosure or there are no available roles for the staff member,
-        displays error message.
+        Adds a staff member to the enclosure based on their role. If successfully added, prints a confirmation message.
+        If the duty provided is invalid, the staff member is already assigned this duty, or the duty is not one of the
+        staff's responsibilities, displays error message.
         If the provided staff is invalid, displays error message.
-        '''
-        try:
-            if staff in self.__staff.values():
-                print("Staff is already assigned to this enclosure.")
-            else:
-                # Get first available role for this specific staff.
-                available_role = None
-                for role in self.__staff.keys():
-                    if staff.role in role and self.__staff.get(role) is None:
-                        available_role = role
-                        break
-
-                if available_role is None:
-                    print("Staff assignment is full for this enclosure.")
-                else:
-                    self.__staff.update({available_role: staff})  # Add staff to enclosure.
-                    staff.add_to_enclosure(self)                  # Add enclosure to staff.
-                    print(f"{staff.name} assigned to enclosure.")
-        except AttributeError:
-            print("Invalid staff.")
-
-    def remove_staff(self, staff) -> None:
-        '''
-        Parameters:
-             staff : A Staff class object to remove from the enclosure.
-
-        Returns:
-            None
-
-        Removes a staff member from the enclosure.
-        If the staff member is not assigned to the enclosure, displays error message.
-        If the provided staff is invalid, displays error messageIf the
         '''
         try:
             check = staff.role  # Throw an Exception if not Staff object.
 
-            if staff not in self.__staff.values():
-                print("Staff is not assigned to this enclosure.")
+            if duty not in ["feeding", "cleaning", "health", "research", "general"]:
+                print("Invalid duty. Must be 'feeding', 'cleaning', 'health', 'research', or 'general'.")
+            elif staff in self.staff.get(duty):
+                print(f"{staff.name} is already assigned this duty.")
+            elif duty not in staff.duties:
+                print(f"{duty.capitalize()} is not one of {staff.name}'s duties.")
             else:
-                staff.remove_from_enclosure(self)  # Remove enclosure from staff.
+                duty_list = self.staff.get(duty)        # Add staff to enclosure.
+                duty_list.append(staff)
+                self.__staff.update({duty: duty_list})
+                staff.add_to_enclosure(self)            # Add enclosure to staff.
+                print(f"{staff.name} assigned to {duty} duties in enclosure {self.id}.")
+        except AttributeError:
+            print("Invalid staff.")
 
-                # Remove staff from enclosure.
-                target_key = None
-                for key in self.staff.keys():
-                    if self.staff.get(key) == staff:
-                        target_key = key
-                self.__staff.update({target_key: None})
-                print(f"{staff.name} removed from enclosure.")
+    def remove_staff(self, staff, duty="general") -> None:
+        '''
+        Parameters:
+             staff : A Staff class object to remove from the enclosure.
+             duty : A string defining what duty from which to remove the staff. Defaults to 'general'.
+
+        Returns:
+            None
+
+        Removes a staff member from specific duties.
+        If the staff member is not assigned to that duty or the duty provided is invalid, displays error message.
+        If the provided staff is invalid, displays error message.
+        '''
+        try:
+            check = staff.role  # Throw an Exception if not Staff object.
+
+            if duty not in ["feeding", "cleaning", "health", "research", "general"]:
+                print("Invalid duty. Must be 'feeding', 'cleaning', 'health', 'research', or 'general'.")
+            elif staff not in self.staff.get(duty):
+                print(f"{staff.name} has not been assigned this duty.")
+            else:
+                duty_list = self.staff.get(duty)
+                duty_list.remove(staff)
+                self.__staff.update({duty: duty_list})
+                staff.remove_from_enclosure(self)
+                print(f"{staff.name} removed from {duty} duties in enclosure {self.id}.")
         except AttributeError:
             print("Invalid staff.")
 
@@ -454,14 +449,18 @@ class Enclosure:
             animal_statement += "None"
         else:
             for animal in self.animals:
-                animal_statement += f"\n{animal.name} (ID-{animal.id}, species {animal.species})"
+                animal_statement += f"\n> {animal.name} (ID-{animal.id}, species {animal.species})"
 
         staff_statement = ""
-        if self.staff == []:
-            staff_statement += "None"
-        else:
-            for staff in self.staff:
-                staff_statement += f"\n{staff.name} (ID-{staff.id}, {staff.role}"
+        for duty in self.staff.keys():
+            staff_statement += f"\n> {duty.capitalize()}: "
+            if self.staff.get(duty) == []:
+                staff_statement += "None"
+            for staff in self.staff.get(duty):
+                staff_statement += f"{staff.name} (ID-{staff.id}), "
 
-        return (f"---ENCLOSURE REPORT---\nID: {self.id}\nType: {self.environmental_type}\nSize: {size_statement}\n"
-                f"Cleanliness level: {self.cleanliness_level}/10\nAnimals: {animal_statement}\nStaff:{staff_statement}")
+            staff_statement = staff_statement.strip(", ")
+
+        return (f"\n---ENCLOSURE REPORT---\nID: {self.id}\nType: {self.environmental_type}\nSize: {size_statement}\n"
+                f"Cleanliness level: {self.cleanliness_level}/10\n\nAnimals: {animal_statement}\n\nStaff:{staff_statement}"
+                f"\n--------------------")

@@ -34,6 +34,8 @@ class Biologist(Staff):
 
         get_role() : Returns the staff member's role.
 
+        get_duties() : Returns a list of the staff's duties.
+
         add_to_enclosure(enclosure) : Adds enclosure to staff's enclosure list.
 
         remove_from_enclosure(enclosure) : Removes enclosure from staff's enclosure list.
@@ -46,10 +48,19 @@ class Biologist(Staff):
 
     Properties:
         id : get_id()
+
         name : get_name(), set_name()
+
         enclosures : get_enclosures()
+
         role : get_role()
+
+        duties : get_duties()
     '''
+
+    def __init__(self, name:str) -> None:
+        super().__init__(name)
+        self._duties.append("research")
 
     def research(self, enclosure) -> None:
         '''
