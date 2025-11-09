@@ -9,11 +9,45 @@ This is my own work as defined by the University's Academic Integrity Policy.
 
 
 class Enclosure:
+    '''
+    A class which represents a zoo enclosure.
+
+    Parameters:
+        area : An integer or float of the area (meters squared) of the enclosure.
+        environmental_type : A string indicating the type of enclosure (must be one of "tropical", "grassland", "desert",
+            "forest", "freshwater aquatic", "saltwater aquatic", "mountainous", "wetland", or "arctic").
+
+    Attributes:
+        id : An integer unique to this enclosure object (no other enclosure objects will have the same number).
+        size : An integer or float representing the area (meters squared) of the enclosure.
+        environmental_type : A string representing the environmental type of the enclosure.
+        cleanliness_level : A number from 0 to 10 indicating how clean the enclosure is.
+        MAX_CLEANLINESS_LEVEL : The max cleanliness level. Set to 10.
+        staff : A dictionary of which staff members are allocated to this enclosure. There is room for two Zookeepers,
+            two veterinarians, and one biologist.
+        animals : A list of the animals in the enclosure.
+        species : A string indicating which species of animal is housed in this enclosure.
+
+    Methods:
+        ...
+
+    Properties:
+        id : get_id()
+        size : get_size(), set_size()
+        environmental_type : get_environmental_type(), set_environmental_type()
+        cleanliness_level : get_cleanliness_level()
+        staff : get_staff()
+        animals : get_animals()
+        species : get_species()
+        valid_environmental_types : get_valid_environmental_types()
+    '''
+
+    # Global attributes.
     __next_id = 1
     __valid_environmental_types = ["tropical", "grassland", "desert", "forest", "freshwater aquatic", "saltwater aquatic",
                                    "mountainous", "wetland", "arctic"]
 
-    def __init__(self, area, environmental_type):
+    def __init__(self, area:int|float, environmental_type:str) -> None:
         self.__id = self.__create_id()
         self.__size = None
         self.__environmental_type = None
@@ -24,69 +58,146 @@ class Enclosure:
         self.__animals = []
         self.__species = None
 
+        # Validate.
         self.set_size(area)
         self.set_environmental_type(environmental_type)
 
-    def get_valid_environmental_types(self):
+    def get_valid_environmental_types(self) -> list:
+        '''
+        Returns:
+             list
+
+        Returns a list of the valid environmental types for an enclosure.
+        '''
         return self.__valid_environmental_types
 
-    def get_id(self):
-        '''Returns an integer of the enclosure's id number.'''
+    def get_id(self) -> int:
+        '''
+        Returns:
+            integer
+
+        Returns the enclosure's id number.
+        '''
         return self.__id
 
-    def __create_id(self):
-        '''Returns an integer for the object's id number.'''
+    def __create_id(self) -> int:
+        '''
+        Returns:
+            integer
+
+        A private method used when the object is created, which returns the next id number.
+        '''
         temp = self.__next_id
         self.__next_id += 1
         return temp
 
-    def get_size(self):
-        '''Returns an integer or float of the enclosures area.'''
+    def get_size(self) -> int|float|None:
+        '''
+        Returns:
+            integer, float, or None
+
+        Returns the enclosure's area (meters squared).
+        If no area is specified, will return None.
+        '''
         return self.__size
 
-    def set_size(self, area):
+    def set_size(self, area:int|float) -> None:
         '''
-        Sets the size of the enclosure (area). Takes one parameter. If the given argument is an integer or float,
-        sets the size of the enclosure to the argument.
-        Else, prints an error message.
+        Parameters:
+            area : An integer or float of the enclosure's area (meters squared).
+
+        Returns:
+            None
+
+        Updates the size of the enclosure, if the provided value is valid.
+        If not valid, displays an error message.
         '''
         if type(area) == int or type(area) == float:
             self.__size = area
         else:
             print("Invalid area for enclosure.")
 
-    def get_environmental_type(self):
-        '''Returns a string of the enclosure's environmental type.'''
+    def get_environmental_type(self) -> str|None:
+        '''
+        Returns:
+            string or None
+
+        Returns the enclosure's environmental type.
+        If no environmental type has been specified, will return None.
+        '''
         return self.__environmental_type
 
-    def set_environmental_type(self, environment):
+    def set_environmental_type(self, environment:str) -> None:
         '''
-        Sets the environment type for the enclosure, if the given argument is in the list of valid environment types.
-        Else, prints an error message.
+        Parameters:
+            environment : A string describing the environment of the enclosure.
+
+        Returns:
+            None
+
+        Updates the environment type of the enclosure, if a valid type is provided.
+        If there are animals in the enclosure, displays error message.
+        If the environment is invalid, displays error message.
         '''
-        if environment in self.__valid_environmental_types:
+        if self.animals != []:
+            print("There are animals in this enclosure. Cannot change environment.")
+        elif environment in self.__valid_environmental_types:
             self.__environmental_type = environment
         else:
             print("Invalid environmental type.")
 
-    def get_cleanliness_level(self):
-        '''Returns an integer of the enclosure's current cleanliness level (0-10).'''
+    def get_cleanliness_level(self) -> int|float:
+        '''
+        Returns:
+            integer or float
+
+        Returns the cleanliness level of the enclosure (0-10).
+        '''
         return self.__cleanliness_level
 
-    def get_staff(self):
-        '''Returns a list of the staff members assigned to the enclosure.'''
+    def get_staff(self) -> dict:
+        '''
+        Returns:
+            dictionary
+
+        Returns a dictionary of the staff assigned to the enclosure.
+        If the value if None, no staff has been assigned to that specific role.
+        '''
         return self.__staff
 
-    def get_animals(self):
-        '''Returns a list of the animals currently in the enclosure.'''
+    def get_animals(self) -> list:
+        '''
+        Returns:
+            list
+
+        Returns the animals currently in the enclosure.
+        '''
         return self.__animals
 
-    def get_species(self):
-        '''Returns a string of what species of animal is currently being housed in the enclosure'''
+    def get_species(self) -> str|None:
+        '''
+        Returns:
+            string or None
+
+        Returns the species of animal currently being housed in the enclosure.
+        If there are no animals in the enclosure (and therefore no species), will return None.
+        '''
         return self.__species
 
-    def add_animal(self, animal):
-        '''Adds an animal to the enclosure.'''
+    def add_animal(self, animal) -> None:
+        '''
+        Parameters:
+             animal : An Animal class object to add to the enclosure.
+
+        Returns:
+            None
+
+        Adds an animal to the enclosure. This reduces the enclosure's cleanliness by 1.
+        If the enclosure has no specified environment type, the species in incompatible, the animal is under treatment,
+        environmental type of enclosure is incompatible with animal's needs, or the animal is already in an
+        enclosure, displays error message.
+        If the provided animal is invalid, displays error message.
+        '''
         try:
             if self.environmental_type is None:
                 print("Environment type not set. Cannot add animal.")
@@ -102,32 +213,56 @@ class Enclosure:
                 print("Animal is already in another enclosure.")
             else:
                 if self.species is None:
-                    self.__species = animal.species
-                self.__animals.append(animal)
-                animal.add_to_enclosure(self)
-                self.reduce_cleanliness(1)
+                    self.__species = animal.species  # If first animal, set enclosure species to animal species.
+                self.__animals.append(animal)        # Add animal to list.
+                animal.add_to_enclosure(self)        # Add enclosure to animal.
+                self.reduce_cleanliness(1)           # Reduce cleanliness.
                 print(f"{animal.name} added to enclosure.")
         except AttributeError:
             print("Invalid animal.")
 
-    def remove_animal(self, animal):
+    def remove_animal(self, animal) -> None:
+        '''
+        Parameters:
+             animal : An Animal class object to remove from the enclosure.
+
+        Returns:
+            None
+
+        Removes an animal from the enclosure.
+        If the animal is not in the enclosure, displays error message.
+        If the provided animal is invalid, displays error message.
+        '''
         try:
-            if animal.name == "":
-                pass  # Ensure exception is thrown if not type Animal.
+            check = animal.under_treatment  # Throw Exception if invalid animal object.
+
             if animal not in self.animals:
                 print("Animal is not in this enclosure.")
             else:
-                self.__animals.remove(animal)
-                animal.remove_from_enclosure(self)
+                self.__animals.remove(animal)          # Remove animal from enclosure.
+                animal.remove_from_enclosure(self)     # Remove enclosure from animal.
                 print(f"{animal.name} removed from enclosure.")
         except AttributeError:
             print("Invalid animal.")
 
-    def add_staff(self, staff):
+    def add_staff(self, staff) -> None:
+        '''
+        Parameters:
+             staff : A Staff class object to assign to the enclosure.
+
+        Returns:
+            None
+
+        Adds a staff member to the enclosure based on their role.
+        If the staff member is already assigned to the enclosure or there are no available roles for the staff member,
+        displays error message.
+        If the provided staff is invalid, displays error message.
+        '''
         try:
             if staff in self.__staff.values():
                 print("Staff is already assigned to this enclosure.")
             else:
+                # Get first available role for this specific staff.
                 available_role = None
                 for role in self.__staff.keys():
                     if staff.role in role and self.__staff.get(role) is None:
@@ -137,17 +272,33 @@ class Enclosure:
                 if available_role is None:
                     print("Staff assignment is full for this enclosure.")
                 else:
-                    self.__staff.update({available_role: staff})
+                    self.__staff.update({available_role: staff})  # Add staff to enclosure.
+                    staff.add_to_enclosure(self)                  # Add enclosure to staff.
                     print(f"{staff.name} assigned to enclosure.")
         except AttributeError:
             print("Invalid staff.")
 
-    def remove_staff(self, staff):
+    def remove_staff(self, staff) -> None:
+        '''
+        Parameters:
+             staff : A Staff class object to remove from the enclosure.
+
+        Returns:
+            None
+
+        Removes a staff member from the enclosure.
+        If the staff member is not assigned to the enclosure, displays error message.
+        If the provided staff is invalid, displays error messageIf the
+        '''
         try:
-            staff.remove_from_enclosure()
+            check = staff.role  # Throw an Exception if not Staff object.
+
             if staff not in self.__staff.values():
                 print("Staff is not assigned to this enclosure.")
             else:
+                staff.remove_from_enclosure(self)  # Remove enclosure from staff.
+
+                # Remove staff from enclosure.
                 target_key = None
                 for key in self.staff.keys():
                     if self.staff.get(key) == staff:
@@ -157,19 +308,47 @@ class Enclosure:
         except AttributeError:
             print("Invalid staff.")
 
-    def reduce_cleanliness(self, amount):
+    def reduce_cleanliness(self, amount:int|float) -> None:
+        '''
+        Parameters:
+             amount : An integer or float by which to reduce the enclosure's cleanliness level.
+
+        Returns:
+            None
+
+        Reduces the enclosure's cleanliness level by a specified amount.
+        Note that the lowest the level can go is 0.
+        If the given amount is invalid (not a positive number), displays error message.
+        '''
         try:
+            # Ensure amount is a positive number.
+            if amount < 0:
+                raise TypeError
+
             self.__cleanliness_level -= amount
             if self.__cleanliness_level < 0:
                 self.__cleanliness_level = 0
         except TypeError:
             print("Invalid amount.")
 
-    def clean(self, staff):
+    def clean(self, staff) -> None:
+        '''
+        Parameters:
+             staff : A Zookeeper object who will clean the enclosure.
+
+        Returns:
+            None
+
+        Cleans the enclosure, resetting cleanliness level to max and displaying "<name> is cleaning the enclosure...".
+        If the staff member is not a Zookeeper or not assigned to the enclosure, displays error message.
+        If staff is not a valid Staff/Zookeeper object, displays error message.
+        '''
         try:
+            # Check if staff is Zookeeper.
             if staff.role != "Zookeeper":
                 print(f"{self.name} is not a Zookeeper.")
-            else:
+            else:  # If staff is Zookeeper...
+                # Check if Zookeeper assigned to enclosure.
                 zookeepers = []
                 for key in self.staff.keys():
                     if "Zookeeper" in key:
@@ -192,7 +371,48 @@ class Enclosure:
     species = property(get_species)
     valid_environmental_types = property(get_valid_environmental_types)
 
-    def __str__(self):
+    def __eq__(self, other:Enclosure) -> bool:
+        '''
+        Parameters:
+            other : Another Enclosure object to which this object is compared.
+
+        Returns:
+            boolean
+
+        Compares two Enclosure objects and returns True of the objects are equal or False if not.
+        The objects are equal if they are both of the Enclosure class and have the same id number.
+        '''
+        return isinstance(other, Enclosure) and self.id == other.id
+
+    def __str__(self) -> str:
+        '''
+        Returns:
+             string
+
+        Returns a string of the enclosure's details in the following format:
+
+        ---ENCLOSURE REPORT---
+
+        ID: <id>
+
+        Type: <environmental_type>
+
+        Size: <size>m\u00b2
+
+        Cleanliness level: <cleanliness_level>/10
+
+        Animals:
+
+        <animal name> (ID-<animal id>, species <species>)
+
+        <animal name> (ID-<animal id>, species <species>)
+
+        Staff:
+
+        <staff name> (ID-<staff id>, <role>)
+
+        <staff name> (ID-<staff id>, <role>)
+        '''
         animal_statement = ""
         if self.animals == []:
             animal_statement += "None"
@@ -208,4 +428,4 @@ class Enclosure:
                 staff_statement += f"\n{staff.name} (ID-{staff.id}, {staff.role}"
 
         return (f"---ENCLOSURE REPORT---\nID: {self.id}\nType: {self.environmental_type}\nSize: {self.size}m\u00b2\n"
-                f"Cleanliness level: {self.cleanliness_level}/10\nAnimals: {animal_statement}\nStaff:")
+                f"Cleanliness level: {self.cleanliness_level}/10\nAnimals: {animal_statement}\nStaff:{staff_statement}")
