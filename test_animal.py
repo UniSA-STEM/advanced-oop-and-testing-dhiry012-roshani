@@ -12,10 +12,6 @@ from animal import Animal
 
 # Create a mock class with which to test the Animal class methods.
 class MockClass(Animal):
-    def __init__(self, name, age):
-        super().__init__(name, age)
-        self._Animal__environment_types.append("grassland")
-
     def cry(self):
         pass
 
