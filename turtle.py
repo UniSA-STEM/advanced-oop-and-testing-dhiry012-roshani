@@ -12,7 +12,7 @@ from reptile import Reptile
 
 class Turtle(Reptile):
     '''
-    An abstract class which represents a reptile and inherits from the Animal class.
+    An abstract class which represents a turtle and inherits from the Reptile class.
 
     Parameters:
         name : A string representing the name of the animal.
