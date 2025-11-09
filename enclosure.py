@@ -233,22 +233,22 @@ class Enclosure:
             if self.environmental_type is None:
                 print("Environment type not set. Cannot add animal.")
             elif self.species is not None and self.species != animal.species:
-                print(f"Animal is not {self.species}. Cannot add to enclosure.")
+                print(f"{animal.name} is not {self.species}. Cannot add to enclosure.")
             elif animal.under_treatment:
-                print("Cannot add animal to enclosure while under treatment.")
+                print(f"Cannot add {animal.name} to enclosure while under treatment.")
             elif self.environmental_type not in animal.environment_types:
-                print(f"Enclosure type ({self.environmental_type}) incompatible with animal's requirements.")
+                print(f"Enclosure type ({self.environmental_type}) incompatible with {animal.name}'s requirements.")
             elif animal in self.animals:
-                print("Animal already in this enclosure.")
+                print(f"{animal.name} already in this enclosure.")
             elif animal.enclosure is not None:
-                print("Animal is already in another enclosure.")
+                print(f"{animal.name} is already in another enclosure.")
             else:
                 if self.species is None:
                     self.__species = animal.species  # If first animal, set enclosure species to animal species.
                 self.__animals.append(animal)        # Add animal to list.
                 animal.add_to_enclosure(self)        # Add enclosure to animal.
                 self.reduce_cleanliness(1)           # Reduce cleanliness.
-                print(f"{animal.name} added to enclosure.")
+                print(f"{animal.name} added to enclosure {self.id}.")
         except AttributeError:
             print("Invalid animal.")
 

@@ -489,8 +489,8 @@ class Animal(ABC):
                 count += 1
 
         # Print results.
-        print(f"---Report for: {self.__name} (ID-{self.__id})---\n\n"
-              f"INJURIES\n{injuries}ILLNESSES\n{illnesses}BEHAVIOURAL CONCERNS\n{behavioural_concerns}")
+        print(f"\n---Report for: {self.__name} (ID-{self.__id})---\n\n"
+              f"INJURIES\n{injuries}ILLNESSES\n{illnesses}BEHAVIOURAL CONCERNS\n{behavioural_concerns}-----------------")
 
     def species_report(self) -> None:
         '''
@@ -527,7 +527,7 @@ class Animal(ABC):
 
             None
         '''
-        print(f"------Species Report: {self.__species}------\n")
+        print(f"\n------Species Report: {self.__species}------\n")
         for key in Animal.__notes:
             if self.__species in key:
                 # Get animal's record.
@@ -564,6 +564,8 @@ class Animal(ABC):
                 # Print results.
                 print(f"---{animal_record.get("name")} (ID-{key.split("-")[1]})---\n\n"
                       f"INJURIES\n{injuries}ILLNESSES\n{illnesses}BEHAVIOURAL CONCERNS\n{behavioural_concerns}")
+
+        print("--------------------------")
 
     def animals_report(self) -> None:
         '''
@@ -602,7 +604,7 @@ class Animal(ABC):
 
             None
         '''
-        print(f"------Report for all Animals------\n")
+        print(f"\n------Report for all Animals------\n")
         for species in Animal.__species:
             print(f"-----SPECIES: {species}-----\n")
             for key in Animal.__notes:
@@ -641,6 +643,8 @@ class Animal(ABC):
                     # Print results.
                     print(f"---{animal_record.get("name")} (ID-{key.split("-")[1]})---\n\n"
                           f"INJURIES\n{injuries}ILLNESSES\n{illnesses}BEHAVIOURAL CONCERNS\n{behavioural_concerns}")
+
+        print("------------------------------")
 
     def get_enclosure(self):
         '''

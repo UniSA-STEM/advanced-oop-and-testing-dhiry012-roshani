@@ -162,7 +162,7 @@ class Staff(ABC):
                 for staff in duty_list:
                     staff_list.append(staff)
 
-            if self in staff_list:
+            if self in staff_list and enclosure not in self.enclosures:
                 self.__enclosures.append(enclosure)
             else:
                 print("Staff is not assigned to enclosure. Must assign staff using enclosure object.")
@@ -233,12 +233,17 @@ class Staff(ABC):
 
         Enclosure #<id>: <num> animals (species: <species>)
         '''
+        duty_statement = ""
+        for duty in self.duties:
+            duty_statement += f"{duty}, "
+
         enclosure_statement = ""
         if self.enclosures == []:
             enclosure_statement += "None"
         else:
             for enclosure in self.enclosures:
-                enclosure_statement += (f"\nEnclosure #{enclosure.id}: {len(enclosure.animals)} animals (species: "
+                enclosure_statement += (f"\n> enclosure {enclosure.id}: {len(enclosure.animals)} animals (species: "
                                         f"{enclosure.species})")
 
-        return f"---STAFF DETAILS---\nID: {self.__id}Name: {self.__name}\nRole: {self.role}\nEnclosures: {enclosure_statement}"
+        return (f"\n---STAFF DETAILS---\nID: {self.__id}\nName: {self.__name}\nRole: {self.role}\nDuties: "
+                f"{duty_statement.strip(", ")}\nEnclosures: {enclosure_statement}\n-------------------")
