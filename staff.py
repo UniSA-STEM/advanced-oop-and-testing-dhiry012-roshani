@@ -112,7 +112,7 @@ class Staff(ABC):
         Updates the staff's name attribute if the name is valid (non-blank string).
         If the name is invalid, displays error message.
         '''
-        if self.__name == "" and type(name) != str:
+        if self.__name == "" and (type(name) != str or name == ""):
             print("Invalid name. Name set to empty string.")
         elif type(name) == str:
             self.__name = name
@@ -185,9 +185,13 @@ class Staff(ABC):
         If the enclosure is invalid, displays error message.
         '''
         try:
-            check = enclosure.cleanliness_level  # Throw exception if not Enclosure object
+            # Get list of all staff assigned to enclosure.
+            staff_list = []
+            for duty_list in enclosure.staff.values():
+                for staff in duty_list:
+                    staff_list.append(staff)
 
-            if enclosure in self.enclosures:
+            if self in staff_list and enclosure in self.enclosures:
                 self.__enclosures.remove(enclosure)
             else:
                 print("Staff is not assigned to enclosure. Must assign staff using enclosure object.")
