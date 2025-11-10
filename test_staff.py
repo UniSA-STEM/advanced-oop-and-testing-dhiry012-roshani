@@ -101,7 +101,7 @@ class TestStaff:
         assert staff.enclosures == [enclosure]
         message = capsys.readouterr()
         assert (message.out.strip() == ("Jordie assigned to general duties in enclosure 3.\n"
-                                        "Staff is has not been removed from the enclosure. Must remove staff using "
+                                        "Staff has not been removed from the enclosure. Must remove staff using "
                                         "enclosure object.")
                 or message.out.strip() ==
                 ("Jordie assigned to general duties in enclosure 58.\n"
