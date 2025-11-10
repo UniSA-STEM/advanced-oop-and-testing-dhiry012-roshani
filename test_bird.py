@@ -36,7 +36,7 @@ class TestBird:
         return MockBird("Tweety", 3)
 
     # Test that Bird class cannot be instantiated.
-    def test_raises(self, bird):
+    def test_raises(self):
         with pytest.raises(TypeError):
             Bird("Name", 7)
 

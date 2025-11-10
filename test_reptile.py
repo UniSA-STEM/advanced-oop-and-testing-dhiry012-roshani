@@ -33,7 +33,7 @@ class TestReptile:
         return MockReptile("Voldie", 3)
 
     # Test that Reptile class cannot be instantiated.
-    def test_raises(self, reptile):
+    def test_raises(self):
         with pytest.raises(TypeError):
             Reptile("Name", 7)
 

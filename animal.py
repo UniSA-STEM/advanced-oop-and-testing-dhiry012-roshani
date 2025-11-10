@@ -365,7 +365,7 @@ class Animal(ABC):
             print("Invalid date.")
         elif severity not in ["high", "med", "low"]:
             print("Invalid severity. Must be either high, med, or low.")
-        elif type(notes) != str and notes != "":
+        elif type(notes) != str or notes == "":
             print("Invalid notes.")
         elif type(treatment) != bool:
             print("Invalid treatment indication. Must be a boolean value.")
@@ -609,7 +609,12 @@ class Animal(ABC):
             None
         '''
         print(f"\n------Report for all Animals------\n")
-        for species in Animal.__species:
+
+        # Get list of species in alphabetical order.
+        species_list = [item for item in Animal.__species]
+        species_list.sort()
+
+        for species in species_list:
             print(f"-----SPECIES: {species}-----\n")
             for key in Animal.__notes:
                 if species in key:

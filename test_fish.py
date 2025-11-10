@@ -33,7 +33,7 @@ class TestFish:
         return MockFish("Bob", 3)
 
     # Test that Fish class cannot be instantiated.
-    def test_raises(self, fish):
+    def test_raises(self):
         with pytest.raises(TypeError):
             Fish("Name", 7)
 

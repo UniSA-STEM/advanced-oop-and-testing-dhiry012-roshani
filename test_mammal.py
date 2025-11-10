@@ -33,7 +33,7 @@ class TestMammal:
         return MockMammal("Roo", 3)
 
     # Test that Mammal class cannot be instantiated.
-    def test_raises(self, mammal):
+    def test_raises(self):
         with pytest.raises(TypeError):
             Mammal("Name", 7)
 

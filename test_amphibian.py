@@ -36,7 +36,7 @@ class TestAmphibian:
         return MockAmphibian("Toad", 3)
 
     # Test that Amphibian class cannot be instantiated.
-    def test_raises(self, amphibian):
+    def test_raises(self):
         with pytest.raises(TypeError):
             Amphibian("Name", 7)
 
