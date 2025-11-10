@@ -38,7 +38,7 @@ class Enclosure:
 
         get_environmental_type() : Returns the enclosure's environmental type.
 
-        set_environmental_type : Changes the enclosure's environmental type.
+        set_environmental_type(environment) : Changes the enclosure's environmental type.
 
         get_cleanliness_level() : Returns the cleanliness level of the enclosure (0-10).
 
