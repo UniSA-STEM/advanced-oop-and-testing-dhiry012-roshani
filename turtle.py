@@ -113,7 +113,7 @@ class Turtle(Reptile):
         saltwater : get_saltwater(), set_saltwater()
     '''
 
-    def __init__(self, name: str, age: int, freshwater=False, saltwater=False) -> None:
+    def __init__(self, name="", age="", freshwater=False, saltwater=False) -> None:
         self.__freshwater = False  # Create freshwater attribute.
         self.__saltwater = False  # Create saltwater attribute.
         super().__init__(name, age)

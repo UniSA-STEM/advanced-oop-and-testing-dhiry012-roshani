@@ -62,7 +62,7 @@ class Staff(ABC):
     # Global attribute.
     __next_id = 1
 
-    def __init__(self, name: str) -> None:
+    def __init__(self, name="") -> None:
         self.__id = self.__create_id()
         self.__name = ""
         self.__enclosures = []

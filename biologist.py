@@ -58,7 +58,7 @@ class Biologist(Staff):
         duties : get_duties()
     '''
 
-    def __init__(self, name: str) -> None:
+    def __init__(self, name="") -> None:
         super().__init__(name)
         self._duties.append("research")
 

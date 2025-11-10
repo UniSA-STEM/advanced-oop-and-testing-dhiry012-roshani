@@ -103,7 +103,7 @@ class Animal(ABC):
     __next_id = 1  # Holds the next id number (to ensure all unique).
     __species = set()  # A unique set (list) of all instantiated species.
 
-    def __init__(self, name, age):
+    def __init__(self, name="", age=""):
         self.__id = self.__create_id()
         self.__species = self.__class__.__name__
         self.__name = self.__species
@@ -136,6 +136,8 @@ class Animal(ABC):
             # Update global registry.
             animal_record = Animal.__notes.get(f"{self.__species}-{self.__id}")
             animal_record.update({"name": name})
+        elif name == "" and self.name == self.species:
+            print(f"Invalid name. Name set to: {self.species}.")
         else:
             print("Invalid name.")
 

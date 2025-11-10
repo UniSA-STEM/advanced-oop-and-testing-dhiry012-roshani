@@ -80,7 +80,7 @@ class Enclosure:
     __valid_environmental_types = ["tropical", "grassland", "desert", "forest", "freshwater aquatic",
                                    "saltwater aquatic", "mountainous", "wetland", "arctic"]
 
-    def __init__(self, area: int | float, environmental_type: str) -> None:
+    def __init__(self, area="", environmental_type="") -> None:
         self.__id = self.__create_id()
         self.__size = None
         self.__environmental_type = None
