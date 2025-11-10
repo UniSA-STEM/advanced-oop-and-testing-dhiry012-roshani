@@ -80,7 +80,7 @@ class Biologist(Staff):
             research_staff = enclosure.staff.get("research")
 
             if enclosure not in self.enclosures:
-                print(f"{self.name} is not assigned that that enclosure.")
+                print(f"{self.name} is not assigned to that enclosure.")
             elif self not in research_staff:
                 print(f"{self.name} is not assigned research duties for that enclosure.")
             else:

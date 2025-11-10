@@ -83,7 +83,7 @@ class Zookeeper(Staff):
             check = enclosure.cleanliness_level  # Throw an Exception if not Enclosure object.
 
             if enclosure not in self.enclosures:
-                print(f"{self.name} is not assigned that that enclosure.")
+                print(f"{self.name} is not assigned to that enclosure.")
             elif enclosure.animals == []:
                 print("Enclosure is empty.")
             else:
@@ -109,7 +109,7 @@ class Zookeeper(Staff):
             check = enclosure.cleanliness_level  # Throw an Exception if not Enclosure object.
 
             if enclosure not in self.enclosures:
-                print(f"{self.name} is not assigned that that enclosure.")
+                print(f"{self.name} is not assigned to that enclosure.")
             else:
                 enclosure.clean(self)
         except AttributeError:

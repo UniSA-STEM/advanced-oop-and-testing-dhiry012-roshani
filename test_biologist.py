@@ -33,7 +33,7 @@ class TestBiologist:
     def test_research_unassigned_enclosure(self, biologist, enclosure, capsys):
         biologist.research(enclosure)
         message = capsys.readouterr()
-        assert message.out.strip() == "Billy is not assigned that that enclosure."
+        assert message.out.strip() == "Billy is not assigned to that enclosure."
 
     # Test researching an enclosure to which biologist has not been specifically assigned research duties.
     def test_research_not_research_duty(self, biologist, enclosure, capsys):
