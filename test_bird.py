@@ -10,6 +10,7 @@ This is my own work as defined by the University's Academic Integrity Policy.
 import pytest
 from bird import Bird
 
+
 # Note: I didn't test any of the inherited abstract methods, as these are tested in other modules.
 
 # Create a mock class.

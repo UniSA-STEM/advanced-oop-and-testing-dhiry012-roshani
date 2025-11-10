@@ -11,6 +11,7 @@ import pytest
 from animal import Animal
 from enclosure import Enclosure  # To test adding and removing animal from enclosure.
 
+
 # Create a mock class with which to test the Animal class methods.
 
 
@@ -30,7 +31,7 @@ class MockAnimal(Animal):
 # Each time I pass an object fixture into a test method, a new object is created with a unique id number. For
 # this reason, I decided to include two options for what the output can be for those outputs which use the id number.
 # This way, the pytest passes when both "pytest" (for all test modules) and "pytest test_animal.py" (for just this module)
-# are run in the Terminal. I have tried to make the code as organised as possible.
+# are run in the Terminal.
 
 
 class TestAnimal:
@@ -60,46 +61,47 @@ class TestAnimal:
     def test_species_report(self, animal, capsys):
         animal.species_report()
         message = capsys.readouterr()
-        assert (message.out.strip() == ("------Species Report: MockAnimal------\n\n---Leo (ID-1)---\n\nINJURIES\nNone\n\n"
-                                       "ILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\nNone\n\n\n---Fred (ID-2)---\n\n"
-                                       "INJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\nNone\n\n\n---Leo "
-                                       "(ID-3)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\nNone\n\n\n"
-                                       "--------------------------")
-                                        or message.out.strip() ==
-                                        ("------Species Report: MockAnimal------\n\n---Leo (ID-8)---\n\nINJURIES\nNone\n\n"
-                                         "ILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\nNone\n\n\n---Fred (ID-9)---\n\n"
-                                         "INJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\nNone\n\n\n---Leo "
-                                         "(ID-10)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\nNone\n\n\n"
-                                         "--------------------------"))
+        assert (message.out.strip() == (
+            "------Species Report: MockAnimal------\n\n---Leo (ID-1)---\n\nINJURIES\nNone\n\n"
+            "ILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\nNone\n\n\n---Fred (ID-2)---\n\n"
+            "INJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\nNone\n\n\n---Leo "
+            "(ID-3)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\nNone\n\n\n"
+            "--------------------------")
+                or message.out.strip() ==
+                ("------Species Report: MockAnimal------\n\n---Leo (ID-8)---\n\nINJURIES\nNone\n\n"
+                 "ILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\nNone\n\n\n---Fred (ID-9)---\n\n"
+                 "INJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\nNone\n\n\n---Leo "
+                 "(ID-10)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\nNone\n\n\n"
+                 "--------------------------"))
 
     # Test animals_report method.
     def test_animals_report(self, animal, capsys):
         animal.animals_report()
         message = capsys.readouterr()
-        assert (message.out.strip() == ("------Report for all Animals------\n\n-----SPECIES: MockAnimal-----\n\n---Leo (ID-1)---"
-                                       "\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\nNone\n\n\n---"
-                                       "Fred (ID-2)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS"
-                                       "\nNone\n\n\n---Leo (ID-3)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL "
-                                       "CONCERNS\nNone\n\n\n---Leo (ID-4)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
-                                       "BEHAVIOURAL CONCERNS\nNone\n\n\n------------------------------")
-                                        or message.out.strip() ==
-                                        ("------Report for all Animals------\n\n-----SPECIES: Angelfish-----\n\n"
-                                       "---Willow (ID-3)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS"
-                                       "\nNone\n\n\n---Willow (ID-4)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL "
-                                       "CONCERNS\nNone\n\n\n---Willow (ID-5)---\n\nINJURIES\nNone\n\nILLNESSES\nNone"
-                                       "\n\nBEHAVIOURAL CONCERNS\nNone\n\n\n---Willow (ID-6)---\n\nINJURIES\nNone\n\n"
-                                       "ILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\nNone\n\n\n---Willow (ID-7)---\n\n"
-                                       "INJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\nNone\n\n\n"
-                                       "-----SPECIES: MockAmphibian-----\n\n"
-                                       "---Toad (ID-1)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL "
-                                       "CONCERNS\nNone\n\n\n---Toad (ID-2)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
-                                       "BEHAVIOURAL CONCERNS\nNone\n\n\n-----SPECIES: MockAnimal-----\n\n---Leo (ID-8)---"
-                                       "\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\nNone\n\n\n---"
-                                       "Fred (ID-9)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS"
-                                       "\nNone\n\n\n---Leo (ID-10)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL "
-                                       "CONCERNS\nNone\n\n\n---Leo (ID-11)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
-                                       "BEHAVIOURAL CONCERNS\nNone\n\n\n------------------------------"))
-
+        assert (message.out.strip() == (
+            "------Report for all Animals------\n\n-----SPECIES: MockAnimal-----\n\n---Leo (ID-1)---"
+            "\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\nNone\n\n\n---"
+            "Fred (ID-2)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS"
+            "\nNone\n\n\n---Leo (ID-3)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL "
+            "CONCERNS\nNone\n\n\n---Leo (ID-4)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
+            "BEHAVIOURAL CONCERNS\nNone\n\n\n------------------------------")
+                or message.out.strip() ==
+                ("------Report for all Animals------\n\n-----SPECIES: Angelfish-----\n\n"
+                 "---Willow (ID-3)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS"
+                 "\nNone\n\n\n---Willow (ID-4)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL "
+                 "CONCERNS\nNone\n\n\n---Willow (ID-5)---\n\nINJURIES\nNone\n\nILLNESSES\nNone"
+                 "\n\nBEHAVIOURAL CONCERNS\nNone\n\n\n---Willow (ID-6)---\n\nINJURIES\nNone\n\n"
+                 "ILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\nNone\n\n\n---Willow (ID-7)---\n\n"
+                 "INJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\nNone\n\n\n"
+                 "-----SPECIES: MockAmphibian-----\n\n"
+                 "---Toad (ID-1)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL "
+                 "CONCERNS\nNone\n\n\n---Toad (ID-2)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
+                 "BEHAVIOURAL CONCERNS\nNone\n\n\n-----SPECIES: MockAnimal-----\n\n---Leo (ID-8)---"
+                 "\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\nNone\n\n\n---"
+                 "Fred (ID-9)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS"
+                 "\nNone\n\n\n---Leo (ID-10)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL "
+                 "CONCERNS\nNone\n\n\n---Leo (ID-11)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
+                 "BEHAVIOURAL CONCERNS\nNone\n\n\n------------------------------"))
 
     # Test setting name to blank string, that it doesn't change the name attribute, and it prints the correct message.
     def test_set_name_invalid_blank(self, animal, capsys):
@@ -221,10 +223,10 @@ class TestAnimal:
         animal.report()
         message = capsys.readouterr()
         assert (message.out.strip() == ("---Report for: Leo (ID-24)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
-                                       "BEHAVIOURAL CONCERNS\nNone\n\n-----------------")
-                                        or message.out.strip() ==
-                                        ("---Report for: Leo (ID-31)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
-                                       "BEHAVIOURAL CONCERNS\nNone\n\n-----------------"))
+                                        "BEHAVIOURAL CONCERNS\nNone\n\n-----------------")
+                or message.out.strip() ==
+                ("---Report for: Leo (ID-31)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
+                 "BEHAVIOURAL CONCERNS\nNone\n\n-----------------"))
 
     # Test adding a valid note and that it shows on the report.
     def test_add_note(self, animal, capsys):
@@ -232,15 +234,16 @@ class TestAnimal:
                         "additional notes")
         animal.report()
         message = capsys.readouterr()
-        assert (message.out.strip() == ("Note successfully added.\n\n\n---Report for: Leo (ID-25)---\n\nINJURIES\nNone\n\n"
-                                       "ILLNESSES\n1.\nDescription: This is a description\nDate reported: 11/11/2004\n"
-                                       "Severity: low\nNotes: additional notes\n\nBEHAVIOURAL CONCERNS\nNone\n\n"
-                                       "-----------------")
-                                        or message.out.strip() ==
-                                        ("Note successfully added.\n\n\n---Report for: Leo (ID-32)---\n\nINJURIES\nNone\n\n"
-                                       "ILLNESSES\n1.\nDescription: This is a description\nDate reported: 11/11/2004\n"
-                                       "Severity: low\nNotes: additional notes\n\nBEHAVIOURAL CONCERNS\nNone\n\n"
-                                       "-----------------"))
+        assert (message.out.strip() == (
+            "Note successfully added.\n\n\n---Report for: Leo (ID-25)---\n\nINJURIES\nNone\n\n"
+            "ILLNESSES\n1.\nDescription: This is a description\nDate reported: 11/11/2004\n"
+            "Severity: low\nNotes: additional notes\n\nBEHAVIOURAL CONCERNS\nNone\n\n"
+            "-----------------")
+                or message.out.strip() ==
+                ("Note successfully added.\n\n\n---Report for: Leo (ID-32)---\n\nINJURIES\nNone\n\n"
+                 "ILLNESSES\n1.\nDescription: This is a description\nDate reported: 11/11/2004\n"
+                 "Severity: low\nNotes: additional notes\n\nBEHAVIOURAL CONCERNS\nNone\n\n"
+                 "-----------------"))
 
     # Test adding a valid note and setting treatment to True (check under treatment attribute).
     def test_add_note_treatment_true(self, animal):
@@ -254,13 +257,14 @@ class TestAnimal:
                         "additional notes")
         animal.report()
         message = capsys.readouterr()
-        assert (message.out.strip() == ("Invalid category. Must be 'injuries', 'illnesses', or 'behavioural_concerns'.\n"
-                                       "\n---Report for: Leo (ID-27)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
-                                       "BEHAVIOURAL CONCERNS\nNone\n\n-----------------")
-                                        or message.out.strip() ==
-                                        ("Invalid category. Must be 'injuries', 'illnesses', or 'behavioural_concerns'.\n"
-                                       "\n---Report for: Leo (ID-34)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
-                                       "BEHAVIOURAL CONCERNS\nNone\n\n-----------------"))
+        assert (message.out.strip() == (
+            "Invalid category. Must be 'injuries', 'illnesses', or 'behavioural_concerns'.\n"
+            "\n---Report for: Leo (ID-27)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
+            "BEHAVIOURAL CONCERNS\nNone\n\n-----------------")
+                or message.out.strip() ==
+                ("Invalid category. Must be 'injuries', 'illnesses', or 'behavioural_concerns'.\n"
+                 "\n---Report for: Leo (ID-34)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
+                 "BEHAVIOURAL CONCERNS\nNone\n\n-----------------"))
 
     # Test creating a note with invalid description (check it doesn't show in report and check printed message).
     def test_add_note_invalid_description(self, animal, capsys):
@@ -269,12 +273,12 @@ class TestAnimal:
         animal.report()
         message = capsys.readouterr()
         assert (message.out.strip() == ("Invalid description.\n"
-                                       "\n---Report for: Leo (ID-28)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
-                                       "BEHAVIOURAL CONCERNS\nNone\n\n-----------------")
-                                        or message.out.strip() ==
-                                        ("Invalid description.\n"
-                                       "\n---Report for: Leo (ID-35)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
-                                       "BEHAVIOURAL CONCERNS\nNone\n\n-----------------"))
+                                        "\n---Report for: Leo (ID-28)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
+                                        "BEHAVIOURAL CONCERNS\nNone\n\n-----------------")
+                or message.out.strip() ==
+                ("Invalid description.\n"
+                 "\n---Report for: Leo (ID-35)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
+                 "BEHAVIOURAL CONCERNS\nNone\n\n-----------------"))
 
     # Test creating a note with invalid date (check it doesn't show in report and check printed message).
     def test_add_note_invalid_date(self, animal, capsys):
@@ -283,12 +287,12 @@ class TestAnimal:
         animal.report()
         message = capsys.readouterr()
         assert (message.out.strip() == ("Invalid date.\n"
-                                       "\n---Report for: Leo (ID-29)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
-                                       "BEHAVIOURAL CONCERNS\nNone\n\n-----------------")
-                                        or message.out.strip() ==
-                                        ("Invalid date.\n"
-                                       "\n---Report for: Leo (ID-36)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
-                                       "BEHAVIOURAL CONCERNS\nNone\n\n-----------------"))
+                                        "\n---Report for: Leo (ID-29)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
+                                        "BEHAVIOURAL CONCERNS\nNone\n\n-----------------")
+                or message.out.strip() ==
+                ("Invalid date.\n"
+                 "\n---Report for: Leo (ID-36)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
+                 "BEHAVIOURAL CONCERNS\nNone\n\n-----------------"))
 
     # Test creating a note with invalid severity (check it doesn't show in report and check printed message).
     def test_add_note_invalid_severity(self, animal, capsys):
@@ -297,12 +301,12 @@ class TestAnimal:
         animal.report()
         message = capsys.readouterr()
         assert (message.out.strip() == ("Invalid severity. Must be either high, med, or low.\n"
-                                       "\n---Report for: Leo (ID-30)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
-                                       "BEHAVIOURAL CONCERNS\nNone\n\n-----------------")
-                                        or message.out.strip() ==
-                                        ("Invalid severity. Must be either high, med, or low.\n"
-                                       "\n---Report for: Leo (ID-37)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
-                                       "BEHAVIOURAL CONCERNS\nNone\n\n-----------------"))
+                                        "\n---Report for: Leo (ID-30)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
+                                        "BEHAVIOURAL CONCERNS\nNone\n\n-----------------")
+                or message.out.strip() ==
+                ("Invalid severity. Must be either high, med, or low.\n"
+                 "\n---Report for: Leo (ID-37)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
+                 "BEHAVIOURAL CONCERNS\nNone\n\n-----------------"))
 
     # Test creating a note with invalid notes (check it doesn't show in report and check printed message).
     def test_add_note_invalid_notes(self, animal, capsys):
@@ -311,12 +315,12 @@ class TestAnimal:
         animal.report()
         message = capsys.readouterr()
         assert (message.out.strip() == ("Invalid notes.\n"
-                                       "\n---Report for: Leo (ID-31)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
-                                       "BEHAVIOURAL CONCERNS\nNone\n\n-----------------")
-                                        or message.out.strip() ==
-                                        ("Invalid notes.\n"
-                                       "\n---Report for: Leo (ID-38)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
-                                       "BEHAVIOURAL CONCERNS\nNone\n\n-----------------"))
+                                        "\n---Report for: Leo (ID-31)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
+                                        "BEHAVIOURAL CONCERNS\nNone\n\n-----------------")
+                or message.out.strip() ==
+                ("Invalid notes.\n"
+                 "\n---Report for: Leo (ID-38)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
+                 "BEHAVIOURAL CONCERNS\nNone\n\n-----------------"))
 
     # Test creating a note with invalid treatment (check it doesn't show in report and check printed message).
     def test_add_note_invalid_treatment(self, animal, capsys):
@@ -325,27 +329,28 @@ class TestAnimal:
         animal.report()
         message = capsys.readouterr()
         assert (message.out.strip() == ("Invalid treatment indication. Must be a boolean value.\n"
-                                       "\n---Report for: Leo (ID-32)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
-                                       "BEHAVIOURAL CONCERNS\nNone\n\n-----------------")
-                                        or message.out.strip() ==
-                                        ("Invalid treatment indication. Must be a boolean value.\n"
-                                       "\n---Report for: Leo (ID-39)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
-                                       "BEHAVIOURAL CONCERNS\nNone\n\n-----------------"))
+                                        "\n---Report for: Leo (ID-32)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
+                                        "BEHAVIOURAL CONCERNS\nNone\n\n-----------------")
+                or message.out.strip() ==
+                ("Invalid treatment indication. Must be a boolean value.\n"
+                 "\n---Report for: Leo (ID-39)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\n"
+                 "BEHAVIOURAL CONCERNS\nNone\n\n-----------------"))
 
     # Test add note methods with no notes argument specified.
     def test_add_note_no_notes(self, animal, capsys):
         animal.add_note("illnesses", "This is a description", "11/11/2004", "low")
         animal.report()
         message = capsys.readouterr()
-        assert (message.out.strip() == ("Note successfully added.\n\n\n---Report for: Leo (ID-33)---\n\nINJURIES\nNone\n\n"
-                                       "ILLNESSES\n1.\nDescription: This is a description\nDate reported: 11/11/2004\n"
-                                       "Severity: low\nNotes: none\n\nBEHAVIOURAL CONCERNS\nNone\n\n"
-                                       "-----------------")
-                                        or message.out.strip() ==
-                                        ("Note successfully added.\n\n\n---Report for: Leo (ID-40)---\n\nINJURIES\nNone\n\n"
-                                       "ILLNESSES\n1.\nDescription: This is a description\nDate reported: 11/11/2004\n"
-                                       "Severity: low\nNotes: none\n\nBEHAVIOURAL CONCERNS\nNone\n\n"
-                                       "-----------------"))
+        assert (message.out.strip() == (
+            "Note successfully added.\n\n\n---Report for: Leo (ID-33)---\n\nINJURIES\nNone\n\n"
+            "ILLNESSES\n1.\nDescription: This is a description\nDate reported: 11/11/2004\n"
+            "Severity: low\nNotes: none\n\nBEHAVIOURAL CONCERNS\nNone\n\n"
+            "-----------------")
+                or message.out.strip() ==
+                ("Note successfully added.\n\n\n---Report for: Leo (ID-40)---\n\nINJURIES\nNone\n\n"
+                 "ILLNESSES\n1.\nDescription: This is a description\nDate reported: 11/11/2004\n"
+                 "Severity: low\nNotes: none\n\nBEHAVIOURAL CONCERNS\nNone\n\n"
+                 "-----------------"))
 
     # Test removing a note successfully (check removed from report).
     def test_remove_note(self, animal, capsys):
@@ -355,12 +360,12 @@ class TestAnimal:
         animal.report()
         message = capsys.readouterr()
         assert (message.out.strip() == ("Note successfully added.\n\nNote removed successfully.\n\n---Report for: Leo "
-                                       "(ID-34)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\n"
-                                       "None\n\n-----------------")
-                                        or message.out.strip() ==
-                                        ("Note successfully added.\n\nNote removed successfully.\n\n---Report for: Leo "
-                                       "(ID-41)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\n"
-                                       "None\n\n-----------------"))
+                                        "(ID-34)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\n"
+                                        "None\n\n-----------------")
+                or message.out.strip() ==
+                ("Note successfully added.\n\nNote removed successfully.\n\n---Report for: Leo "
+                 "(ID-41)---\n\nINJURIES\nNone\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\n"
+                 "None\n\n-----------------"))
 
     # Test removing a note from an empty category.
     def test_remove_note_empty_notes(self, animal, capsys):
@@ -459,8 +464,9 @@ class TestAnimal:
 
     # Test string method.
     def test_str(self, animal):
-        assert (str(animal) == ("\n---ANIMAL DETAILS---\nID: 51\nName: Leo\nAge: 3 years\nSpecies: MockAnimal\nEnvironment "
-                               "types: none specified\nLeo has no specific dietary needs.\n---------")
-                                or str(animal) ==
-                                ("\n---ANIMAL DETAILS---\nID: 58\nName: Leo\nAge: 3 years\nSpecies: MockAnimal\nEnvironment "
-                               "types: none specified\nLeo has no specific dietary needs.\n---------"))
+        assert (str(animal) == (
+            "\n---ANIMAL DETAILS---\nID: 51\nName: Leo\nAge: 3 years\nSpecies: MockAnimal\nEnvironment "
+            "types: none specified\nLeo has no specific dietary needs.\n---------")
+                or str(animal) ==
+                ("\n---ANIMAL DETAILS---\nID: 58\nName: Leo\nAge: 3 years\nSpecies: MockAnimal\nEnvironment "
+                 "types: none specified\nLeo has no specific dietary needs.\n---------"))

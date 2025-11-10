@@ -11,6 +11,7 @@ import pytest
 from staff import Staff
 from enclosure import Enclosure  # To test adding and removing staff from enclosure.
 
+
 # Create a mock class with which to test the Animal class methods.
 
 
@@ -74,10 +75,10 @@ class TestStaff:
 
     # Test that calling add_to_enclosure methods doesn't add the enclosure twice.
     def test_add_to_enclosure(self, staff, enclosure, capsys):
-        enclosure.add_staff(staff)                # Add staff to enclosure.
-        assert staff.enclosures == [enclosure]    # Check that enclosure added to list.
-        staff.add_to_enclosure(enclosure)         # Try adding enclosure again.
-        assert staff.enclosures == [enclosure]    # Check enclosure only in list once.
+        enclosure.add_staff(staff)  # Add staff to enclosure.
+        assert staff.enclosures == [enclosure]  # Check that enclosure added to list.
+        staff.add_to_enclosure(enclosure)  # Try adding enclosure again.
+        assert staff.enclosures == [enclosure]  # Check enclosure only in list once.
 
     # Test adding enclosure to list when staff is not assigned to enclosure.
     def test_add_to_unassigned_enclosure(self, staff, enclosure, capsys):
@@ -100,12 +101,12 @@ class TestStaff:
         assert staff.enclosures == [enclosure]
         message = capsys.readouterr()
         assert (message.out.strip() == ("Jordie assigned to general duties in enclosure 3.\n"
-                                       "Staff is has not been removed from the enclosure. Must remove staff using "
-                                       "enclosure object.")
-                                        or message.out.strip() ==
-                                        ("Jordie assigned to general duties in enclosure 58.\n"
-                                       "Staff has not been removed from the enclosure. Must remove staff using "
-                                       "enclosure object."))
+                                        "Staff is has not been removed from the enclosure. Must remove staff using "
+                                        "enclosure object.")
+                or message.out.strip() ==
+                ("Jordie assigned to general duties in enclosure 58.\n"
+                 "Staff has not been removed from the enclosure. Must remove staff using "
+                 "enclosure object."))
 
     # Test trying to remove staff from enclosure they were not assigned to.
     def test_remove_from_enclosure_not_assigned(self, staff, enclosure, capsys):
@@ -130,7 +131,7 @@ class TestStaff:
     # Test string method.
     def test_str(self, staff):
         assert (str(staff) == ("\n---STAFF DETAILS---\nID: 18\nName: Jordie\nRole: MockStaff\nDuties: general\n"
-                              "Enclosures: None\n-------------------")
-                                or str(staff) ==
-                                ("\n---STAFF DETAILS---\nID: 34\nName: Jordie\nRole: MockStaff\nDuties: general\n"
-                              "Enclosures: None\n-------------------"))
+                               "Enclosures: None\n-------------------")
+                or str(staff) ==
+                ("\n---STAFF DETAILS---\nID: 34\nName: Jordie\nRole: MockStaff\nDuties: general\n"
+                 "Enclosures: None\n-------------------"))

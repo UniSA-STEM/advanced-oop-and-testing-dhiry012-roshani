@@ -77,10 +77,10 @@ class Enclosure:
 
     # Global attributes.
     __next_id = 1
-    __valid_environmental_types = ["tropical", "grassland", "desert", "forest", "freshwater aquatic", "saltwater aquatic",
-                                   "mountainous", "wetland", "arctic"]
+    __valid_environmental_types = ["tropical", "grassland", "desert", "forest", "freshwater aquatic",
+                                   "saltwater aquatic", "mountainous", "wetland", "arctic"]
 
-    def __init__(self, area:int|float, environmental_type:str) -> None:
+    def __init__(self, area: int | float, environmental_type: str) -> None:
         self.__id = self.__create_id()
         self.__size = None
         self.__environmental_type = None
@@ -123,7 +123,7 @@ class Enclosure:
         Enclosure.__next_id += 1
         return temp
 
-    def get_size(self) -> int|float|None:
+    def get_size(self) -> int | float | None:
         '''
         Returns:
             integer, float, or None
@@ -133,7 +133,7 @@ class Enclosure:
         '''
         return self.__size
 
-    def set_size(self, area:int|float) -> None:
+    def set_size(self, area: int | float) -> None:
         '''
         Parameters:
             area : An integer or float of the enclosure's area (meters squared).
@@ -149,7 +149,7 @@ class Enclosure:
         else:
             print("Invalid area for enclosure.")
 
-    def get_environmental_type(self) -> str|None:
+    def get_environmental_type(self) -> str | None:
         '''
         Returns:
             string or None
@@ -159,7 +159,7 @@ class Enclosure:
         '''
         return self.__environmental_type
 
-    def set_environmental_type(self, environment:str) -> None:
+    def set_environmental_type(self, environment: str) -> None:
         '''
         Parameters:
             environment : A string describing the environment of the enclosure.
@@ -178,7 +178,7 @@ class Enclosure:
         else:
             print("Invalid environmental type.")
 
-    def get_cleanliness_level(self) -> int|float:
+    def get_cleanliness_level(self) -> int | float:
         '''
         Returns:
             integer or float
@@ -205,7 +205,7 @@ class Enclosure:
         '''
         return self.__animals
 
-    def get_species(self) -> str|None:
+    def get_species(self) -> str | None:
         '''
         Returns:
             string or None
@@ -245,9 +245,9 @@ class Enclosure:
             else:
                 if self.species is None:
                     self.__species = animal.species  # If first animal, set enclosure species to animal species.
-                self.__animals.append(animal)        # Add animal to list.
-                animal.add_to_enclosure(self)        # Add enclosure to animal.
-                self.reduce_cleanliness(1)           # Reduce cleanliness.
+                self.__animals.append(animal)  # Add animal to list.
+                animal.add_to_enclosure(self)  # Add enclosure to animal.
+                self.reduce_cleanliness(1)  # Reduce cleanliness.
                 print(f"{animal.name} added to enclosure {self.id}.")
         except AttributeError:
             print("Invalid animal.")
@@ -270,8 +270,8 @@ class Enclosure:
             if animal not in self.animals:
                 print("Animal is not in this enclosure.")
             else:
-                self.__animals.remove(animal)          # Remove animal from enclosure.
-                animal.remove_from_enclosure(self)     # Remove enclosure from animal.
+                self.__animals.remove(animal)  # Remove animal from enclosure.
+                animal.remove_from_enclosure(self)  # Remove enclosure from animal.
                 print(f"{animal.name} removed from enclosure.")
         except AttributeError:
             print("Invalid animal.")
@@ -300,10 +300,10 @@ class Enclosure:
             elif duty not in staff.duties:
                 print(f"{duty.capitalize()} is not one of {staff.name}'s duties.")
             else:
-                duty_list = self.staff.get(duty)        # Add staff to enclosure.
+                duty_list = self.staff.get(duty)  # Add staff to enclosure.
                 duty_list.append(staff)
                 self.__staff.update({duty: duty_list})
-                staff.add_to_enclosure(self)            # Add enclosure to staff.
+                staff.add_to_enclosure(self)  # Add enclosure to staff.
                 print(f"{staff.name} assigned to {duty} duties in enclosure {self.id}.")
         except AttributeError:
             print("Invalid staff.")
@@ -337,7 +337,7 @@ class Enclosure:
         except AttributeError:
             print("Invalid staff.")
 
-    def reduce_cleanliness(self, amount:int|float) -> None:
+    def reduce_cleanliness(self, amount: int | float) -> None:
         '''
         Parameters:
              amount : An integer or float by which to reduce the enclosure's cleanliness level.
@@ -393,7 +393,7 @@ class Enclosure:
     species = property(get_species)
     valid_environmental_types = property(get_valid_environmental_types)
 
-    def __eq__(self, other:Enclosure) -> bool:
+    def __eq__(self, other: Enclosure) -> bool:
         '''
         Parameters:
             other : Another Enclosure object to which this object is compared.

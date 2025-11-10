@@ -47,21 +47,22 @@ class TestBiologist:
         biologist.research(enclosure)
         message = capsys.readouterr()
         assert (message.out.strip() == ("Billy assigned to general duties in enclosure 2.\n"
-                                       "Billy is not assigned research duties for that enclosure.")
-                                        or message.out.strip() ==
-                                        ("Billy assigned to general duties in enclosure 5.\n"
-                                       "Billy is not assigned research duties for that enclosure."))
+                                        "Billy is not assigned research duties for that enclosure.")
+                or message.out.strip() ==
+                ("Billy assigned to general duties in enclosure 5.\n"
+                 "Billy is not assigned research duties for that enclosure."))
 
     # Test researching an empty enclosure.
     def test_research_empty_enclosure(self, biologist, enclosure, capsys):
         enclosure.add_staff(biologist, "research")  # Assign biologist to enclosure (no animals).
         biologist.research(enclosure)
         message = capsys.readouterr()
-        assert (message.out.strip() == ("Billy assigned to research duties in enclosure 3.\n-----ENCLOSURE 3 RESEARCH-----\n"
-                                       "Enclosure is empty.")
-                                        or message.out.strip() ==
-                                        ("Billy assigned to research duties in enclosure 6.\n-----ENCLOSURE 6 RESEARCH-----\n"
-                                       "Enclosure is empty."))
+        assert (message.out.strip() == (
+            "Billy assigned to research duties in enclosure 3.\n-----ENCLOSURE 3 RESEARCH-----\n"
+            "Enclosure is empty.")
+                or message.out.strip() ==
+                ("Billy assigned to research duties in enclosure 6.\n-----ENCLOSURE 6 RESEARCH-----\n"
+                 "Enclosure is empty."))
 
     # Test researching an enclosure with an animal.
     def test_research_enclosure(self, biologist, enclosure, turtle, capsys):
@@ -70,18 +71,17 @@ class TestBiologist:
         biologist.research(enclosure)  # Research.
         message = capsys.readouterr()
         assert (message.out.strip() == ("Sue added to enclosure 4.\nBilly assigned to research duties in enclosure 4.\n"
-                                       "-----ENCLOSURE 4 RESEARCH-----\n\n---ANIMAL DETAILS---\nID: 1\nName: Sue\n"
+                                        "-----ENCLOSURE 4 RESEARCH-----\n\n---ANIMAL DETAILS---\nID: 1\nName: Sue\n"
                                         "Age: 12 years\nSpecies: Turtle\nEnvironment types: freshwater aquatic\nSue has "
                                         "no specific dietary needs.\n---------")
-                                        or message.out.strip() ==
-                                        ("Sue added to enclosure 7.\nBilly assigned to research duties in enclosure 7.\n"
-                                         "-----ENCLOSURE 7 RESEARCH-----\n\n---ANIMAL DETAILS---\nID: 59\nName: Sue\n"
-                                         "Age: 12 years\nSpecies: Turtle\nEnvironment types: freshwater aquatic\nSue has "
-                                         "no specific dietary needs.\n---------"))
+                or message.out.strip() ==
+                ("Sue added to enclosure 7.\nBilly assigned to research duties in enclosure 7.\n"
+                 "-----ENCLOSURE 7 RESEARCH-----\n\n---ANIMAL DETAILS---\nID: 59\nName: Sue\n"
+                 "Age: 12 years\nSpecies: Turtle\nEnvironment types: freshwater aquatic\nSue has "
+                 "no specific dietary needs.\n---------"))
 
     # Test researching an invalid enclosure.
     def test_research_invalid_enclosure(self, biologist, capsys):
         biologist.research("an object")
         message = capsys.readouterr()
         assert message.out.strip() == "Invalid enclosure."
-

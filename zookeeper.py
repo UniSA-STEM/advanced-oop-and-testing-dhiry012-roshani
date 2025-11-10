@@ -60,7 +60,7 @@ class Zookeeper(Staff):
         duties : get_duties()
     '''
 
-    def __init__(self, name:str) -> None:
+    def __init__(self, name: str) -> None:
         super().__init__(name)
         self._duties.append("feeding")
         self._duties.append("cleaning")

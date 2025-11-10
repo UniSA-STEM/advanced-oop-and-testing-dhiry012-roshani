@@ -47,10 +47,10 @@ class TestVeterinarian:
         veterinarian.health_check(enclosure)
         message = capsys.readouterr()
         assert (message.out.strip() == ("Lucy assigned to general duties in enclosure 2.\n"
-                                       "Lucy is not assigned health duties for that enclosure.")
-                                        or message.out.strip() ==
-                                        ("Lucy assigned to general duties in enclosure 61.\n"
-                                       "Lucy is not assigned health duties for that enclosure."))
+                                        "Lucy is not assigned health duties for that enclosure.")
+                or message.out.strip() ==
+                ("Lucy assigned to general duties in enclosure 61.\n"
+                 "Lucy is not assigned health duties for that enclosure."))
 
     # Test health checking an empty enclosure.
     def test_health_check_empty_enclosure(self, veterinarian, enclosure, capsys):
@@ -59,9 +59,9 @@ class TestVeterinarian:
         message = capsys.readouterr()
         assert (message.out.strip() == ("Lucy assigned to health duties in enclosure 3.\n-----ENCLOSURE 3 HEALTH CHECK"
                                         "-----\nEnclosure empty")
-                                        or message.out.strip() ==
-                                        ("Lucy assigned to health duties in enclosure 62.\n-----ENCLOSURE 62 HEALTH CHECK"
-                                         "-----\nEnclosure empty"))
+                or message.out.strip() ==
+                ("Lucy assigned to health duties in enclosure 62.\n-----ENCLOSURE 62 HEALTH CHECK"
+                 "-----\nEnclosure empty"))
 
     # Test health checking an enclosure with an animal.
     def test_health_check_enclosure(self, veterinarian, enclosure, turtle, capsys):
@@ -70,12 +70,12 @@ class TestVeterinarian:
         veterinarian.health_check(enclosure)  # Health check.
         message = capsys.readouterr()
         assert (message.out.strip() == ("Sue added to enclosure 4.\nLucy assigned to health duties in enclosure 4.\n"
-                                       "-----ENCLOSURE 4 HEALTH CHECK-----\n\n---Report for: Sue (ID-1)---\n\nINJURIES\n"
+                                        "-----ENCLOSURE 4 HEALTH CHECK-----\n\n---Report for: Sue (ID-1)---\n\nINJURIES\n"
                                         "None\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\nNone\n\n-----------------")
-                                        or message.out.strip() ==
-                                        ("Sue added to enclosure 63.\nLucy assigned to health duties in enclosure 63.\n"
-                                       "-----ENCLOSURE 63 HEALTH CHECK-----\n\n---Report for: Sue (ID-143)---\n\nINJURIES\n"
-                                        "None\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\nNone\n\n-----------------"))
+                or message.out.strip() ==
+                ("Sue added to enclosure 63.\nLucy assigned to health duties in enclosure 63.\n"
+                 "-----ENCLOSURE 63 HEALTH CHECK-----\n\n---Report for: Sue (ID-143)---\n\nINJURIES\n"
+                 "None\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\nNone\n\n-----------------"))
 
     # Test health checking an invalid enclosure.
     def test_health_check_invalid_enclosure(self, veterinarian, capsys):

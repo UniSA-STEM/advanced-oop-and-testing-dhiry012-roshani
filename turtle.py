@@ -113,9 +113,9 @@ class Turtle(Reptile):
         saltwater : get_saltwater(), set_saltwater()
     '''
 
-    def __init__(self, name:str, age:int, freshwater=False, saltwater=False) -> None:
+    def __init__(self, name: str, age: int, freshwater=False, saltwater=False) -> None:
         self.__freshwater = False  # Create freshwater attribute.
-        self.__saltwater = False   # Create saltwater attribute.
+        self.__saltwater = False  # Create saltwater attribute.
         super().__init__(name, age)
 
         # Validate boolean values.
@@ -146,7 +146,7 @@ class Turtle(Reptile):
         '''
         return self.__freshwater
 
-    def set_freshwater(self, freshwater:bool) -> None:
+    def set_freshwater(self, freshwater: bool) -> None:
         '''
         Parameters:
             freshwater : A boolean value indicating if the turtle can live in freshwater.
@@ -182,7 +182,7 @@ class Turtle(Reptile):
         '''
         return self.__saltwater
 
-    def set_saltwater(self, saltwater:bool) -> None:
+    def set_saltwater(self, saltwater: bool) -> None:
         '''
         Parameters:
             saltwater : A boolean value indicating if the turtle can live in saltwater.

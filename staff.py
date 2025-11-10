@@ -62,7 +62,7 @@ class Staff(ABC):
     # Global attribute.
     __next_id = 1
 
-    def __init__(self, name:str) -> None:
+    def __init__(self, name: str) -> None:
         self.__id = self.__create_id()
         self.__name = ""
         self.__enclosures = []
@@ -101,7 +101,7 @@ class Staff(ABC):
         '''
         return self.__name
 
-    def set_name(self, name:str) -> None:
+    def set_name(self, name: str) -> None:
         '''
         Parameters:
             name : A string to which the staff member's name will be changed.
@@ -207,7 +207,7 @@ class Staff(ABC):
     role = property(get_role)
     duties = property(get_duties)
 
-    def __eq__(self, other:Staff) -> bool:
+    def __eq__(self, other: Staff) -> bool:
         '''
         Parameters:
             other : Another Staff object to which this object is compared.

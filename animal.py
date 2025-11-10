@@ -99,9 +99,9 @@ class Animal(ABC):
     '''
 
     # Global attributes.
-    __notes = {}         # Registry/notes for all animals.
-    __next_id = 1        # Holds the next id number (to ensure all unique).
-    __species = set()    # A unique set (list) of all instantiated species.
+    __notes = {}  # Registry/notes for all animals.
+    __next_id = 1  # Holds the next id number (to ensure all unique).
+    __species = set()  # A unique set (list) of all instantiated species.
 
     def __init__(self, name, age):
         self.__id = self.__create_id()
@@ -113,12 +113,12 @@ class Animal(ABC):
         self.__environment_types = []
         self.__enclosure = None
 
-        self.__add_object_to_notes()            # Add object to global registry.
-        self.set_name(name)                     # Check name is valid before accepting.
-        self.set_age(age)                       # Check age is valid before accepting.
-        Animal.__species.add(self.__species)    # Add species to global set.
+        self.__add_object_to_notes()  # Add object to global registry.
+        self.set_name(name)  # Check name is valid before accepting.
+        self.set_age(age)  # Check age is valid before accepting.
+        Animal.__species.add(self.__species)  # Add species to global set.
 
-    def set_name(self, name:str) -> None:
+    def set_name(self, name: str) -> None:
         '''
         Parameters:
             name : The new name of the animal (must be a string to be accepted).
@@ -139,7 +139,7 @@ class Animal(ABC):
         else:
             print("Invalid name.")
 
-    def set_age(self, age:int) -> None:
+    def set_age(self, age: int) -> None:
         '''
         Parameters:
             age : The new age (in years) of the animal (must be an integer to be accepted).
@@ -166,7 +166,7 @@ class Animal(ABC):
         '''
         return self.__name
 
-    def get_age(self) -> int|str:
+    def get_age(self) -> int | str:
         '''
         Returns:
             integer or string
@@ -193,7 +193,7 @@ class Animal(ABC):
         '''
         return self.__under_treatment
 
-    def set_under_treatment(self, under_treatment:bool) -> None:
+    def set_under_treatment(self, under_treatment: bool) -> None:
         '''
         Parameters:
             under_treatment : A boolean value indicating if the animal is under treatment.
@@ -231,7 +231,7 @@ class Animal(ABC):
                 count += 1
         return result
 
-    def add_dietary_need(self, dietary_need:str) -> None:
+    def add_dietary_need(self, dietary_need: str) -> None:
         '''
         Parameters:
             dietary_need : A string of the dietary need to add to the animal's list.
@@ -247,7 +247,7 @@ class Animal(ABC):
         else:
             print("Invalid entry. Not added to list.")
 
-    def remove_dietary_need(self, index:int) -> None:
+    def remove_dietary_need(self, index: int) -> None:
         '''
         Parameters:
             index : An integer indicating the index of the note to remove from the dietary needs list (starting at 0).
@@ -312,7 +312,7 @@ class Animal(ABC):
         key = f"{self.__species}-{self.__id}"
         Animal.__notes.update({key: value})
 
-    def __validate_date(self, date:str) -> bool:
+    def __validate_date(self, date: str) -> bool:
         '''
         Parameters:
              date : A string of a date in the format dd/mm/yyyy.
@@ -326,18 +326,19 @@ class Animal(ABC):
         valid = True
 
         # If any of these conditions are False, set valid to False.
-        if (type(date) != str or len(date) != 10 or not (date[:2]+date[3:5]+date[6:]).isdigit() or
-               (date[2]+date[5]) != "//" or date[:2].lstrip("0") == "" or
-               date[3:5].lstrip("0") == "" or date[6:].lstrip("0") == "" or
-               int(date[:2].lstrip("0")) < 1 or int(date[3:5].lstrip("0")) < 1
-               or int(date[6:].lstrip("0")) < 1 or int(date[3:5].lstrip("0")) > 12 or
-               (int(date[3:5].lstrip("0")) in [4, 6, 9, 11] and int(date[:2].lstrip("0")) > 30) or
-               (int(date[3:5].lstrip("0")) in [1, 3, 5, 7, 8, 10, 12] and int(date[:2].lstrip("0")) > 31) or
-               (int(date[3:5].lstrip("0")) == 2 and int(date[:2].lstrip("0")) not in [28, 29])):
+        if (type(date) != str or len(date) != 10 or not (date[:2] + date[3:5] + date[6:]).isdigit() or
+                (date[2] + date[5]) != "//" or date[:2].lstrip("0") == "" or
+                date[3:5].lstrip("0") == "" or date[6:].lstrip("0") == "" or
+                int(date[:2].lstrip("0")) < 1 or int(date[3:5].lstrip("0")) < 1
+                or int(date[6:].lstrip("0")) < 1 or int(date[3:5].lstrip("0")) > 12 or
+                (int(date[3:5].lstrip("0")) in [4, 6, 9, 11] and int(date[:2].lstrip("0")) > 30) or
+                (int(date[3:5].lstrip("0")) in [1, 3, 5, 7, 8, 10, 12] and int(date[:2].lstrip("0")) > 31) or
+                (int(date[3:5].lstrip("0")) == 2 and int(date[:2].lstrip("0")) not in [28, 29])):
             valid = False
         return valid
 
-    def add_note(self, category:str, description:str, date_reported:str, severity:str, notes="none", treatment=False) -> None:
+    def add_note(self, category: str, description: str, date_reported: str, severity: str, notes="none",
+                 treatment=False) -> None:
         '''
         Parameters:
             category: A string indicating which category the note is (must be one of "injuries", "illnesses", or
@@ -386,7 +387,7 @@ class Animal(ABC):
             # Print confirmation message
             print("Note successfully added.\n")
 
-    def remove_note(self, category:str, index:int, treatment=False) -> None:
+    def remove_note(self, category: str, index: int, treatment=False) -> None:
         '''
         Parameters:
             category: A string indicating which category the note is (must be one of "injuries", "illnesses", or
@@ -763,7 +764,7 @@ class Animal(ABC):
     environment_types = property(get_environment_types)
     enclosure = property(get_enclosure)
 
-    def __eq__(self, other:Animal) -> bool:
+    def __eq__(self, other: Animal) -> bool:
         '''
         Parameters:
             other : Another Animal object to which this object is compared.

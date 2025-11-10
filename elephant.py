@@ -99,7 +99,7 @@ class Elephant(Mammal):
         enclosure : get_enclosure()
     '''
 
-    def __init__(self, name:str, age:int) -> None:
+    def __init__(self, name: str, age: int) -> None:
         super().__init__(name, age)
         self._Animal__environment_types.append("grassland")
         self._Animal__environment_types.append("tropical")

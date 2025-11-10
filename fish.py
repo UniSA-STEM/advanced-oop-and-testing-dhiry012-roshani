@@ -117,7 +117,7 @@ class Fish(Animal):
         saltwater : get_saltwater(), set_saltwater()
     '''
 
-    def __init__(self, name:str, age:int, freshwater=False, saltwater=False) -> None:
+    def __init__(self, name: str, age: int, freshwater=False, saltwater=False) -> None:
         self.__freshwater = False
         self.__saltwater = False
         super().__init__(name, age)
@@ -135,7 +135,7 @@ class Fish(Animal):
         '''
         return self.__freshwater
 
-    def set_freshwater(self, freshwater:bool) -> None:
+    def set_freshwater(self, freshwater: bool) -> None:
         '''
         Parameters:
             freshwater : A boolean value indicating if the fish can live in freshwater.
@@ -171,7 +171,7 @@ class Fish(Animal):
         '''
         return self.__saltwater
 
-    def set_saltwater(self, saltwater:bool) -> None:
+    def set_saltwater(self, saltwater: bool) -> None:
         '''
         Parameters:
             saltwater : A boolean value indicating if the fish can live in saltwater.
