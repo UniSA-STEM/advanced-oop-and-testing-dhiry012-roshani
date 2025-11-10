@@ -12,6 +12,12 @@ from biologist import Biologist
 from enclosure import Enclosure  # To use in testing research method.
 from turtle import Turtle  # To use in testing research method.
 
+
+# IMPORTANT NOTE
+# As with the test_animal module, I include two output options for the outputs which include id numbers: one for running
+# "pytest test_staff.py" in the Terminal window and one for "pytest".
+
+
 class TestBiologist:
     @pytest.fixture
     def biologist(self):
@@ -43,7 +49,7 @@ class TestBiologist:
         assert (message.out.strip() == ("Billy assigned to general duties in enclosure 2.\n"
                                        "Billy is not assigned research duties for that enclosure.")
                                         or message.out.strip() ==
-                                        ("Billy assigned to general duties in enclosure 4.\n"
+                                        ("Billy assigned to general duties in enclosure 5.\n"
                                        "Billy is not assigned research duties for that enclosure."))
 
     # Test researching an empty enclosure.
@@ -54,7 +60,7 @@ class TestBiologist:
         assert (message.out.strip() == ("Billy assigned to research duties in enclosure 3.\n-----ENCLOSURE 3 RESEARCH-----\n"
                                        "Enclosure is empty.")
                                         or message.out.strip() ==
-                                        ("Billy assigned to research duties in enclosure 5.\n-----ENCLOSURE 5 RESEARCH-----\n"
+                                        ("Billy assigned to research duties in enclosure 6.\n-----ENCLOSURE 6 RESEARCH-----\n"
                                        "Enclosure is empty."))
 
     # Test researching an enclosure with an animal.
@@ -68,8 +74,8 @@ class TestBiologist:
                                         "Age: 12 years\nSpecies: Turtle\nEnvironment types: freshwater aquatic\nSue has "
                                         "no specific dietary needs.\n---------")
                                         or message.out.strip() ==
-                                        ("Sue added to enclosure 6.\nBilly assigned to research duties in enclosure 6.\n"
-                                         "-----ENCLOSURE 6 RESEARCH-----\n\n---ANIMAL DETAILS---\nID: 56\nName: Sue\n"
+                                        ("Sue added to enclosure 7.\nBilly assigned to research duties in enclosure 7.\n"
+                                         "-----ENCLOSURE 7 RESEARCH-----\n\n---ANIMAL DETAILS---\nID: 59\nName: Sue\n"
                                          "Age: 12 years\nSpecies: Turtle\nEnvironment types: freshwater aquatic\nSue has "
                                          "no specific dietary needs.\n---------"))
 

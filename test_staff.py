@@ -12,8 +12,15 @@ from staff import Staff
 from enclosure import Enclosure  # To test adding and removing staff from enclosure.
 
 # Create a mock class with which to test the Animal class methods.
+
+
 class MockStaff(Staff):
     pass  # No new methods to add.
+
+
+# IMPORTANT NOTE
+# As with the test_animal module, I include two output options for the outputs which include id numbers: one for running
+# "pytest test_staff.py" in the Terminal window and one for "pytest".
 
 
 class TestStaff:
@@ -96,8 +103,8 @@ class TestStaff:
                                        "Staff is has not been removed from the enclosure. Must remove staff using "
                                        "enclosure object.")
                                         or message.out.strip() ==
-                                        ("Jordie assigned to general duties in enclosure 57.\n"
-                                       "Staff is has not been removed from the enclosure. Must remove staff using "
+                                        ("Jordie assigned to general duties in enclosure 58.\n"
+                                       "Staff has not been removed from the enclosure. Must remove staff using "
                                        "enclosure object."))
 
     # Test trying to remove staff from enclosure they were not assigned to.
@@ -119,3 +126,11 @@ class TestStaff:
     # Test that a staff object is equal to itself.
     def test_equal(self, staff):
         assert staff == staff
+
+    # Test string method.
+    def test_str(self, staff):
+        assert (str(staff) == ("\n---STAFF DETAILS---\nID: 18\nName: Jordie\nRole: MockStaff\nDuties: general\n"
+                              "Enclosures: None\n-------------------")
+                                or str(staff) ==
+                                ("\n---STAFF DETAILS---\nID: 34\nName: Jordie\nRole: MockStaff\nDuties: general\n"
+                              "Enclosures: None\n-------------------"))

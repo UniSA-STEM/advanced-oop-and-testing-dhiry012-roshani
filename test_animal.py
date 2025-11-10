@@ -12,6 +12,8 @@ from animal import Animal
 from enclosure import Enclosure  # To test adding and removing animal from enclosure.
 
 # Create a mock class with which to test the Animal class methods.
+
+
 class MockAnimal(Animal):
     def cry(self):
         return "cry"
@@ -22,12 +24,14 @@ class MockAnimal(Animal):
     def eat(self):
         return "eat"
 
+
 # IMPORTANT NOTE
-# Because I used a global variable for each animal's id number, I ran into some issues when testing. Each time I pass
-# an animal object fixture into a test method, a new object is created with a unique id number. For this reason, I decided
-# to include two options for what the output can be for those outputs which use the id number. This way, the pytest
-# passes when both "pytest" (for all test modules) and "pytest test_animal.py" (for just this module) are run in the
-# Terminal. I have tried to make the code as organised as possible.
+# Because I used a global variable for each animal, ensure, and staff's id number, I ran into some issues when testing.
+# Each time I pass an object fixture into a test method, a new object is created with a unique id number. For
+# this reason, I decided to include two options for what the output can be for those outputs which use the id number.
+# This way, the pytest passes when both "pytest" (for all test modules) and "pytest test_animal.py" (for just this module)
+# are run in the Terminal. I have tried to make the code as organised as possible.
+
 
 class TestAnimal:
     @pytest.fixture
@@ -444,3 +448,19 @@ class TestAnimal:
     # Test eat method.
     def test_eat(self, animal):
         assert animal.eat() == "eat"
+
+    # Test equal method (compare same object).
+    def test_equal(self, animal):
+        assert animal == animal
+
+    # Test equal method against different object.
+    def test_unequal(self, animal, enclosure):
+        assert animal != enclosure
+
+    # Test string method.
+    def test_str(self, animal):
+        assert (str(animal) == ("\n---ANIMAL DETAILS---\nID: 51\nName: Leo\nAge: 3 years\nSpecies: MockAnimal\nEnvironment "
+                               "types: none specified\nLeo has no specific dietary needs.\n---------")
+                                or str(animal) ==
+                                ("\n---ANIMAL DETAILS---\nID: 58\nName: Leo\nAge: 3 years\nSpecies: MockAnimal\nEnvironment "
+                               "types: none specified\nLeo has no specific dietary needs.\n---------"))

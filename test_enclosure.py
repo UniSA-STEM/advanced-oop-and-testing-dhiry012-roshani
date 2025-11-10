@@ -14,6 +14,12 @@ from shark import Shark  # To test enclosures with animals.
 from zookeeper import Zookeeper  # To test adding and removing staff.
 from biologist import Biologist  # To test clean method.
 
+
+# IMPORTANT NOTE
+# As with the test_animal module, I include two output options for the outputs which include id numbers: one for running
+# "pytest test_staff.py" in the Terminal window and one for "pytest".
+
+
 class TestEnclosure:
     @pytest.fixture
     def enclosure(self):
@@ -50,7 +56,7 @@ class TestEnclosure:
 
     # Test get_id method (through property).
     def test_get_id(self, enclosure):
-        assert enclosure.id == 2 or enclosure.id == 8
+        assert enclosure.id == 2 or enclosure.id == 9
 
     # Test get_size method (through property).
     def test_get_size(self, enclosure):
@@ -97,7 +103,7 @@ class TestEnclosure:
         assert (message.out.strip() == ("Sue added to enclosure 10.\nThere are animals in this enclosure. Cannot change"
                                        " environment.")
                                         or message.out.strip() ==
-                                        ("Sue added to enclosure 16.\nThere are animals in this enclosure. Cannot change"
+                                        ("Sue added to enclosure 17.\nThere are animals in this enclosure. Cannot change"
                                        " environment."))
         assert enclosure.environmental_type == "freshwater aquatic"
 
@@ -136,7 +142,7 @@ class TestEnclosure:
         message = capsys.readouterr()
         assert (message.out.strip() == "Bill added to enclosure 17.\nSue is not Shark. Cannot add to enclosure."
                                         or message.out.strip() ==
-                                        "Bill added to enclosure 23.\nSue is not Shark. Cannot add to enclosure.")
+                                        "Bill added to enclosure 24.\nSue is not Shark. Cannot add to enclosure.")
         assert enclosure.animals == [shark]
 
     # Test adding animal when under treatment.
@@ -160,7 +166,7 @@ class TestEnclosure:
         message = capsys.readouterr()
         assert (message.out.strip() == "Sue added to enclosure 20.\nSue already in this enclosure."
                                         or message.out.strip() ==
-                                        "Sue added to enclosure 26.\nSue already in this enclosure.")
+                                        "Sue added to enclosure 27.\nSue already in this enclosure.")
 
     # Test adding animal that's already in another enclosure.
     def test_add_animal_two_enclosures(self, enclosure, enclosure2, turtle, capsys):
@@ -169,13 +175,13 @@ class TestEnclosure:
         message = capsys.readouterr()
         assert (message.out.strip() == "Sue added to enclosure 21.\nSue is already in another enclosure."
                                         or message.out.strip() ==
-                                        "Sue added to enclosure 27.\nSue is already in another enclosure.")
+                                        "Sue added to enclosure 28.\nSue is already in another enclosure.")
 
     # Test properly adding an animal.
     def test_add_animal(self, enclosure, turtle, capsys):
         enclosure.add_animal(turtle)
         message = capsys.readouterr()
-        assert message.out.strip() == "Sue added to enclosure 23." or message.out.strip() == "Sue added to enclosure 29."
+        assert message.out.strip() == "Sue added to enclosure 23." or message.out.strip() == "Sue added to enclosure 30."
         assert enclosure.animals == [turtle]
         assert enclosure.cleanliness_level == 9
 
@@ -204,7 +210,7 @@ class TestEnclosure:
         message = capsys.readouterr()
         assert (message.out.strip() == "Sue added to enclosure 27.\nSue removed from enclosure."
                                         or message.out.strip() ==
-                                        "Sue added to enclosure 33.\nSue removed from enclosure.")
+                                        "Sue added to enclosure 34.\nSue removed from enclosure.")
         assert enclosure.animals == []
 
     # Test adding a staff member.
@@ -213,7 +219,7 @@ class TestEnclosure:
         message = capsys.readouterr()
         assert (message.out.strip() == "Steve assigned to cleaning duties in enclosure 28."
                                         or message.out.strip() ==
-                                        "Steve assigned to cleaning duties in enclosure 34.")
+                                        "Steve assigned to cleaning duties in enclosure 35.")
         assert enclosure.staff == {"feeding": [], "cleaning": [zookeeper], "health": [], "research": [], "general": []}
 
     # Test adding staff to enclosure with invalid duty.
@@ -229,7 +235,7 @@ class TestEnclosure:
         message = capsys.readouterr()
         assert (message.out.strip() == "Steve assigned to feeding duties in enclosure 30.\nSteve is already assigned this duty."
                                         or message.out.strip() ==
-                                        "Steve assigned to feeding duties in enclosure 36.\nSteve is already assigned this duty.")
+                                        "Steve assigned to feeding duties in enclosure 37.\nSteve is already assigned this duty.")
         assert enclosure.staff == {"feeding": [zookeeper], "cleaning": [], "health": [], "research": [], "general": []}
 
     # Test adding staff to a duty they don't have.
@@ -253,8 +259,8 @@ class TestEnclosure:
         assert (message.out.strip() == ("Steve assigned to general duties in enclosure 33.\nSteve removed from general duties"
                                        " in enclosure 33.")
                                         or message.out.strip() ==
-                                        ("Steve assigned to general duties in enclosure 39.\nSteve removed from general duties"
-                                       " in enclosure 39."))
+                                        ("Steve assigned to general duties in enclosure 40.\nSteve removed from general duties"
+                                       " in enclosure 40."))
         assert enclosure.staff == {"feeding": [], "cleaning": [], "health": [], "research": [], "general": []}
 
     # Test removing staff with invalid duty.
@@ -307,7 +313,7 @@ class TestEnclosure:
         message = capsys.readouterr()
         assert (message.out.strip() == "Steve assigned to cleaning duties in enclosure 41.\nSteve is cleaning the enclosure..."
                                         or message.out.strip() ==
-                                        "Steve assigned to cleaning duties in enclosure 47.\nSteve is cleaning the enclosure...")
+                                        "Steve assigned to cleaning duties in enclosure 48.\nSteve is cleaning the enclosure...")
         assert enclosure.cleanliness_level == 10
 
     # Test cleaning the enclosure with non-zookeeper staff.
@@ -349,7 +355,7 @@ class TestEnclosure:
                                        "> Cleaning: None\n> Health: None\n> Research: None\n> General: None"
                                        "\n--------------------")
                                         or message.out.strip() ==
-                                        ("---ENCLOSURE REPORT---\nID: 54\nType: freshwater aquatic\nSize: 50m\u00b2\n"
+                                        ("---ENCLOSURE REPORT---\nID: 55\nType: freshwater aquatic\nSize: 50m\u00b2\n"
                                        "Cleanliness level: 10/10\n\nAnimals: None\n\nStaff:\n> Feeding: None\n"
                                        "> Cleaning: None\n> Health: None\n> Research: None\n> General: None"
                                        "\n--------------------"))

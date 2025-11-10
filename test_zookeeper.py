@@ -12,6 +12,12 @@ from zookeeper import Zookeeper
 from enclosure import Enclosure  # To use in testing research method.
 from turtle import Turtle  # To use in testing research method.
 
+
+# IMPORTANT NOTE
+# As with the test_animal module, I include two output options for the outputs which include id numbers: one for running
+# "pytest test_staff.py" in the Terminal window and one for "pytest".
+
+
 class TestZookeeper:
     @pytest.fixture
     def zookeeper(self):
@@ -43,7 +49,7 @@ class TestZookeeper:
         assert (message.out.strip() == ("Peter assigned to general duties in enclosure 2.\n"
                                        "Peter is not assigned feeding duties for that enclosure.")
                                         or message.out.strip() ==
-                                        ("Peter assigned to general duties in enclosure 64.\n"
+                                        ("Peter assigned to general duties in enclosure 65.\n"
                                        "Peter is not assigned feeding duties for that enclosure."))
 
     # Test feeding an empty enclosure.
@@ -53,7 +59,7 @@ class TestZookeeper:
         message = capsys.readouterr()
         assert (message.out.strip() == "Peter assigned to feeding duties in enclosure 3.\nEnclosure is empty."
                                         or message.out.strip() ==
-                                        "Peter assigned to feeding duties in enclosure 65.\nEnclosure is empty.")
+                                        "Peter assigned to feeding duties in enclosure 66.\nEnclosure is empty.")
 
     # Test feeding an enclosure with an animal.
     def test_feed_animals_enclosure(self, zookeeper, enclosure, turtle, capsys):
@@ -64,7 +70,7 @@ class TestZookeeper:
         assert (message.out.strip() == ("Sue added to enclosure 4.\nPeter assigned to feeding duties in enclosure 4.\n"
                                        "Sue bites into food...")
                                         or message.out.strip() ==
-                                        ("Sue added to enclosure 66.\nPeter assigned to feeding duties in enclosure 66.\n"
+                                        ("Sue added to enclosure 67.\nPeter assigned to feeding duties in enclosure 67.\n"
                                        "Sue bites into food..."))
 
     # Test feeding an invalid enclosure.
@@ -87,7 +93,7 @@ class TestZookeeper:
         assert (message.out.strip() == ("Peter assigned to general duties in enclosure 6.\n"
                                        "Peter is not assigned cleaning duties for that enclosure.")
                                         or message.out.strip() ==
-                                        ("Peter assigned to general duties in enclosure 68.\n"
+                                        ("Peter assigned to general duties in enclosure 69.\n"
                                        "Peter is not assigned cleaning duties for that enclosure."))
 
     # Test cleaning an empty enclosure (should work normally).
@@ -97,7 +103,7 @@ class TestZookeeper:
         message = capsys.readouterr()
         assert (message.out.strip() == "Peter assigned to cleaning duties in enclosure 7.\nPeter is cleaning the enclosure..."
                                         or message.out.strip() ==
-                                        "Peter assigned to cleaning duties in enclosure 69.\nPeter is cleaning the enclosure...")
+                                        "Peter assigned to cleaning duties in enclosure 70.\nPeter is cleaning the enclosure...")
 
     # Test cleaning an enclosure with an animal (same as empty enclosure).
     def test_clean_enclosure(self, zookeeper, enclosure, turtle, capsys):
@@ -108,7 +114,7 @@ class TestZookeeper:
         assert (message.out.strip() == ("Sue added to enclosure 8.\nPeter assigned to cleaning duties in enclosure 8.\n"
                                        "Peter is cleaning the enclosure...")
                                         or message.out.strip() ==
-                                        ("Sue added to enclosure 70.\nPeter assigned to cleaning duties in enclosure 70.\n"
+                                        ("Sue added to enclosure 71.\nPeter assigned to cleaning duties in enclosure 71.\n"
                                        "Peter is cleaning the enclosure..."))
 
     # Test cleaning an invalid enclosure.
