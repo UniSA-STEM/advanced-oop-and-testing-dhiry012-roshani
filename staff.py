@@ -97,9 +97,9 @@ class Staff(ABC):
         Returns:
              string
 
-        Returns the staff member's name.
+        Returns the staff member's name. If no name is specified, returns "Staff <id>".
         '''
-        return self.__name
+        return self.__name if self.__name != "" else f"Staff {self.__id}"
 
     def set_name(self, name: str) -> None:
         '''

@@ -185,7 +185,7 @@ class Enclosure:
 
         Returns the cleanliness level of the enclosure (0-10).
         '''
-        return self.__cleanliness_level
+        return round(self.__cleanliness_level, 1)
 
     def get_staff(self) -> dict:
         '''
