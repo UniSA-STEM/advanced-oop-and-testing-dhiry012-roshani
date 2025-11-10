@@ -80,10 +80,13 @@ class Zookeeper(Staff):
         If the enclosure is not valid, displays error message.
         '''
         try:
-            check = enclosure.cleanliness_level  # Throw an Exception if not Enclosure object.
+            # Get all staff assigned to feeding duties in the enclosure.
+            feeding_staff = enclosure.staff.get("feeding")
 
             if enclosure not in self.enclosures:
                 print(f"{self.name} is not assigned to that enclosure.")
+            elif self not in feeding_staff:
+                print(f"{self.name} is not assigned feeding duties for that enclosure.")
             elif enclosure.animals == []:
                 print("Enclosure is empty.")
             else:
@@ -106,10 +109,13 @@ class Zookeeper(Staff):
         If the enclosure is not valid, displays error message.
         '''
         try:
-            check = enclosure.cleanliness_level  # Throw an Exception if not Enclosure object.
+            # Get all staff assigned to cleaning duties in the enclosure.
+            cleaning_staff = enclosure.staff.get("cleaning")
 
             if enclosure not in self.enclosures:
                 print(f"{self.name} is not assigned to that enclosure.")
+            elif self not in cleaning_staff:
+                print(f"{self.name} is not assigned cleaning duties for that enclosure.")
             else:
                 enclosure.clean(self)
         except AttributeError:

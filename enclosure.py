@@ -375,19 +375,12 @@ class Enclosure:
         try:
             # Check if staff is Zookeeper.
             if staff.role != "Zookeeper":
-                print(f"{self.name} is not a Zookeeper.")
-            else:  # If staff is Zookeeper...
-                # Check if Zookeeper assigned to enclosure.
-                zookeepers = []
-                for key in self.staff.keys():
-                    if "Zookeeper" in key:
-                        zookeepers.append(self.staff.get(key))
-
-                if staff not in zookeepers:
-                    print(f"{staff.name} is not assigned to this enclosure.")
-                else:
-                    print(f"{staff.name} is cleaning the enclosure...")
-                    self.__cleanliness_level = self.__MAX_CLEANLINESS_LEVEL
+                print(f"{staff.name} is not a Zookeeper.")
+            elif staff not in self.staff.get("cleaning"):
+                print(f"{staff.name} is not assigned to cleaning duties.")
+            else:
+                print(f"{staff.name} is cleaning the enclosure...")
+                self.__cleanliness_level = self.__MAX_CLEANLINESS_LEVEL
         except AttributeError:
             print("Invalid staff.")
 
