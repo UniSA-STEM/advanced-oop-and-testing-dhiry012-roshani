@@ -162,8 +162,9 @@ class Staff(ABC):
                 for staff in duty_list:
                     staff_list.append(staff)
 
-            if self in staff_list and enclosure not in self.enclosures:
-                self.__enclosures.append(enclosure)
+            if self in staff_list:
+                if enclosure not in self.enclosures:
+                    self.__enclosures.append(enclosure)
             else:
                 print("Staff is not assigned to enclosure. Must assign staff using enclosure object.")
         except AttributeError:
@@ -191,7 +192,7 @@ class Staff(ABC):
                 for staff in duty_list:
                     staff_list.append(staff)
 
-            if self in staff_list and enclosure in self.enclosures:
+            if self not in staff_list and enclosure in self.enclosures:
                 self.__enclosures.remove(enclosure)
             else:
                 print("Staff is not assigned to enclosure. Must assign staff using enclosure object.")
