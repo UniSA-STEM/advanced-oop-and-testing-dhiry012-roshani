@@ -194,6 +194,8 @@ class Staff(ABC):
 
             if self not in staff_list and enclosure in self.enclosures:
                 self.__enclosures.remove(enclosure)
+            elif self in staff_list:
+                print("Staff is has not been removed from the enclosure. Must remove staff using enclosure object.")
             else:
                 print("Staff is not assigned to enclosure. Must assign staff using enclosure object.")
         except AttributeError:

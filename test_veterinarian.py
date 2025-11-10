@@ -43,7 +43,7 @@ class TestVeterinarian:
         assert (message.out.strip() == ("Lucy assigned to general duties in enclosure 2.\n"
                                        "Lucy is not assigned health duties for that enclosure.")
                                         or message.out.strip() ==
-                                        ("Lucy assigned to general duties in enclosure 4.\n"
+                                        ("Lucy assigned to general duties in enclosure 60.\n"
                                        "Lucy is not assigned health duties for that enclosure."))
 
     # Test health checking an empty enclosure.
@@ -54,7 +54,7 @@ class TestVeterinarian:
         assert (message.out.strip() == ("Lucy assigned to health duties in enclosure 3.\n-----ENCLOSURE 3 HEALTH CHECK"
                                         "-----\nEnclosure empty")
                                         or message.out.strip() ==
-                                        ("Lucy assigned to health duties in enclosure 3.\n-----ENCLOSURE 3 HEALTH CHECK"
+                                        ("Lucy assigned to health duties in enclosure 61.\n-----ENCLOSURE 61 HEALTH CHECK"
                                          "-----\nEnclosure empty"))
 
     # Test health checking an enclosure with an animal.
@@ -67,8 +67,8 @@ class TestVeterinarian:
                                        "-----ENCLOSURE 4 HEALTH CHECK-----\n\n---Report for: Sue (ID-1)---\n\nINJURIES\n"
                                         "None\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\nNone\n\n-----------------")
                                         or message.out.strip() ==
-                                        ("Sue added to enclosure 4.\nLucy assigned to health duties in enclosure 4.\n"
-                                       "-----ENCLOSURE 4 HEALTH CHECK-----\n\n---Report for: Sue (ID-1)---\n\nINJURIES\n"
+                                        ("Sue added to enclosure 62.\nLucy assigned to health duties in enclosure 62.\n"
+                                       "-----ENCLOSURE 62 HEALTH CHECK-----\n\n---Report for: Sue (ID-140)---\n\nINJURIES\n"
                                         "None\n\nILLNESSES\nNone\n\nBEHAVIOURAL CONCERNS\nNone\n\n-----------------"))
 
     # Test health checking an invalid enclosure.

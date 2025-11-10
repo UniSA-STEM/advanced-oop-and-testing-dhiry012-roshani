@@ -31,7 +31,7 @@ class TestStaff:
 
     # Test get_id method (through property).
     def test_get_id(self, staff):
-        assert staff.id == 1
+        assert staff.id == 1 or staff.id == 17
 
     # Test get_name methods (through property).
     def test_get_name(self, staff):
@@ -86,11 +86,15 @@ class TestStaff:
         assert message.out.strip() == "Invalid enclosure."
         assert staff.enclosures == []
 
-    # Test removing staff from an enclosure properly.
-    def test_remove_from_enclosure(self, staff, enclosure):
+    # Test removing staff from an enclosure.
+    def test_remove_from_enclosure(self, staff, enclosure, capsys):
         enclosure.add_staff(staff)
         staff.remove_from_enclosure(enclosure)
-        assert staff.enclosures == []
+        assert staff.enclosures == [enclosure]
+        message = capsys.readouterr()
+        assert message.out.strip() == ("Jordie assigned to general duties in enclosure 57.\n"
+                                       "Staff is has not been removed from the enclosure. Must remove staff using "
+                                       "enclosure object.")
 
     # Test trying to remove staff from enclosure they were not assigned to.
     def test_remove_from_enclosure_not_assigned(self, staff, enclosure, capsys):

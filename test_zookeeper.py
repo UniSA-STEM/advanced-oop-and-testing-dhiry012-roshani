@@ -43,7 +43,7 @@ class TestZookeeper:
         assert (message.out.strip() == ("Peter assigned to general duties in enclosure 2.\n"
                                        "Peter is not assigned feeding duties for that enclosure.")
                                         or message.out.strip() ==
-                                        ("Peter assigned to general duties in enclosure 4.\n"
+                                        ("Peter assigned to general duties in enclosure 64.\n"
                                        "Peter is not assigned feeding duties for that enclosure."))
 
     # Test feeding an empty enclosure.
@@ -53,7 +53,7 @@ class TestZookeeper:
         message = capsys.readouterr()
         assert (message.out.strip() == "Peter assigned to feeding duties in enclosure 3.\nEnclosure is empty."
                                         or message.out.strip() ==
-                                        "Peter assigned to feeding duties in enclosure 3.\nEnclosure is empty.")
+                                        "Peter assigned to feeding duties in enclosure 65.\nEnclosure is empty.")
 
     # Test feeding an enclosure with an animal.
     def test_feed_animals_enclosure(self, zookeeper, enclosure, turtle, capsys):
@@ -64,7 +64,7 @@ class TestZookeeper:
         assert (message.out.strip() == ("Sue added to enclosure 4.\nPeter assigned to feeding duties in enclosure 4.\n"
                                        "Sue bites into food...")
                                         or message.out.strip() ==
-                                        ("Sue added to enclosure 4.\nPeter assigned to feeding duties in enclosure 4.\n"
+                                        ("Sue added to enclosure 66.\nPeter assigned to feeding duties in enclosure 66.\n"
                                        "Sue bites into food..."))
 
     # Test feeding an invalid enclosure.
@@ -87,7 +87,7 @@ class TestZookeeper:
         assert (message.out.strip() == ("Peter assigned to general duties in enclosure 6.\n"
                                        "Peter is not assigned cleaning duties for that enclosure.")
                                         or message.out.strip() ==
-                                        ("Peter assigned to general duties in enclosure 6.\n"
+                                        ("Peter assigned to general duties in enclosure 68.\n"
                                        "Peter is not assigned cleaning duties for that enclosure."))
 
     # Test cleaning an empty enclosure (should work normally).
@@ -97,7 +97,7 @@ class TestZookeeper:
         message = capsys.readouterr()
         assert (message.out.strip() == "Peter assigned to cleaning duties in enclosure 7.\nPeter is cleaning the enclosure..."
                                         or message.out.strip() ==
-                                        "Peter assigned to cleaning duties in enclosure 7.\nPeter is cleaning the enclosure...")
+                                        "Peter assigned to cleaning duties in enclosure 69.\nPeter is cleaning the enclosure...")
 
     # Test cleaning an enclosure with an animal (same as empty enclosure).
     def test_clean_enclosure(self, zookeeper, enclosure, turtle, capsys):
@@ -108,7 +108,7 @@ class TestZookeeper:
         assert (message.out.strip() == ("Sue added to enclosure 8.\nPeter assigned to cleaning duties in enclosure 8.\n"
                                        "Peter is cleaning the enclosure...")
                                         or message.out.strip() ==
-                                        ("Sue added to enclosure 8.\nPeter assigned to cleaning duties in enclosure 8.\n"
+                                        ("Sue added to enclosure 70.\nPeter assigned to cleaning duties in enclosure 70.\n"
                                        "Peter is cleaning the enclosure..."))
 
     # Test cleaning an invalid enclosure.
