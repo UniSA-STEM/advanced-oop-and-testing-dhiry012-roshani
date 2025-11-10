@@ -76,10 +76,13 @@ class Biologist(Staff):
         If the enclosure is invalid, displays error message.
         '''
         try:
-            check = enclosure.cleanliness_level  # Throw an Exception if not Enclosure object.
+            # Get all staff assigned to research duties in the enclosure.
+            research_staff = enclosure.staff.get("research")
 
             if enclosure not in self.enclosures:
                 print(f"{self.name} is not assigned that that enclosure.")
+            elif self not in research_staff:
+                print(f"{self.name} is not assigned research duties for that enclosure.")
             else:
                 print(f"-----ENCLOSURE {enclosure.id} RESEARCH-----")
                 if enclosure.animals == []:
