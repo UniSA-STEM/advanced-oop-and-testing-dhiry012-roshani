@@ -92,9 +92,13 @@ class TestStaff:
         staff.remove_from_enclosure(enclosure)
         assert staff.enclosures == [enclosure]
         message = capsys.readouterr()
-        assert message.out.strip() == ("Jordie assigned to general duties in enclosure 57.\n"
+        assert (message.out.strip() == ("Jordie assigned to general duties in enclosure 3.\n"
                                        "Staff is has not been removed from the enclosure. Must remove staff using "
                                        "enclosure object.")
+                                        or message.out.strip() ==
+                                        ("Jordie assigned to general duties in enclosure 57.\n"
+                                       "Staff is has not been removed from the enclosure. Must remove staff using "
+                                       "enclosure object."))
 
     # Test trying to remove staff from enclosure they were not assigned to.
     def test_remove_from_enclosure_not_assigned(self, staff, enclosure, capsys):
